@@ -17,7 +17,7 @@ class FriendsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create friend" do
     assert_difference('Friend.count') do
-      post friends_url, params: { friend: { user_id: @friend.user_id, user_id: @friend.user_id } }
+      post friends_url, params: { friend: { user_id: @friend.user_id } }
     end
 
     assert_redirected_to friend_url(Friend.last)
@@ -34,7 +34,7 @@ class FriendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update friend" do
-    patch friend_url(@friend), params: { friend: { user_id: @friend.user_id, user_id: @friend.user_id } }
+    patch friend_url(@friend), params: { friend: { user_id: @friend.user_id } }
     assert_redirected_to friend_url(@friend)
   end
 
