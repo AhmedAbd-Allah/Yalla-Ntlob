@@ -6,43 +6,33 @@ class FriendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get friends_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_friend_url
+    get friends_url, as: :json
     assert_response :success
   end
 
   test "should create friend" do
     assert_difference('Friend.count') do
-      post friends_url, params: { friend: { user_id: @friend.user_id } }
+      post friends_url, params: { friend: { user_id: @friend.user_id } }, as: :json
     end
 
-    assert_redirected_to friend_url(Friend.last)
+    assert_response 201
   end
 
   test "should show friend" do
-    get friend_url(@friend)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_friend_url(@friend)
+    get friend_url(@friend), as: :json
     assert_response :success
   end
 
   test "should update friend" do
-    patch friend_url(@friend), params: { friend: { user_id: @friend.user_id } }
-    assert_redirected_to friend_url(@friend)
+    patch friend_url(@friend), params: { friend: { user_id: @friend.user_id } }, as: :json
+    assert_response 200
   end
 
   test "should destroy friend" do
     assert_difference('Friend.count', -1) do
-      delete friend_url(@friend)
+      delete friend_url(@friend), as: :json
     end
 
-    assert_redirected_to friends_url
+    assert_response 204
   end
 end
