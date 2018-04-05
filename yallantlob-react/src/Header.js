@@ -52,47 +52,73 @@ class Header extends Component {
         >
             <Grid>
               <Grid.Column textAlign='center'>
-                <div className="pop">
+                
                 <Image circular src="person.png" size='mini' />
                 <span><h5>Ahmed Joined your breakfast</h5></span>
-                <Button compact>Order</Button></div>
-                <div className="pop">
+                <Button compact>Order</Button>
+              
                 <Image circular src="person.png" size='mini' />
                 <span><h5>Islam invited you to his order</h5></span>
-                <Button compact> Join</Button></div>
+                <Button compact> Join</Button>
          
-                <div className="pop">
+       
                 <Image circular src="person.png" size='mini' />
                 <span><h5>Tarek invited you to his order</h5></span>
-                <Button compact>Join</Button></div>
+                <Button compact>Join</Button>
 
 
                
                 
 
                   <Modal trigger={<h4><a href="#" >View all notifications</a></h4>}>
-                    <Modal.Header>Profile Picture</Modal.Header>
-                    <Modal.Content image>
-                      <Image wrapped size='medium' src='/assets/images/wireframe/image.png'/>
-                      <Modal.Description>
-                        <Header>Modal Header</Header>
-                        <p>This is an example of expanded content that will cause the modal's dimmer to scroll</p>
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                        <Image src='/assets/images/wireframe/paragraph.png' />
-                      </Modal.Description>
+                    <Modal.Header>Your Notifications</Modal.Header>
+                    <Modal.Content>
+                    
+                        
+
+                       <span> <Image circular src="person.png" size='mini' /></span>
+                        <span><h5>Ahmed Joined your breakfast</h5></span>
+                        <span><Button compact>Order</Button></span>
+                      
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Islam invited you to his order</h5></span>
+                        <Button compact> Join</Button>
+                 
+               
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Tarek invited you to his order</h5></span>
+                        <Button compact>Join</Button>
+                      
+
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Ahmed Joined your breakfast</h5></span>
+                        <Button compact>Order</Button>
+                      
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Islam invited you to his order</h5></span>
+                        <Button compact> Join</Button>
+                 
+               
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Tarek invited you to his order</h5></span>
+                        <Button compact>Join</Button>
+
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Ahmed Joined your breakfast</h5></span>
+                        <Button compact>Order</Button>
+                      
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Islam invited you to his order</h5></span>
+                        <Button compact> Join</Button>
+                 
+               
+                        <Image circular src="person.png" size='mini' />
+                        <span><h5>Tarek invited you to his order</h5></span>
+                        <Button compact>Join</Button>
+
+             
                     </Modal.Content>
                   </Modal>
-
-
-
-
-            
 
               </Grid.Column>
 
