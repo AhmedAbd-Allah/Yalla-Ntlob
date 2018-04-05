@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :friends
+  resources :order_items
+  resources :order_invitations
+  resources :orders
   resources :user_groups
   resources :groups
   resources :users
