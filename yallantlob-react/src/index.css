@@ -1,5 +1,50 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+.notifyLabel {
+	position: absolute;
+    top: 25%;
+    left: 30%;
 }
+
+.main{
+	background-color: 'red';
+}
+
+.logo{
+	font-size: 200%;
+}
+
+
+.startBtn{
+	position: relative;
+	top:20%;
+}
+
+
+#MyOrder{
+    position: relative;
+    top:5%;
+}
+
+table{
+	font-weight: bold;
+}
+
+
+.pagination {
+    display: inline-block;
+    margin-top: 30%;
+
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: teal;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
