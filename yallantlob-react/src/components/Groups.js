@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css';
 import PageName from './PageName'
 import Search from './Search'
 import GroupBody   from './GroupBody'
-import Header from './Header'
+import Headr from './header'
 // import '../semantic/dist/semantic.min.css';
 
 
@@ -13,7 +13,7 @@ class Groups extends Component {
   render() {
     return (
  <div className=" ni centered">
-     <Header />
+     <Headr />
      <div className="ui grid">
        <div className="four column row"></div>
        <PageName pageName={"Groups"} />

@@ -31,7 +31,7 @@ const Mygroupslist = (props) => {
               <div className="ui raised  segment">
                   <h2 className="ui teal big ribbon label">My Groups</h2>
 
-                  <div class="four column row" style={{height:40}}></div>
+                  <div className="four column row" style={{height:40}}></div>
                 <Groups groupslist={props.groupslist} />
 
                     </div>

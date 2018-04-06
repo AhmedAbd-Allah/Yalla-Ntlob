@@ -1,12 +1,35 @@
+.loginImg{
+    width: 50%;
+    position: relative;
+    left: 15%;
+
+}
+
+.modal{
+    height: 0%;
+    position: relative;
+    z-index: 100;
+}
+
+.frnds{
+    left:35%;
+}
+
+.cancel{
+    left:30%;
+    top:30%;
+}
+
+.modalHead{
+    text-align: center;
+}
+
 .notifyLabel {
 	position: absolute;
     top: 25%;
     left: 30%;
 }
 
-.main{
-	background-color: 'red';
-}
 
 .logo{
 	font-size: 200%;
@@ -20,6 +43,11 @@
 
 
 #MyOrder{
+    position: relative;
+    top:10%;
+}
+
+#OrderDetails{
     position: relative;
     top:5%;
 }
@@ -48,3 +76,31 @@ table{
 }
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
+
+.numInput{
+    width: 10%;
+}
+
+
+.errMsg{
+    position: absolute;
+    left: 14%;
+    top: 4%;
+    color: #DC143C;
+    font-size: 300%;
+}
+
+.errImg{
+    height: 60%;
+    width: 50%;
+    position: absolute;
+    top: 16%;
+    left: 24%;
+    z-index: -1;
+}
+
+.errBtn{
+    position: absolute;
+    left: 42%;
+    top: 62%;
+}
