@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './Header.css';
+import './index.css';
 import 'semantic-ui-css/semantic.min.css';
-import { Icon, Menu, Button, Image, Label, Grid, Popup, List, Modal } from 'semantic-ui-react'
+import { Icon, Menu, Button, Image, Label, Grid, Popup, Modal } from 'semantic-ui-react'
 
 
 class Header extends Component {
@@ -13,17 +13,17 @@ class Header extends Component {
     return (
       <Menu stackable size='small' className="main">
         <Menu.Item className= "menuItem" >
-          <img className="logo" src='logo.png' alt="" />
+          <img className="logo" src='images/logo.png' alt="" size='large'/>
           <span><h2>Yalla Order</h2></span>
         </Menu.Item>
 
         <Menu.Item  name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick}>
-          <img src='home.png' alt=""/>
+          <img src='images/home.png' alt=""/>{"   "}
           <span><h4>Home</h4></span>
         </Menu.Item>
 
         <Menu.Item name='Friends' active={activeItem === 'Friends'} onClick={this.handleItemClick}>
-          <img src='friends.png' alt=""/>
+          <img src='images/friends.png' alt=""/>
            <span><h4>Friends</h4></span>
         </Menu.Item>
 
@@ -33,7 +33,7 @@ class Header extends Component {
         </Menu.Item>
 
         <Menu.Item name='Orders' active={activeItem === 'Orders'} onClick={this.handleItemClick}>
-          <img src='order.png' alt=""/>
+          <img src='images/order.png' alt=""/>
           <span><h4>Orders</h4></span>
         </Menu.Item>
 
@@ -53,16 +53,16 @@ class Header extends Component {
             <Grid>
               <Grid.Column textAlign='center'>
                 
-                <Image circular src="person.png" size='mini' />
+                <Image circular src="images/person.png" size='mini' />
                 <span><h5>Ahmed Joined your breakfast</h5></span>
                 <Button compact>Order</Button>
               
-                <Image circular src="person.png" size='mini' />
+                <Image circular src="images/person.png" size='mini' />
                 <span><h5>Islam invited you to his order</h5></span>
                 <Button compact> Join</Button>
          
        
-                <Image circular src="person.png" size='mini' />
+                <Image circular src="images/person.png" size='mini'/>
                 <span><h5>Tarek invited you to his order</h5></span>
                 <Button compact>Join</Button>
 
@@ -76,43 +76,43 @@ class Header extends Component {
                     
                         
 
-                       <span> <Image circular src="person.png" size='mini' /></span>
+                       <span> <Image circular src="images/person.png" size='mini' /></span>
                         <span><h5>Ahmed Joined your breakfast</h5></span>
                         <span><Button compact>Order</Button></span>
                       
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Islam invited you to his order</h5></span>
                         <Button compact> Join</Button>
                  
                
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Tarek invited you to his order</h5></span>
                         <Button compact>Join</Button>
                       
 
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Ahmed Joined your breakfast</h5></span>
                         <Button compact>Order</Button>
                       
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Islam invited you to his order</h5></span>
                         <Button compact> Join</Button>
                  
                
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Tarek invited you to his order</h5></span>
                         <Button compact>Join</Button>
 
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Ahmed Joined your breakfast</h5></span>
                         <Button compact>Order</Button>
                       
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Islam invited you to his order</h5></span>
                         <Button compact> Join</Button>
                  
                
-                        <Image circular src="person.png" size='mini' />
+                        <Image circular src="images/person.png" size='mini' />
                         <span><h5>Tarek invited you to his order</h5></span>
                         <Button compact>Join</Button>
 
@@ -132,7 +132,7 @@ class Header extends Component {
 
 
           <Menu.Item name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick}>
-            <Image circular src="person.png" size='mini' />
+            <Image circular src="images/person.png" size='mini' />
             <span><h4>Ahmed</h4></span>
           </Menu.Item>
 
