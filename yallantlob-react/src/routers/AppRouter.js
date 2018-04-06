@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import HomePage from '../components/HomePage'
 import Friends from '../components/Friends'
 import Groups from '../components/Groups'
+import Login from '../components/login'
 
 
 
@@ -13,6 +14,8 @@ const Router = () => (
       <Route exact path='/HomePage' component={HomePage}/>
         <Route exact path='/Friends' component={Friends}/>
           <Route exact path='/Groups' component={Groups}/>
+          <Route exact path='/login' component={login}/>
+
     </Switch>
   </main>
 )
