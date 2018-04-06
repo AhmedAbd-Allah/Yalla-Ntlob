@@ -2,7 +2,6 @@
 import React from 'react'
 import { render } from 'react-dom'
 import ReactDOM from 'react-dom';
-<<<<<<< HEAD
 import { BrowserRouter } from 'react-router-dom'
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
