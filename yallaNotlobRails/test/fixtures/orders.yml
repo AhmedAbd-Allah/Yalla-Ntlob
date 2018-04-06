@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order_type: 
+  status: 
+  meal_image: MyString
+  date_time: 2018-04-06 22:27:50
+
+two:
+  order_type: 
+  status: 
+  meal_image: MyString
+  date_time: 2018-04-06 22:27:50
