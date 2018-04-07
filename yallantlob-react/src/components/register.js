@@ -50,7 +50,7 @@ class Register extends Component {
                                                                 {/* <ReactUploadFile  chooseFileButton={<Button secondary size='large'>upload</Button>}/> */}
                                                                 {/* <input type="file" name="pic" /> */}
                                                                 <Form.Input
-                                                                        action={{ color: 'teal', labelPosition: 'left', icon: 'lock', content: 'image' }}
+                                                                        action={{ color: 'teal', labelPosition: 'left', icon: 'image', content: 'image' }}
                                                                         actionPosition='left'
                                                                         placeholder='No file chosen'
                                                                         type='file'   

@@ -1,4 +1,3 @@
-// import React from 'react';
 import '../index.css';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
@@ -16,10 +15,9 @@ class Login extends Component {
                             <Image src='./images/logo.png' className="loginImg"/>                          
                         <Header as='h2' color='teal' textAlign='center'>
                             
-                            <br />
                                 Yalla Notlob
                         </Header>           
-                        <br />
+                        
                         <Form size='large'>
                             <Segment stacked>  
                                     <Form.Input
@@ -28,7 +26,7 @@ class Login extends Component {
                                         placeholder='Email'
                                     />
                                     <br />
-                                    <br />
+                                    
                                     <Form.Input
                                         action={{ color: 'teal', labelPosition: 'left', icon: 'lock', content: 'Password' }}
                                         actionPosition='left'
@@ -41,14 +39,14 @@ class Login extends Component {
                               
                             </Segment>
                         </Form>
-                    <br />
+                    
                     <br />
                     <a href="./register">New User? Register Here</a> 
                     <br />
                     <br />
                     <a href="./forgetpassword">Forgot Password?</a>
                     <br />
-                    <br />
+                    
                     </Grid.Column>
                 </Grid>
                     <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
