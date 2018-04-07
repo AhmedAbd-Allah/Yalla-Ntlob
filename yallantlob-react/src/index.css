@@ -1,0 +1,111 @@
+.item{
+    height: 100%;
+}
+
+.loginImg{
+    width: 50%;
+    height: 20%;
+    position: relative;
+    left: 22%;
+
+}
+
+.modal{
+    height: 0%;
+    position: relative;
+    z-index: 100;
+}
+
+.frnds{
+    left:35%;
+}
+
+.cancel{
+    left:30%;
+    top:30%;
+}
+
+.modalHead{
+    text-align: center;
+}
+
+.notifyLabel {
+	position: absolute;
+    top: 25%;
+    left: 30%;
+}
+
+
+.logo{
+	font-size: 200%;
+}
+
+
+.startBtn{
+	position: relative;
+	top:20%;
+}
+
+
+#MyOrder{
+    position: relative;
+    top:10%;
+}
+
+#OrderDetails{
+    position: relative;
+    top:5%;
+}
+
+table{
+	font-weight: bold;
+}
+
+
+.pagination {
+    display: inline-block;
+    margin-top: 30%;
+
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: teal;
+    color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.numInput{
+    width: 10%;
+}
+
+
+.errMsg{
+    position: absolute;
+    left: 14%;
+    top: 4%;
+    color: #DC143C;
+    font-size: 300%;
+}
+
+.errImg{
+    height: 60%;
+    width: 50%;
+    position: absolute;
+    top: 16%;
+    left: 24%;
+    z-index: -1;
+}
+
+.errBtn{
+    position: absolute;
+    left: 42%;
+    top: 62%;
+}

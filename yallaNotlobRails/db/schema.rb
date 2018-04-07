@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180405183002) do
-
+ActiveRecord::Schema.define(version: 20180406223934) do
   create_table "friends", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -40,6 +39,40 @@ ActiveRecord::Schema.define(version: 20180405183002) do
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
+  create_table "order_invitations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "order_id"
+    t.bigint "user_id"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_invitations_on_order_id"
+    t.index ["user_id", "order_id"], name: "index_order_invitations_on_user_id_and_order_id", unique: true
+    t.index ["user_id"], name: "index_order_invitations_on_user_id"
+  end
+
+  create_table "order_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "order_id"
+    t.bigint "user_id"
+    t.string "item"
+    t.integer "count"
+    t.integer "price"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["user_id"], name: "index_order_items_on_user_id"
+  end
+
+  create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "order_type"
+    t.integer "status"
+    t.string "meal_image"
+    t.datetime "date_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "owner_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "email"
@@ -54,4 +87,8 @@ ActiveRecord::Schema.define(version: 20180405183002) do
   add_foreign_key "group_members", "groups"
   add_foreign_key "group_members", "users"
   add_foreign_key "groups", "users"
+  add_foreign_key "order_invitations", "orders"
+  add_foreign_key "order_invitations", "users"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "users"
 end
