@@ -6,16 +6,16 @@ import Headr from './header'
 import { Link } from 'react-router-dom';
 
 class Orders extends Component {
-   
+
 
   render() {
     return (
-     
+
       <div>
       <Headr />
       <Grid columns='equal'>
         <Grid.Row>
-          <Grid.Column width={3}> 
+          <Grid.Column width={3}>
           </Grid.Column>
 
           <Grid.Column width={8}>
@@ -28,7 +28,7 @@ class Orders extends Component {
           </Grid.Column>
 
           <Grid.Column width={3}>
-            <Button animated='fade' className="startBtn">
+          <Link to="/createOrder">  <Button animated='fade' className="startBtn">
               <Button.Content visible>
                 <Icon name='add' />New Order
               </Button.Content>
@@ -36,6 +36,7 @@ class Orders extends Component {
                 Start new Order
               </Button.Content>
             </Button>
+            </Link>
           </Grid.Column>
         </Grid.Row>
 
@@ -99,8 +100,8 @@ class Orders extends Component {
                         <Icon name='checkmark' /> Yes
                       </Button>
                     </Modal.Actions>
-                  </Modal> 
-                  
+                  </Modal>
+
                 </Table.Cell>
               </Table.Row>
 
@@ -118,7 +119,7 @@ class Orders extends Component {
 
                 </Table.Cell>
               </Table.Row>
-              
+
             </Table.Body>
           </Table>
         </Grid.Column>
@@ -144,11 +145,11 @@ class Orders extends Component {
       </Grid.Row>
     </Grid>
 
-      
+
       </div>
 
 
-      
+
     );
   }
 }

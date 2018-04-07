@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
-import { Icon, Button, Grid, Form, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
+import { Icon, Button, Grid, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
 import Headr from './header'
-import { Link } from 'react-router-dom';
 
 class OrderDetails extends Component {
-   
+
 
   render() {
     return (
-     
+
       <div>
       <Headr />
       <Grid columns='equal'>
         <Grid.Row>
-          <Grid.Column width={1}> 
+          <Grid.Column width={1}>
           </Grid.Column>
 
           <Grid.Column width={8}>
@@ -55,15 +54,15 @@ class OrderDetails extends Component {
                 <Table.Cell>Belsalata</Table.Cell>
 
               </Table.Row>
-              
+
             </Table.Body>
           </Table>
         </Grid.Column>
-       
+
 
        <Grid.Column >
         <h4><Label circular color={"green"}>3</Label> Friends joined your order</h4>
-      
+
 
 
         <Modal size={'mini'} dimmer={'blurring'} trigger={<Button color='green'>Check them out</Button>} className="modal frnds" >
@@ -117,15 +116,15 @@ class OrderDetails extends Component {
        </Grid.Row>
 
 
-    
+
     </Grid>
 
-      
+
       </div>
 
 
 
-      
+
     );
   }
 }

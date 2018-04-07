@@ -20,7 +20,7 @@ const Card = (props) => {
         <div key={friend.id} className="ui card"  style={{width:150}}>
           <div className="content">
             <div className="right floated meta"><button className="ui mini inverted red button">remove</button></div>
-            <img className="ui avatar image" src={friend.image}/> <b>{friend.name}</b>
+            <img className="ui avatar image" src={friend.image} alt="imageload"/> <b>{friend.name}</b>
           </div>
         </div>
 
@@ -162,7 +162,7 @@ render(){
 
                  </div>
              </div>
-                 <img style={{width:100,height:100}} src={this.state.imagePreviewUrl}/>
+                 <img style={{width:100,height:100}} src={this.state.imagePreviewUrl}alt="imageload" />
 
 
        </div>
