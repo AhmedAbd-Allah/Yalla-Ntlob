@@ -3,9 +3,13 @@ import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Icon, Button, Grid, Form, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
 import Headr from './header'
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 class MyOrder extends Component {
+  addItem(e){
+    e.preventDefault();
+    alert("added");
+  }
    
 
   render() {
@@ -138,15 +142,16 @@ class MyOrder extends Component {
 
       <Grid.Column width={10}>
 
-      <Form>
-        <Form.Group widths='equal'>
-          <Form.Input fluid required label='Item' placeholder='Item name'  width = {15}/>
+      <Form onSubmit = {this.addItem}>
+        <Form.Group widths='equal' >
+          <Form.Input fluid required label='Item' placeholder='Item name'  width = {15} id="sss"/>
           <Form.Field required label='Amount' placeholder='Amount' control='input' type='number' min={1} width = {9}/>
           <Form.Field required label='Price' placeholder='Price' control='input' type='number' min={1} width = {9}/>
           <Form.Field label='Comments' placeholder='Comments' control='input' width = {16}/>
-          <Form.Button label= "&nbsp;" primary>Add</Form.Button>
+          <Form.Button type="submit" label= "&nbsp;" primary>Add</Form.Button>
         </Form.Group>
         
+      
       </Form>
 
       </Grid.Column>  
