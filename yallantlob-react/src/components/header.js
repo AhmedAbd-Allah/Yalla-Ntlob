@@ -59,7 +59,7 @@ class Headr extends Component {
     const { activeItem } = this.state
     return (
       <Menu stackable size='small' className="main">
-        <Menu.Item className= "menuItem" >
+        <Menu.Item  className= "menuItem" >
           <img className="logo" src='images/logo.png' alt="" />
           <span><h2>Yalla Order</h2></span>
         </Menu.Item>
@@ -71,23 +71,23 @@ class Headr extends Component {
               </Menu.Item>
             } content='Home' basic/>
         </Link>
+
          
         <Link to={this.friendsLink}>  
             <Popup trigger={
               <Menu.Item name='Friends' active={activeItem === 'Friends'} onClick={this.handleItemClick}>
-              <Image src='images/friends.png' alt="" height="40" width="50" /> 
+              <Image src='images/friends.png' alt="" height="40" width="50" />
               </Menu.Item>
             } content='Friends' basic/>
         </Link>
       
-        <Link to={this.groupsLink}>      
+        <Link to={this.groupsLink}>
             <Popup trigger={
               <Menu.Item name='Groups' active={activeItem === 'Groups'} onClick={this.handleItemClick}>
               <Icon name='group' size='big'/>
-              </Menu.Item> 
+              </Menu.Item>
             } content='Groups' basic/>
           </Link>
-        
       
         <Link to={this.ordersLink}>
         <Menu.Item name='Orders' active={activeItem === 'Orders'} onClick={this.handleItemClick}>
@@ -146,16 +146,14 @@ class Headr extends Component {
               </Item.Group>
 
 
-               
-                
+
+
 
               <Modal size={'tiny'} className="modal" trigger={<h4><a href="#" >View all notifications</a></h4>} scrolling="true">
                 <Modal.Header className="modalHead">Your Notifications</Modal.Header>
 
 
-                <Modal.Content>
-                    
-                      
+               <Modal.Content>
                 <Item.Group >
                   <Item >
                   <Item.Image size='mini' src="images/person.png" />
@@ -260,7 +258,7 @@ class Headr extends Component {
                 </Item>
                       </Item.Group>
 
-             
+
                     </Modal.Content>
                   </Modal>
 
@@ -268,7 +266,7 @@ class Headr extends Component {
 
             </Grid>
         </Popup>
-  
+
 
 
 
@@ -280,7 +278,7 @@ class Headr extends Component {
             <span><h4>Ahmed</h4></span>
           </Menu.Item>
 
-          
+
           <Menu.Item>
           <Link to="/login">
           <Button primary animated size="big">
@@ -291,8 +289,8 @@ class Headr extends Component {
           </Button>
           </Link>
           </Menu.Item>
-        
-          
+
+
         </Menu.Menu>
 
       </Menu>
