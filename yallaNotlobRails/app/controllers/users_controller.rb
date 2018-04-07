@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-
+  before_action :authenticate_user,  only: [:index, :current, :update, :auth]
+  before_action :authorize_as_admin, only: [:destroy]
+  before_action :authorize,          only: [:update]
   # GET /users
   def index
-    @users = User.all
-
-    render json: @users
+    render json: {status: 200, msg: 'Logged-in'}
   end
 
   # GET /users/1
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: {status: 200, msg: 'User was created.'}
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: { user: @user ,status: 200, msg: 'User details have been updated.' }
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -36,6 +36,19 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user.destroy
+    render json: { status: 200, msg: 'User has been deleted.' }
+  end
+
+  # Call this method to check if the user is logged-in.
+  # If the user is logged-in we will return the user's information.
+  def current
+    # current_user.update!(last_login: Time.now)
+    render json: current_user
+  end
+
+  def auth
+  @user = User.find(current_user.id)
+  render json: { status: 200, msg: @user}
   end
 
   private
@@ -48,4 +61,10 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:name, :email, :password, :image)
     end
+
+     # Adding a method to check if current_user can update itself.
+     # This uses our UserModel method.
+     def authorize
+       return_unauthorized unless current_user
+     end
 end

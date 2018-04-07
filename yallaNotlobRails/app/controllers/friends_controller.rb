@@ -15,10 +15,12 @@ class FriendsController < ApplicationController
 
   # POST /friends
   def create
-    @friend = Friend.new(friend_params)
+     @userFriend = User.find_by_email(params[:friend][:email])
+     @body = {user_id:friend_params[:user_id], friend_id:@userFriend[:id]}
+     @friend = Friend.new(@body)
 
     if @friend.save
-      render json: @friend, status: :created, location: @friend
+      render json: @userFriend, status: :created, location: @friend
     else
       render json: @friend.errors, status: :unprocessable_entity
     end
