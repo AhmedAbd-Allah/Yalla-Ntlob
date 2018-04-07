@@ -18,31 +18,36 @@ class Headr extends Component {
           <span><h2>Yalla Order</h2></span>
         </Menu.Item>
 
+        <Link to="/HomePage">
+            <Popup trigger={
+              <Menu.Item  name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick}>
+              <Image src='images/home.png' alt="" size='mini' />
+              </Menu.Item>
+            } content='Home' basic/>
+        </Link>
+         
+        <Link to="/Friends">  
+            <Popup trigger={
+              <Menu.Item name='Friends' active={activeItem === 'Friends'} onClick={this.handleItemClick}>
+              <Image src='images/friends.png' alt="" height="40" width="50" /> 
+              </Menu.Item>
+            } content='Friends' basic/>
+        </Link>
       
-        <Menu.Item  name='Home' active={activeItem === 'Home'}>
-          <Link to="/HomePage">
-            <Popup trigger={<Image src='images/home.png' alt="" size='mini' />} content='Home' basic/>
+        <Link to="/Groups">      
+            <Popup trigger={
+              <Menu.Item name='Groups' active={activeItem === 'Groups'} onClick={this.handleItemClick}>
+              <Icon name='group' size='big'/>
+              </Menu.Item> 
+            } content='Groups' basic/>
           </Link>
-        </Menu.Item>
-          
-        <Menu.Item name='Friends' active={activeItem === 'Friends'} >
-          <Link to="/Friends">
-            <Popup trigger={<Image src='images/friends.png' alt="" height="40" width="50" /> } content='Friends' basic/>
-          </Link>
-        </Menu.Item>
+        
       
-        <Menu.Item name='Groups' active={activeItem === 'Groups'} >
-          <Link to="/Groups">
-            <Popup trigger={<Icon name='group' size='big'/> } content='Groups' basic/>
-          </Link>
-        </Menu.Item>
-      
-
-        <Menu.Item name='Orders' active={activeItem === 'Orders'}>
-          <Link to="/Orders">
+        <Link to="/Orders">
+        <Menu.Item name='Orders' active={activeItem === 'Orders'} onClick={this.handleItemClick}>
             <h4><Image src='images/order.png' alt="" size='mini' inline/> Orders </h4>
-          </Link>
         </Menu.Item>
+        </Link>
 
 
         <Menu.Menu position='right'>
