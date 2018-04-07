@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './index.css';
+import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
-import { Icon, Menu, Button, Image, Label, Grid, Pagination, Modal, Header, Table } from 'semantic-ui-react'
-
+import { Icon, Button, Image, Grid, Modal, Header, Table } from 'semantic-ui-react'
+import Headr from './header'
+import { Link } from 'react-router-dom';
 
 class Orders extends Component {
    
@@ -11,6 +12,7 @@ class Orders extends Component {
     return (
      
       <div>
+      <Headr />
       <Grid columns='equal'>
         <Grid.Row>
           <Grid.Column width={3}> 
@@ -64,9 +66,11 @@ class Orders extends Component {
                 <Table.Cell> <Icon name='hourglass half' color='yellow'/> Waiting</Table.Cell>
                 <Table.Cell>
 
+                  <Link to="/OrderDetails">
                   <Button icon='eye' size='tiny'/>
+                  </Link>
 
-                  <Modal trigger={<Button color='blue'size='tiny'>Finish</Button>} closeIcon>
+                  <Modal size={'mini'} trigger={<Button color='blue'size='tiny'>Finish</Button>} closeIcon className="cancel">
                     <Header icon='attention' content='Finish the order' />
                     <Modal.Content>
                       <p>Are you sure you want to close this Order?</p>
@@ -82,7 +86,7 @@ class Orders extends Component {
                   </Modal>
 
 
-                  <Modal trigger={<Button color='red'size='tiny'>Cancel</Button>} closeIcon style={{display: 'fixed !important'}}>
+                  <Modal size={'mini'} trigger={<Button color='red'size='tiny'>Cancel</Button>} closeIcon className="cancel">
                     <Header icon='attention' content='Cancel Order' />
                     <Modal.Content>
                       <p>Are you sure you want to cancel this Order?</p>
@@ -107,7 +111,11 @@ class Orders extends Component {
                 <Table.Cell>5</Table.Cell>
                 <Table.Cell><Icon name='check' color='green'/>Finished</Table.Cell>
                 <Table.Cell>
+
+                  <Link to="/OrderDetails">
                   <Button icon='eye' size='tiny'/>
+                  </Link>
+
                 </Table.Cell>
               </Table.Row>
               
@@ -123,11 +131,11 @@ class Orders extends Component {
           <Grid.Column>
 
             <div className = "pagination">
-              <a href="#">&laquo;</a>
-              <a href="#">1</a>
-              <a className="active" href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">&raquo;</a>
+              <a href="">&laquo;</a>
+              <a href="">1</a>
+              <a className="active" href="">2</a>
+              <a href="">3</a>
+              <a href="">&raquo;</a>
             </div>
           </Grid.Column>
 
@@ -138,7 +146,6 @@ class Orders extends Component {
 
       
       </div>
-
 
 
       

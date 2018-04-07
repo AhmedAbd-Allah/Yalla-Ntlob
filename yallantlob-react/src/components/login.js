@@ -1,4 +1,5 @@
 // import React from 'react';
+import '../index.css';
 import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Icon, Input, Header, Image, Form, Label, Button, Grid, Segment } from 'semantic-ui-react';
@@ -11,9 +12,10 @@ class Login extends Component {
         return (
             <div>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
-                    <Grid.Column style={{ maxWidth: 450 }}>                           
+                    <Grid.Column style={{ maxWidth: 450 }}> 
+                            <Image src='./images/logo.png' className="loginImg"/>                          
                         <Header as='h2' color='teal' textAlign='center'>
-                            <Image src='./images/logo.png' />
+                            
                             <br />
                                 Yalla Notlob
                         </Header>           
@@ -33,8 +35,9 @@ class Login extends Component {
                                         placeholder='Password'   
                                     />
                                     <br />
-                            
+                                    <Link to="/HomePage">
                                     <Button secondary size='large'>Login</Button>
+                                    </Link>
                               
                             </Segment>
                         </Form>

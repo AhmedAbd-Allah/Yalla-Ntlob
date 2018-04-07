@@ -13,10 +13,5 @@ ReactDOM.render((
 ), document.getElementById('root'));
 
 
-//
-//
-// ReactDOM.render(<Header />, document.getElementById('Header'));
-// ReactDOM.render(<Orders />, document.getElementById('Orders'));
-// ReactDOM.render(<MyOrder />, document.getElementById('MyOrder'));
 
 registerServiceWorker();
