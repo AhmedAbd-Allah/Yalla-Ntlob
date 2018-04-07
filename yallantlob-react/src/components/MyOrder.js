@@ -6,16 +6,16 @@ import Headr from './header'
 import { Link } from 'react-router-dom';
 
 class MyOrder extends Component {
-   
+
 
   render() {
     return (
-     
+
       <div>
       <Headr />
       <Grid columns='equal'>
         <Grid.Row>
-          <Grid.Column width={1}> 
+          <Grid.Column width={1}>
           </Grid.Column>
 
           <Grid.Column width={8}>
@@ -71,15 +71,15 @@ class MyOrder extends Component {
 
                 </Table.Cell>
               </Table.Row>
-              
+
             </Table.Body>
           </Table>
         </Grid.Column>
-       
+
 
        <Grid.Column >
         <h4><Label circular color={"blue"}>3</Label> of your Friends were invited to this order</h4>
-      
+
 
 
         <Modal size={'mini'} dimmer={'blurring'} trigger={<Button color='grey'>Click to view</Button>} className="modal frnds" >
@@ -108,7 +108,7 @@ class MyOrder extends Component {
                   <Item.Content verticalAlign='middle'>
                     <Item.Header>
                       Justen Kitsune
-                      <h4><Icon name='exclamation circle' color='grey'/>Didn't Join</h4>
+                      <h4><Icon name='exclamation circle' color='grey'/>"Didn't Join"</h4>
                     </Item.Header>
                   </Item.Content>
                 </Item>
@@ -146,21 +146,21 @@ class MyOrder extends Component {
           <Form.Field label='Comments' placeholder='Comments' control='input' width = {16}/>
           <Form.Button label= "&nbsp;" primary>Add</Form.Button>
         </Form.Group>
-        
+
       </Form>
 
-      </Grid.Column>  
+      </Grid.Column>
 
     </Grid.Row>
 
     </Grid>
 
-      
+
       </div>
 
 
 
-      
+
     );
   }
 }
