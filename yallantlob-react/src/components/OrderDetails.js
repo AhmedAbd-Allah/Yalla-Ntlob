@@ -3,6 +3,8 @@ import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Icon, Button, Grid, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
 import Headr from './header'
+// import { Link } from 'react-router-dom';
+
 
 class OrderDetails extends Component {
 
