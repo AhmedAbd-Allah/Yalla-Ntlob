@@ -12,7 +12,8 @@ class Friends extends Component {
   constructor(props){
     super(props);
     this.state={
-    friendsList:[]
+    friendsList:[],
+    addrespRes:""
      }
   }
 
@@ -21,18 +22,20 @@ componentDidMount() {
   axios.get('http://localhost:3000/friends',{ headers: { "user-id":"1" } })
   .then(response => {
     console.log("Friendspage before mount",response)
-    this.setState({friendsList: response.data})
+    this.setState({friendsList: response.data ,addrespRes:this.state.addrespRes})
   })
   .catch(error => console.log(error))
 }
 
- handleAddfriend = () => {
-    console.log("back to handle ---add friend")
+ handleAddfriend = (response) => {
+    if(response.data.Error)
+    this.state.addrespRes=response.data.Error
+    else
+      this.state.addrespRes=""
     this.componentDidMount();
 }
 
 handleUnfriend = () => {
-   console.log("back to handle xxxxunfriend")
    this.componentDidMount();
 }
   render() {
@@ -44,6 +47,7 @@ handleUnfriend = () => {
            <PageName pageName={"Friends"} />
              <div className="four column row" style={{height:40}}></div>
             <Search lable={"You Friend Email"} buttonName={"Add Friend"} searchPlaceHolder={"User Email"}   onAddFriend={this.handleAddfriend}/>
+            <h4 style={{marginLeft:'30%' ,color:'red'}}>{this.state.addrespRes}</h4>
           <Body friendsList={this.state.friendsList}  onUnFriend={this.handleUnfriend}/>
         </div>
       </div>

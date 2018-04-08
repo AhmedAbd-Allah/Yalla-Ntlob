@@ -4,7 +4,8 @@ import axios from 'axios'
 
 
 const handleunfriendClick=(friend,unFriend)=>{
-   axios.delete(`http://localhost:3000/friends/${friend.friend_id}`,{ headers: { "user-id":"1" } })
+  console.log("dddddddddddddd",friend,friend.id)
+   axios.delete(`http://localhost:3000/friends/${friend.id}`,{ headers: { "user-id":"1" } })
    .then(response => {
      console.log("Delete friend reponse",response)
      unFriend();
@@ -14,14 +15,14 @@ const handleunfriendClick=(friend,unFriend)=>{
 
 const Card = (props) => {
 
-  if (props.friendsList.length==0) {
+  if (props.friendsList.length===0) {
            return <p> No friends yet !!</p>;
        }
   else
       return(
      <div className="ui cards"  style={{margineTop:100}}>
       {props.friendsList.map((friend,index ) => (
-        <div  key={index} className="ui card"  style={{width: '30%' ,height:'30%'}}>
+        <div  key={index} className="ui card"  style={{width: '25%' ,height:'15%'}}>
               <img className="ui meduim image" style={{width: 'auto' ,height:'150px'}} src={friend.image} alt={"logo"}/>
                       <div className="content">
                          <div className="ui two column grid">
@@ -30,12 +31,8 @@ const Card = (props) => {
                                  <button className="ui mini inverted red button"  onClick={()=>handleunfriendClick(friend,props.onUnFriend)}>UnFriend</button>
                               </div>
                    </div>
-                   <div className="meta"><span className="date">Joined in {friend.date}</span></div>
-                 </div>
 
-               <div className="extra content">
-                 <a><i className="user icon"></i>  {friend.friendsNum} Friends</a>
-               </div>
+                 </div>
           </div>
 
       ) )}

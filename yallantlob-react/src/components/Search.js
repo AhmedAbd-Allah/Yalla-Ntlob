@@ -11,7 +11,7 @@ class Search extends Component{
    this.buttonName=props.buttonName
    this.searchPlaceHolder=props.searchPlaceHolder
  }
- 
+
 
  handleBtnClick=()=>{
    console.log("btn han",this.refs['SearchVal'].value)
@@ -20,7 +20,7 @@ class Search extends Component{
    axios.post('http://localhost:3000/friends',body)
    .then(response => {
      console.log("add friend reponse",response)
-     this.props.onAddFriend();
+     this.props.onAddFriend(response);
    })
    .catch(error => console.log(error))
  }
