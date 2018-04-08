@@ -15,7 +15,7 @@ class HomePage extends Component
                         <Grid columns={4} style={{ height: '100%' }} verticalAlign='middle' >
                          <Grid.Column >        
                         </Grid.Column>
-                              <Grid.Column className="latestOrders">
+                              <Grid.Column className="latestOrders" style={{ maxWidth: 450 }}>
                                     <Segment raised>
                                           <Label as='a' color='teal' ribbon>
                                                 <h1> Latest Orders </h1>
