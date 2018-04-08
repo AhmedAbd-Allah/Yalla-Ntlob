@@ -6,28 +6,32 @@ import { Dropdown ,Divider,Button,Icon,Label} from 'semantic-ui-react'
 
 
 
+class Card extends Component {
+ handleRemove=(index)=>{
+   console.log(index,"sddddddddddd",this.props)
+    this.props.onRemoveFriend(index);
+ }
 
-const Card = (props) => {
-  if (!props.invitedlist){
-       console.log(props)
-           return <p> No friends invited yet !!</p>;
-       }
-  else
-      return(
-     <div className="ui cards"  style={{margineTop:100}}>
+render(){
+      if (!this.props.invitedlist){
+               return <p> No friends invited yet !!</p>;
+           }
+      else
+          return(
+         <div className="ui cards"  style={{margineTop:100}}>
+          {this.props.invitedlist.map((friend,index ) => (
+            <div key={friend.id+""+index} className="ui card"  style={{width:150}}>
+              <div className="content">
+                <div className="right floated meta"><button className="ui mini inverted red button"
+                    onClick={()=>this.handleRemove(index)}>remove</button></div>
+                <img className="ui avatar image" src={friend.image} alt="imageload"/> <b>{friend.name}</b>
+              </div>
+            </div>
 
-      {props.invitedlist.map((friend ) => (
-        <div key={friend.id} className="ui card"  style={{width:150}}>
-          <div className="content">
-            <div className="right floated meta"><button className="ui mini inverted red button">remove</button></div>
-            <img className="ui avatar image" src={friend.image} alt="imageload"/> <b>{friend.name}</b>
-          </div>
-        </div>
-
-      ) )}
-
-  </div>
- )
+          ) )}
+      </div>
+     )
+    }
 
 
 }
@@ -42,7 +46,7 @@ const InvitedFriendslist = (props) => {
                   <div className="left floated column"></div>
                   <div className="right floated column"></div>
                 </div>
-                    <Card  invitedlist={props.invitedlist} />
+                    <Card onRemoveFriend={props.onRemoveFriend} invitedlist={props.invitedlist} />
               </div>
             </div>
           </div>
@@ -64,8 +68,9 @@ class Order extends Component{
     this.matchedval=
 
     [
-       {text:'ahmed',value:'10', type:'friend',image:'images/person.png' },
-        {text:'ahmedgroup',value:'20', type:'group',image:'images/friends.png'}
+      { id:0},
+       {id:1 ,text:'ahmed',value:'10', type:'friend',image:'images/person.png' },
+        {id:2,text:'ahmedgroup',value:'20', type:'group',image:'images/friends.png'}
     ]
 
   }
@@ -75,7 +80,10 @@ handleSelectedFriend=()=>{
 
     const matchedval_index=this.refs['friends'].state.selectedIndex;
     console.log(matchedval_index,this.matchedval[matchedval_index])
-    console.log(this.refs['friends'].state)
+    console.log("ssssssssssssss"+this.refs['friends'].state.selectedIndex)
+
+    this.props.onSelectfriends([this.matchedval[matchedval_index]])
+      //  this.matchedval=this.matchedval.splice(matchedval_index,1)
 }
 
 _handleImageChange(e) {
@@ -141,7 +149,8 @@ render(){
            <i className="group icon"></i>
            Friends
            </button>
-            <Dropdown  placeholder='friends and groups'   selection options={this.matchedval} ref='friends'
+
+            <Dropdown  placeholder='friends and groups'   value="" selection options={this.matchedval} ref='friends'
              onChange= {this.handleSelectedFriend} />
        </div>
 
@@ -189,12 +198,25 @@ class createOrder extends Component {
   constructor(props){
     super(props);
     this.state={
-
     invitedlist:[
      {name: "John", id: 120, date: 2012, friendsNum: 10,
      image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJvwWWjLxIoXHQPTP_J0UmnJZQICqDeAb_5WztSnJpZfVTOwnz'}
    ]}
+   console.log(this.state.invitedlist[0])
   }
+
+  handleSelectedfriends = (friendsList) => {
+
+      this.setState({invitedlist: this.state.invitedlist.concat(friendsList)});
+ }
+
+ handleremovedfriend = (friendindex) => {
+
+     console.log("back to handle",friendindex,"kkkkkkkkkkkkkkkkkkk",this.state.invitedlist)
+    const newinv=this.state.invitedlist.splice(0,1)
+    console.log("dddddddddd",newinv)
+     this.setState({invitedlist: newinv});
+}
   render() {
     return (
  <div className=" ni centered">
@@ -207,10 +229,10 @@ class createOrder extends Component {
         <div className="ui two column row ">
         <div className="three wide column"> </div>
              <div className="seven wide column">
-                <Order />
+                <Order onSelectfriends={this.handleSelectedfriends} />
               </div>
              <div className="six wide column" >
-            <InvitedFriendslist  invitedlist={this.state.invitedlist} />
+            <InvitedFriendslist  onRemoveFriend={this.handleremovedfriend} invitedlist={this.state.invitedlist} />
              </div>
        </div>
 
