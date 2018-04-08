@@ -17,10 +17,11 @@ class Groups extends Component {
      <div className="ui grid">
        <div className="four column row"></div>
        <PageName pageName={"Groups"} />
+        <div className="four column row" style={{height:40}}></div>
         <Search  lable={"Group"} buttonName={"Add Group"} searchPlaceHolder={"Group name"}/>
 
           <GroupBody />
-  
+
 
       </div>
       </div>

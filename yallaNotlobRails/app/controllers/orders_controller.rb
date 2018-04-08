@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   # GET /orders
   def index
-    @orders = Order.all
+    @orders = Order.where(owner_id: request.headers["owner-id"])
 
     render json: @orders
   end
@@ -36,6 +36,7 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   def destroy
     @order.destroy
+    render json: { group: @order ,status: 200, msg: 'group have been deleted.' }
   end
 
   private

@@ -1,9 +1,9 @@
 class FriendsController < ApplicationController
-  before_action :set_friend, only: [:show, :update, :destroy]
+  before_action :set_friend, only: [:show]
 
   # GET /friends
   def index
-    @friends = Friend.all
+    @friends = Friend.where(user_id: request.headers["user-id"])
 
     render json: @friends
   end
@@ -15,10 +15,14 @@ class FriendsController < ApplicationController
 
   # POST /friends
   def create
-    @friend = Friend.new(friend_params)
-
+     @userFriend = User.find_by_email(params[:friend][:email])
+     @body = {user_id:friend_params[:user_id], friend_id:@userFriend[:id]}
+     @friend = Friend.new(@body)
     if @friend.save
-      render json: @friend, status: :created, location: @friend
+      render json: {friend_id: @userFriend[:id] ,
+                    name: @userFriend[:name],
+                    email: @userFriend[:email],
+                    status: :created}
     else
       render json: @friend.errors, status: :unprocessable_entity
     end
@@ -35,13 +39,21 @@ class FriendsController < ApplicationController
 
   # DELETE /friends/1
   def destroy
-    @friend.destroy
+    # @group_member = GroupMember.where(user_id: params[:id])
+    # if @group_member!=nil
+    #   @group_member.destroy_all
+    # end
+    # @user = User.find(friend_params[:user_id])
+    @friend = Friend.where(:friend_id => params[:id] ,
+              :user_id => request.headers["user-id"])
+    @friend.destroy_all
+    render json: { friend: @friend, status: 200, msg: 'friend have been deleted.' }
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_friend
-      @friend = Friend.find(params[:id])
+      @friend = Friend.where(friend_id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

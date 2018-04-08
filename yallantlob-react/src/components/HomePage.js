@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import Headr from './header'
-import { Header, Image, Form, Label, Button, Grid, Segment, Card, Feed } from 'semantic-ui-react';
+import { Label, Grid, Segment, Card, Feed } from 'semantic-ui-react';
 
 
 
 
 
-class HomePage extends Component 
+class HomePage extends Component
 {
       render(){
             return (
 	            <div>
                         <Headr />
                         <Grid columns={4} style={{ height: '100%' }} verticalAlign='middle' >
-                         <Grid.Column >        
+                         <Grid.Column >
                         </Grid.Column>
                               <Grid.Column className="latestOrders" style={{ maxWidth: 450 }}>
                                     <Segment raised>
@@ -64,13 +64,13 @@ class HomePage extends Component
       </Feed>
     </Card.Content>
   </Card>
-                  
+
                                     </Segment>
                               </Grid.Column>
 
-                              {/* <Grid.Column >        
+                              {/* <Grid.Column >
                         </Grid.Column> */}
-                        
+
                               <Grid.Column className="Friends Activity">
                                     <Segment>
                                           <Label as='a' color='teal' ribbon>
@@ -122,7 +122,7 @@ class HomePage extends Component
   </Card>
                                     </Segment>
                               </Grid.Column>
-                              {/* <Grid.Column >        
+                              {/* <Grid.Column >
                               </Grid.Column> */}
                         </Grid>
                   </div>

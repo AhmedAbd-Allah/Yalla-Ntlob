@@ -6,57 +6,88 @@ import { Link } from 'react-router-dom';
 
 
 class Headr extends Component {
-    state = {}
-  handleItemClick = (e, { name }) => {this.setState({ activeItem: name })}
+  state = {
+      J : " joined your ",
+      I : " invited you to his ", 
+  };
 
-  render() {
-    const { activeItem } = this.state
+//***************************** Variables ***********************************************
+  NotifArray  = [
+        {id:1, frndName:"Ahmed", imgSrc:"images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
+        {id:2, frndName:"Islam", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:3, frndName:"Tarek", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" }
+  ] 
+
+  AllNotifArray  = this.NotifArray.concat ([
+        {id:4, frndName:"Ahmed", imgSrc:"images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
+        {id:5, frndName:"Islam", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:6, frndName:"Tarek", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:7, frndName:"Ahmed", imgSrc:"images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
+        {id:8, frndName:"Islam", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:9, frndName:"Tarek", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" }
+  ] )
+
+
+  homeLink = "/HomePage"
+  friendsLink = "/Friends"
+  groupsLink = "/Groups"
+  ordersLink = "/Orders"
+  notifNo = 3
+  profilePic = "images/person.png"
+
+
+//*********************************************************************************************
+  
+
+
+  render() { 
     return (
+//*************************** Left Part ******************************************* 
       <Menu stackable size='small' className="main">
-        <Menu.Item className= "menuItem" >
+        <Menu.Item  className= "menuItem" >
           <img className="logo" src='images/logo.png' alt="" />
           <span><h2>Yalla Order</h2></span>
         </Menu.Item>
 
-        <Link to="/HomePage">
+        <Link to = {this.homeLink}>
             <Popup trigger={
-              <Menu.Item  name='Home' active={activeItem === 'Home'} onClick={this.handleItemClick}>
+              <Menu.Item  name='Home'>
               <Image src='images/home.png' alt="" size='mini' />
               </Menu.Item>
             } content='Home' basic/>
         </Link>
+
          
-        <Link to="/Friends">  
+        <Link to={this.friendsLink}>  
             <Popup trigger={
-              <Menu.Item name='Friends' active={activeItem === 'Friends'} onClick={this.handleItemClick}>
-              <Image src='images/friends.png' alt="" height="40" width="50" /> 
+              <Menu.Item name='Friends' >
+              <Image src='images/friends.png' alt="" height="40" width="50" />
               </Menu.Item>
             } content='Friends' basic/>
         </Link>
       
-        <Link to="/Groups">      
+        <Link to={this.groupsLink}>
             <Popup trigger={
-              <Menu.Item name='Groups' active={activeItem === 'Groups'} onClick={this.handleItemClick}>
+              <Menu.Item name='Groups' >
               <Icon name='group' size='big'/>
-              </Menu.Item> 
+              </Menu.Item>
             } content='Groups' basic/>
           </Link>
-        
       
-        <Link to="/Orders">
-        <Menu.Item name='Orders' active={activeItem === 'Orders'} onClick={this.handleItemClick}>
+        <Link to={this.ordersLink}>
+        <Menu.Item name='Orders'>
             <h4><Image src='images/order.png' alt="" size='mini' inline/> Orders </h4>
         </Menu.Item>
         </Link>
 
-
+{/**************************** Right Part ********************************************/}
         <Menu.Menu position='right'>
 
-
+{/**************************** Notifications ********************************************/}
         <Popup
             trigger={
-              <Menu.Item name='notifications' active={activeItem === 'notifications'} onClick={this.handleItemClick}>
-                <Icon name='bell'  size='big' color={'blue'} /><Label color='red' className="notifyLabel">3</Label>
+              <Menu.Item name='notifications'>
+                <Icon name='bell'  size='big' color={'blue'} /><Label color='red' className="notifyLabel">{this.notifNo}</Label>
               </Menu.Item>}
             flowing
             on='click'
@@ -65,176 +96,71 @@ class Headr extends Component {
               <Grid.Column textAlign='center'>
 
               <Item.Group>
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
+                 {
+                    this.NotifArray.map((i) => (
+                      <Item key={i.id}>
 
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Ahmed Joined your breakfast &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Order</Button>
-                  </Item.Content>
-                </Item>
+                        <Item.Image size='mini' src={i.imgSrc} />
 
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
+                        <Item.Content verticalAlign='middle'>
+                          <Item.Header>
+                            <h3>{i.frndName} {i.msg} {i.ordName} order &nbsp;</h3>
+                          </Item.Header>
+                          <Button compact width={10}>{i.btn}</Button>
+                        </Item.Content>
 
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Islam invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}> Join</Button>
-                  </Item.Content>
-                </Item>
+                      </Item>    
+                    ))
+                 }
 
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Tarek invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Join</Button>
-                  </Item.Content>
-                </Item>
               </Item.Group>
 
-
-               
-                
-
-                  <Modal size={'tiny'} className="modal" trigger={<h4><a href="#" >View all notifications</a></h4>} scrolling="true">
-                    <Modal.Header className="modalHead">Your Notifications</Modal.Header>
+{/**************************** All Notifications ********************************************/}
+              <Modal size={'tiny'} className="modal" trigger={<h4><a href="#" >View all notifications</a></h4>} scrolling="true">
+                <Modal.Header className="modalHead">Your Notifications</Modal.Header>
 
 
-                    <Modal.Content>
-                    
-                      
+               <Modal.Content>
                 <Item.Group >
-                  <Item >
-                  <Item.Image size='mini' src="images/person.png" />
+                  {
+                    this.AllNotifArray.map((i) => (
+                      <Item key={i.id}>
 
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Ahmed Joined your breakfast &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Order</Button>
-                  </Item.Content>
-                </Item>
+                        <Item.Image size='mini' src={i.imgSrc} />
 
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
+                        <Item.Content verticalAlign='middle'>
+                          <Item.Header>
+                            <h3>{i.frndName} {i.msg} {i.ordName} order &nbsp;</h3>
+                          </Item.Header>
+                          <Button compact width={10}>{i.btn}</Button>
+                        </Item.Content>
 
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Islam invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}> Join</Button>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Tarek invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Join</Button>
-                  </Item.Content>
-                </Item>
+                      </Item>    
+                    ))
+                  }
+                  
+                </Item.Group>
 
 
+              </Modal.Content>
 
-                 <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Ahmed Joined your breakfast &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Order</Button>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Islam invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}> Join</Button>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Tarek invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Join</Button>
-                  </Item.Content>
-                </Item>
-
-
-                 <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Ahmed Joined your breakfast &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Order</Button>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Islam invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}> Join</Button>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='mini' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      <h3>Tarek invited you to his order &nbsp;</h3>
-                    </Item.Header>
-                    <Button compact width={10}>Join</Button>
-                  </Item.Content>
-                </Item>
-                      </Item.Group>
-
-             
-                    </Modal.Content>
-                  </Modal>
+               </Modal>
 
               </Grid.Column>
 
-            </Grid>
-        </Popup>
-  
+              </Grid>
+            </Popup>
 
 
 
-
-
-
-          <Menu.Item name='profile' active={activeItem === 'profile'} onClick={this.handleItemClick}>
-            <Image circular src="images/person.png" size='mini' />
+{/**************************** Profiel ********************************************/}
+          <Menu.Item name='profile'>
+            <Image circular src={this.profilePic} size='mini' />
             <span><h4>Ahmed</h4></span>
           </Menu.Item>
 
-          
+
+{/**************************** Logout ********************************************/}
           <Menu.Item>
           <Link to="/login">
           <Button primary animated size="big">
@@ -245,14 +171,16 @@ class Headr extends Component {
           </Button>
           </Link>
           </Menu.Item>
-        
-          
+
+
         </Menu.Menu>
 
       </Menu>
     );
   }
 
+
 }
 
 export default Headr;
+
