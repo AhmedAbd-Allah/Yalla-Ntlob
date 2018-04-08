@@ -3,19 +3,23 @@ import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Icon, Button, Grid, Form, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
 import Headr from './header'
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 class MyOrder extends Component {
-   
+  addItem(e){
+    e.preventDefault();
+    alert("added");
+  }
+
 
   render() {
     return (
-     
+
       <div>
       <Headr />
       <Grid columns='equal'>
         <Grid.Row>
-          <Grid.Column width={1}> 
+          <Grid.Column width={1}>
           </Grid.Column>
 
           <Grid.Column width={8}>
@@ -71,15 +75,15 @@ class MyOrder extends Component {
 
                 </Table.Cell>
               </Table.Row>
-              
+
             </Table.Body>
           </Table>
         </Grid.Column>
-       
+
 
        <Grid.Column >
         <h4><Label circular color={"blue"}>3</Label> of your Friends were invited to this order</h4>
-      
+
 
 
         <Modal size={'mini'} dimmer={'blurring'} trigger={<Button color='grey'>Click to view</Button>} className="modal frnds" >
@@ -108,7 +112,7 @@ class MyOrder extends Component {
                   <Item.Content verticalAlign='middle'>
                     <Item.Header>
                       Justen Kitsune
-                      <h4><Icon name='exclamation circle' color='grey'/>Didn't Join</h4>
+                      <h4><Icon name='exclamation circle' color='grey'/>"Didn't Join"</h4>
                     </Item.Header>
                   </Item.Content>
                 </Item>
@@ -138,29 +142,28 @@ class MyOrder extends Component {
 
       <Grid.Column width={10}>
 
-      <Form>
-        <Form.Group widths='equal'>
-          <Form.Input fluid required label='Item' placeholder='Item name'  width = {15}/>
+      <Form onSubmit = {this.addItem}>
+        <Form.Group widths='equal' >
+          <Form.Input fluid required label='Item' placeholder='Item name'  width = {15} id="sss"/>
           <Form.Field required label='Amount' placeholder='Amount' control='input' type='number' min={1} width = {9}/>
           <Form.Field required label='Price' placeholder='Price' control='input' type='number' min={1} width = {9}/>
           <Form.Field label='Comments' placeholder='Comments' control='input' width = {16}/>
-          <Form.Button label= "&nbsp;" primary>Add</Form.Button>
+          <Form.Button type="submit" label= "&nbsp;" primary>Add</Form.Button>
         </Form.Group>
-        
       </Form>
 
-      </Grid.Column>  
+      </Grid.Column>
 
     </Grid.Row>
 
     </Grid>
 
-      
+
       </div>
 
 
 
-      
+
     );
   }
 }
