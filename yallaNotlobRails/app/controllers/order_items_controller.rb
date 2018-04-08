@@ -3,7 +3,7 @@ class OrderItemsController < ApplicationController
 
   # GET /order_items
   def index
-    @order_items = OrderItem.all
+    @order_items = OrderItem.where(order_id: request.headers["order-id"])
 
     render json: @order_items
   end

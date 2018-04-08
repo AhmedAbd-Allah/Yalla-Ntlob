@@ -4,8 +4,12 @@ class FriendsController < ApplicationController
   # GET /friends
   def index
     @friends = Friend.where(user_id: request.headers["user-id"])
-
-    render json: @friends
+    @friend_list=[]
+    @friends.each do |f|
+      @user = User.find(f[:friend_id])
+      @friend_list.push(@user)
+    end
+    render json: @friend_list
   end
 
   # GET /friends/1
@@ -16,15 +20,24 @@ class FriendsController < ApplicationController
   # POST /friends
   def create
      @userFriend = User.find_by_email(params[:friend][:email])
-     @body = {user_id:friend_params[:user_id], friend_id:@userFriend[:id]}
-     @friend = Friend.new(@body)
-    if @friend.save
-      render json: {friend_id: @userFriend[:id] ,
-                    name: @userFriend[:name],
-                    email: @userFriend[:email],
-                    status: :created}
+     if @userFriend!=nil
+       @friend_email = Friend.where(friend_id: @userFriend[:id])
+       if @friend_email==[]
+         @body = {user_id:friend_params[:user_id], friend_id:@userFriend[:id]}
+         @friend = Friend.new(@body)
+         if @friend.save
+          render json: {friend_id: @userFriend[:id] ,
+                        name: @userFriend[:name],
+                        email: @userFriend[:email],
+                        status: :created}
+        else
+          render json: @friend.errors, status: :unprocessable_entity
+        end
+      else
+        render json: {Error: "Friend is already exist"}
+      end
     else
-      render json: @friend.errors, status: :unprocessable_entity
+      render json: {Error: "Email not exist"}
     end
   end
 
