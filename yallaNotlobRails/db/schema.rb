@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406223934) do
+ActiveRecord::Schema.define(version: 20180408092657) do
+
   create_table "friends", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -67,10 +68,10 @@ ActiveRecord::Schema.define(version: 20180406223934) do
     t.integer "order_type"
     t.integer "status"
     t.string "meal_image"
-    t.datetime "date_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "owner_id"
+    t.index ["owner_id"], name: "fk_rails_e8a9a5a8cf"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -91,4 +92,5 @@ ActiveRecord::Schema.define(version: 20180406223934) do
   add_foreign_key "order_invitations", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "users"
+  add_foreign_key "orders", "users", column: "owner_id"
 end

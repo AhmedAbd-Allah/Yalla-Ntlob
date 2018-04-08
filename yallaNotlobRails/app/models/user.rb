@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
-
+  has_many :friends
 #   def can_modify_user?(user_id)
 #   role == 'admin' || id.to_s == user_id.to_s
 # end
