@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
 
   # GET /groups
   def index
-    @groups = Group.all
+    @groups = Group.where(user_id: request.headers["user-id"])
 
     render json: @groups
   end
@@ -36,6 +36,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   def destroy
     @group.destroy
+    render json: { group: @group ,status: 200, msg: 'group have been deleted.' }
   end
 
   private
