@@ -3,28 +3,38 @@ import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios'
 
 
+const handleunfriendClick=(friend,unFriend)=>{
+   axios.delete(`http://localhost:3000/friends/${friend.friend_id}`,{ headers: { "user-id":"1" } })
+   .then(response => {
+     console.log("Delete friend reponse",response)
+     unFriend();
+   })
+   .catch(error => console.log(error))
+ }
+
 const Card = (props) => {
-  if (!props.friendsList) {
+
+  if (props.friendsList.length==0) {
            return <p> No friends yet !!</p>;
        }
   else
       return(
      <div className="ui cards"  style={{margineTop:100}}>
-      {props.friendsList.map((player ) => (
-        <div  className="ui card"  style={{width: '30%' ,height:'30%'}}>
-              <img class="ui meduim image" style={{width: 'auto' ,height:'150px'}} src={player.image} alt={"logo"}/>
+      {props.friendsList.map((friend,index ) => (
+        <div  key={index} className="ui card"  style={{width: '30%' ,height:'30%'}}>
+              <img className="ui meduim image" style={{width: 'auto' ,height:'150px'}} src={friend.image} alt={"logo"}/>
                       <div className="content">
                          <div className="ui two column grid">
-                              <div className="column"><h2 className="header"> {player.name}</h2>  </div>
+                              <div className="column"><h2 className="header"> {friend.name}</h2>  </div>
                               <div className="column">
-                                 <button className="ui mini inverted red button">UnFriend</button>
+                                 <button className="ui mini inverted red button"  onClick={()=>handleunfriendClick(friend,props.onUnFriend)}>UnFriend</button>
                               </div>
                    </div>
-                   <div className="meta"><span className="date">Joined in {player.date}</span></div>
+                   <div className="meta"><span className="date">Joined in {friend.date}</span></div>
                  </div>
 
                <div className="extra content">
-                 <a><i className="user icon"></i>  {player.friendsNum} Friends</a>
+                 <a><i className="user icon"></i>  {friend.friendsNum} Friends</a>
                </div>
           </div>
 
@@ -39,34 +49,6 @@ const Card = (props) => {
 
 class Body extends Component{
 
-  constructor(props){
-    super(props);
-
-    this.state={
-    friendsList:[
-     {name: "John", id: 120, date: 2012, friendsNum: 10,image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJvwWWjLxIoXHQPTP_J0UmnJZQICqDeAb_5WztSnJpZfVTOwnz'},
-     {name: "Beth", id: 443, date: 2012, friendsNum: 20,image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVjwE7fe4F0uEm7mb1s_veNU21MZMTtF4TsoqPfRZpv6NElYJS'}  ]
-   }
-  }
-
-
-  // const AuthStr = 'Bearer '.concat(USER_TOKEN);
-  //     axios.get(URL, { headers: { Authorization: AuthStr } }).then(response => {
-  //             // If request is good...
-  //             console.log(response.data);
-  //           })
-  //           .catch((error) => {
-  //             console.log('error 3 ' + error);
-  //           });
-  componentDidMount() {
-  axios.get('http://localhost:3000/friends',{ headers: { "user-id":"1" } })
-  .then(response => {
-    console.log("rrrrrrrrrrrrrrr",response)
-    this.setState({ideas: response.data})
-  })
-  .catch(error => console.log(error))
-}
-
    render() {
       return(
         <div className="row">
@@ -76,12 +58,12 @@ class Body extends Component{
                               <div className="ui raised  segment">
                                   <h2 className="ui teal big ribbon label">Friends List</h2>
 
-                                  <div class="four column row" style={{height:40}}>
-                                  <div class="left floated column"></div>
-                                  <div class="right floated column"></div>
+                                  <div className="four column row" style={{height:40}}>
+                                  <div className="left floated column"></div>
+                                  <div className="right floated column"></div>
                                 </div>
 
-                                <Card friendsList={this.state.friendsList} />
+                                <Card friendsList={this.props.friendsList} onUnFriend={this.props.onUnFriend} />
 
                               </div>
                         </div>
