@@ -57,7 +57,7 @@ class Orders extends Component {
                 <Table.HeaderCell>Actions</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
-
+{/****************************************************************************************/}
             <Table.Body>
               <Table.Row textAlign='center'>
                 <Table.Cell>Breakfast</Table.Cell>
@@ -121,6 +121,7 @@ class Orders extends Component {
               </Table.Row>
 
             </Table.Body>
+{/****************************************************************************************/}
           </Table>
         </Grid.Column>
        </Grid.Row>
