@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
+import axios from 'axios'
+
 
 const Card = (props) => {
   if (!props.friendsList) {
@@ -40,16 +42,31 @@ class Body extends Component{
   constructor(props){
     super(props);
 
-    this.friendsList=[
+    this.state={
+    friendsList:[
      {name: "John", id: 120, date: 2012, friendsNum: 10,image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJvwWWjLxIoXHQPTP_J0UmnJZQICqDeAb_5WztSnJpZfVTOwnz'},
-     {name: "Beth", id: 443, date: 2012, friendsNum: 20,image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVjwE7fe4F0uEm7mb1s_veNU21MZMTtF4TsoqPfRZpv6NElYJS'},
-     {name: "Jane", id: 510, date: 2012, friendsNum: 30,image:'http://www.wallpapereast.com/static/images/dice-hd-wallpapers.jpg'},
-     {name: "John", id: 120, date: 2012, friendsNum: 10,image:'https://images.pexels.com/photos/17679/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350'},
-     {name: "Beth", id: 443, date: 2012, friendsNum: 20,image:'https://images.pexels.com/photos/17679/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350'},
-     {name: "Jane", id: 510, date: 2012, friendsNum: 30,image:'https://lh3.googleusercontent.com/F-h4eU1-yNmBHMVlymMGS2MqSvT9Cnz29kQLyS7KqONnP7hu3tzjJ0V7QnPRj5msxw7I=w300'}
-    ]
-
+     {name: "Beth", id: 443, date: 2012, friendsNum: 20,image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVjwE7fe4F0uEm7mb1s_veNU21MZMTtF4TsoqPfRZpv6NElYJS'}  ]
+   }
   }
+
+
+  // const AuthStr = 'Bearer '.concat(USER_TOKEN);
+  //     axios.get(URL, { headers: { Authorization: AuthStr } }).then(response => {
+  //             // If request is good...
+  //             console.log(response.data);
+  //           })
+  //           .catch((error) => {
+  //             console.log('error 3 ' + error);
+  //           });
+  componentDidMount() {
+  axios.get('http://localhost:3000/friends',{ headers: { "user-id":"1" } })
+  .then(response => {
+    console.log("rrrrrrrrrrrrrrr",response)
+    this.setState({ideas: response.data})
+  })
+  .catch(error => console.log(error))
+}
+
    render() {
       return(
         <div className="row">
@@ -64,7 +81,7 @@ class Body extends Component{
                                   <div class="right floated column"></div>
                                 </div>
 
-                                <Card friendsList={this.friendsList} />
+                                <Card friendsList={this.state.friendsList} />
 
                               </div>
                         </div>

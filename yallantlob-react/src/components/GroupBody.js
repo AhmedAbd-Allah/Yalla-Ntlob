@@ -33,7 +33,7 @@ handlename=(name)=>{
       return name.substring(0,7);
     }
   }
-andleGroupChange=(groupname,grouplist)=> {
+handleGroupChange=(groupname,grouplist)=> {
    console.log(groupname,this.props)
    this.props.onSelectGroup(groupname);
 
@@ -50,7 +50,7 @@ andleGroupChange=(groupname,grouplist)=> {
 
               <div className="four wide column">  <a><i className="one column user blue big plus icon"
                    style={{ cursor: 'pointer' }}
-                  onClick={()=>this.andleGroupChange(group.name,[])}></i></a>
+                  onClick={()=>this.handleGroupChange(group.name,[])}></i></a>
               </div>
 
               <div className="four wide column" style={{ cursor: 'pointer' }}>
