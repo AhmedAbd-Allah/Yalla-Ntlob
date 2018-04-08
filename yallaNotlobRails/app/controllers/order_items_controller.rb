@@ -3,7 +3,7 @@ class OrderItemsController < ApplicationController
 
   # GET /order_items
   def index
-    @order_items = OrderItem.all
+    @order_items = OrderItem.where(order_id: request.headers["order-id"])
 
     render json: @order_items
   end
@@ -46,6 +46,6 @@ class OrderItemsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def order_item_params
-      params.require(:order_item).permit(:Order_id, :User_id, :item, :count, :price, :comment)
+      params.require(:order_item).permit(:order_id, :user_id, :item, :count, :price, :comment)
     end
 end

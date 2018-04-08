@@ -15,7 +15,8 @@ class GroupMembersController < ApplicationController
 
   # POST /group_members
   def create
-    @group_member = GroupMember.new(group_member_params)
+    @user=User.find_by(name:params[:name])
+    @group_member = GroupMember.new(user_id: @user['id'] ,group_id:params[:group_id])
 
     if @group_member.save
       render json: @group_member, status: :created, location: @group_member
@@ -46,6 +47,6 @@ class GroupMembersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def group_member_params
-      params.require(:group_member).permit(:user_id, :group_id)
+      params.require(:group_member).permit(:name, :group_id)
     end
 end
