@@ -3,10 +3,17 @@ class OrderInvitationsController < ApplicationController
 
   # GET /order_invitations
   def index
-    @order_invitations = OrderInvitation.all
-
-    render json: @order_invitations
-  end
+    @order_invitations = OrderInvitation.where(order_id: request.headers["order-id"])
+    @invitation_list = []
+    @order_invitations.each do |i|
+      @user = User.find(i[:user_id])
+      @invitation_list.push({"id": @user[:id] ,
+        "name": @user[:name] , "email": @user[:email] ,
+        "image": @user[:image],
+        "status": i[:status]})
+    end
+    render json: @invitation_list
+    end
 
   # GET /order_invitations/1
   def show
