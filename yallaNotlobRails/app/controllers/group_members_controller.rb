@@ -1,5 +1,5 @@
 class GroupMembersController < ApplicationController
-  before_action :set_group_member, only: [:show, :update, :destroy]
+  before_action :set_group_member, only: [:show, :update]
 
   # GET /group_members
   def index
@@ -44,7 +44,11 @@ end
 
   # DELETE /group_members/1
   def destroy
-    @group_member.destroy
+    @group_member = GroupMember.where(user_id: params[:id] ,
+    :group_id => request.headers["group-id"])
+    @group_member.destroy_all
+    render json: {status: 200, msg: 'friend have been deleted from group.' }
+
   end
 
   private
