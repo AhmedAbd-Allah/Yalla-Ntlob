@@ -4,9 +4,28 @@ import 'semantic-ui-css/semantic.min.css';
 import { Icon, Button, Grid, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
 import Headr from './header'
 // import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 class OrderDetails extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      items:[]
+    }
+  }
+  
+
+  componentWillMount() {
+    axios({ method: 'GET',
+            url: 'http://localhost:3000/order_items', 
+            headers: {'order-id': 3}
+          })
+      .then(res => {
+        const items = res.data;
+        this.setState({ items: items });
+      })
+  }
 
 
   render() {
@@ -46,18 +65,25 @@ class OrderDetails extends Component {
                 <Table.HeaderCell>Comment</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
-
             <Table.Body>
-              <Table.Row textAlign='center'>
-                <Table.Cell>Ahmed Khaled</Table.Cell>
-                <Table.Cell>ta3mia</Table.Cell>
-                <Table.Cell>2</Table.Cell>
-                <Table.Cell>15</Table.Cell>
-                <Table.Cell>Belsalata</Table.Cell>
+
+{/*****************************************************************************/}
+            {
+            this.state.items.map((item) => (
+              <Table.Row key={item.id} textAlign='center'>
+                <Table.Cell>userid:{item.user_id}</Table.Cell>
+                <Table.Cell>{item.item}</Table.Cell>
+                <Table.Cell>{item.count}</Table.Cell>
+                <Table.Cell>{item.price}</Table.Cell>
+                <Table.Cell>{item.comment}</Table.Cell>
 
               </Table.Row>
-
+              ))
+              
+            }
+{/*****************************************************************************/}
             </Table.Body>
+
           </Table>
         </Grid.Column>
 
