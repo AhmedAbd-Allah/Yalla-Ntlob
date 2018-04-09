@@ -24,7 +24,7 @@ class GroupMembersController < ApplicationController
     @user=User.find_by(name:params[:name])
 
         @friend_exist = Friend.where(friend_id: @user['id'] , user_id: params[:user_id])
-        if @friend_exist != ''
+        if @friend_exist != []
           @group_member_exist = GroupMember.where(user_id: @user['id'], group_id:params[:group_id])
           if @group_member_exist == []
               @group_member = GroupMember.new(user_id: @user['id'] ,group_id:params[:group_id])
