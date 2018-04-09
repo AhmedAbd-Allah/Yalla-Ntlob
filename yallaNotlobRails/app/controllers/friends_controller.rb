@@ -11,7 +11,8 @@ class FriendsController < ApplicationController
     if @friend == []
       render json: {Error:"this user isn't a friend"}
     else
-      render json: @friend[0]
+      @friend_data = User.find(@user['id'])
+      render json: @friend_data
     end  
   end
     
