@@ -93,7 +93,8 @@ const Mygroupslist = (props) => {
 
 class Search extends Component{//= (props) => {
 
-   AddFriendToGroup=()=>{
+
+   AddFriendToGroup=(handleaddFrienfun)=>{
 
     const friendEmail=this.refs['friendEmail'].value;
     const Gid=this.props.groupId
@@ -104,7 +105,7 @@ class Search extends Component{//= (props) => {
     axios.post('http://localhost:3000/group_members',body)
     .then(response => {
       console.log("add friend to group reponse",response)
-      this.props.onAddFriend(response);
+      handleaddFrienfun(Gid,response);
     })
     .catch(error => console.log(error))
   }
@@ -120,7 +121,7 @@ class Search extends Component{//= (props) => {
                 </div>
           </div>
          <div className="four wide column">
-               <button className="ui  small teal  button"  onClick={()=>{this.AddFriendToGroup()}}>
+               <button className="ui  small teal  button"  onClick={()=>{this.AddFriendToGroup(this.props.handleaddFrienfun)}}>
                  <i className="icon user"></i>
                   {this.props.buttonName}
                </button>
@@ -169,7 +170,8 @@ return (
           <div className="fifteen wide column">
             <div className="ui raised  segment">
                 <h2 className="ui teal big ribbon label" >{props.groupName}</h2>
-                <Search lable={"You Friend Email"} buttonName={"Add Friend"} searchPlaceHolder={"User Email"} groupId={props.groupId}/>
+                <Search lable={"You Friend Email"} handleaddFrienfun={props.handleaddFrienfun} buttonName={"Add Friend"} searchPlaceHolder={"User Email"} groupId={props.groupId}/>
+                <h4 style={{color:'red'}}>{props.AddfrirndResultError}</h4>
                 <div className="four column row" style={{height:40}}>
                 <div className="left floated column"></div>
                 <div className="right floated column"></div>
@@ -188,22 +190,23 @@ class GroupBody extends Component{
 
   state=[]
 
-  getgroupsFriend=(Gid)=>{
-   console.log("ffffffffff",Gid)
-   return[1,2];
+  getgroupsFriend=(Gid,response)=>{
+  console.log("ffffffffff",Gid)
+  const Gfriend=[1,2,3]
+  this.setState({'GfriendsList':Gfriend})
+  console.log(response)
+  if(response)
+     this.setState({'AddfrirndResultError':response.data.Error})
+  else
+    this.setState({'AddfrirndResultError':''})
   }
-
-
 
   handleSelectedGroup = (groupName,Gid) => {
 
     console.log("handle group selected change",groupName)
-    const friendInGroup=this.getgroupsFriend(Gid);
-    console.log("handle group selected change",friendInGroup)
+    this.getgroupsFriend(Gid);
     this.setState({'groupName':groupName})
     this.setState({'groupId':Gid})
-    this.setState({'GfriendsList':friendInGroup})
-
     }
 
    render() {
@@ -214,7 +217,7 @@ class GroupBody extends Component{
                <Mygroupslist groupslist={this.props.groupsList} onSelectGroup={this.handleSelectedGroup} handleGroupDel={this.props.handleGroupDel}/>
               </div>
              <div className="eight wide column">
-                <Mygroupdetail  groupId={this.state.groupId} groupName={this.state.groupName} GfriendsList={this.state.GfriendsList}/>
+                <Mygroupdetail  AddfrirndResultError={this.state.AddfrirndResultError}  handleaddFrienfun={this.getgroupsFriend} groupId={this.state.groupId} groupName={this.state.groupName} GfriendsList={this.state.GfriendsList}/>
              </div>
        </div>
 
