@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.min.css';
 import axios from 'axios'
 
 
-class Search extends Component{
+class SearchGroup extends Component{
 
   constructor(props) {
    super(props);
@@ -14,16 +14,21 @@ class Search extends Component{
 
 
  handleBtnClick=()=>{
-   console.log("btn han",this.refs['SearchVal'].value)
+
+   console.log("btngroup handle han",this.refs['SearchVal'].value)
    const SearchValue=this.refs['SearchVal'].value;
-   const body={ "friend":{"user_id":"1","email":SearchValue}}
-   axios.post('http://localhost:3000/friends',body)
-   .then(response => {
-     console.log("add friend reponse",response)
-     this.props.onAddFriend(response);
-   })
-   .catch(error => console.log(error))
- }
+   if(SearchValue==='')
+     this.props.onAddGroup({'data':{"Error":"Enetr name for group "}});
+    else{
+       const body={ "group":{"user_id":"1","name":SearchValue}}
+       axios.post('http://localhost:3000/groups',body)
+       .then(response => {
+         console.log("add Group reponse",response)
+         this.props.onAddGroup(response);
+       })
+       .catch(error => console.log(error))
+     }
+}
    render() {
       return(
         <div className="row">
@@ -44,7 +49,7 @@ class Search extends Component{
 
                          <div className="five wide column">
                                <button className="ui  huge teal  button" onClick={this.handleBtnClick}>
-                                 <i className="icon user"></i>
+                                 <i className="icon users"></i>
                                   {this.buttonName}
                                </button >
                          </div>
@@ -53,4 +58,4 @@ class Search extends Component{
         );
       }
 }
-export default Search;
+export default SearchGroup;
