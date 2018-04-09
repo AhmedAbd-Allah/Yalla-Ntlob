@@ -8,9 +8,15 @@ class GroupMembersController < ApplicationController
     render json: @group_members
   end
 
-  # GET /group_members/1
+  # GET /group_members/1 ==> [group_id]
   def show
-    render json: @group_member
+    @group_members = GroupMember.where(group_id:params[:id])
+    @users_in_group=[]
+    @group_members.each do |f|
+      @user = User.find(f[:user_id])
+      @users_in_group.push(@user)
+    end
+    render json: @users_in_group
   end
 
   # POST /group_members
@@ -54,7 +60,7 @@ end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_group_member
-      @group_member = GroupMember.find(params[:id])
+      @group_member = GroupMember.find_by(group_id:params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
