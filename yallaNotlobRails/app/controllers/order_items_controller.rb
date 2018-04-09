@@ -4,8 +4,17 @@ class OrderItemsController < ApplicationController
   # GET /order_items
   def index
     @order_items = OrderItem.where(order_id: request.headers["order-id"])
-
-    render json: @order_items
+    @items_list = []
+    @order_items.each do |i|
+      @user = User.find(i[:user_id])
+      @items_list.push({"item_id": i[:id] ,
+        "user_id": @user[:id] ,
+        "name": @user[:name] , "item": i[:item] ,
+        "count": i[:count],
+        "price": i[:price],
+        "comment": i[:comment]})
+    end
+    render json: @items_list
   end
 
   # GET /order_items/1

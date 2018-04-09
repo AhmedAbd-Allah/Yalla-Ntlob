@@ -16,8 +16,13 @@ class OrdersController < ApplicationController
   # POST /orders
   def create
     @order = Order.new(order_params)
-
+    @order.status = 0;
     if @order.save
+      @user_ids = params[:ids]
+      @user_ids.each do |i|
+        @order_invitation = OrderInvitation.new(user_id:i,order_id:@order['id'],status:0)
+        @order_invitation.save
+      end
       render json: @order, status: :created, location: @order
     else
       render json: @order.errors, status: :unprocessable_entity
