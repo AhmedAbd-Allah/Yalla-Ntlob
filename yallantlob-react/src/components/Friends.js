@@ -5,8 +5,6 @@ import Search from './Search'
 import Body   from './Body'
 import Headr from './header'
 import axios from 'axios'
-// import '../semantic/dist/semantic.min.css';
-
 
 class Friends extends Component {
   constructor(props){
@@ -16,8 +14,6 @@ class Friends extends Component {
     addrespRes:""
      }
   }
-
-;
 componentDidMount() {
   axios.get('http://localhost:3000/friends',{ headers: { "user-id":"1" } })
   .then(response => {
