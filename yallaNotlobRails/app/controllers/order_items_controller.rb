@@ -7,7 +7,8 @@ class OrderItemsController < ApplicationController
     @items_list = []
     @order_items.each do |i|
       @user = User.find(i[:user_id])
-      @items_list.push({"id": @user[:id] ,
+      @items_list.push({"item_id": i[:id] ,
+        "user_id": @user[:id] ,
         "name": @user[:name] , "item": i[:item] ,
         "count": i[:count],
         "price": i[:price],
