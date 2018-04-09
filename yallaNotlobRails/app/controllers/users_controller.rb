@@ -8,12 +8,7 @@ class UsersController < ApplicationController
     render json: {status: 200, msg: 'Logged-in'}
   end
 
-  # GET /users/search
-  def getUserByEmail
-    @resulted_user = User.find_by(email:request.headers["email"])
-    render json: @resulted_user
-    end
-    
+  
   # GET /users/1
   def show
     render json: @user
