@@ -3,7 +3,7 @@ import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Icon, Menu, Button, Image, Label, Grid, Popup, List, Modal, Item } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 class Headr extends Component {
   state = {
