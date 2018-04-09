@@ -16,12 +16,21 @@ class GroupMembersController < ApplicationController
   # POST /group_members
   def create
     @user=User.find_by(name:params[:name])
-    @group_member = GroupMember.new(user_id: @user['id'] ,group_id:params[:group_id])
-
-    if @group_member.save
-      render json: @group_member, status: :created, location: @group_member
+    @friend_exist = Friend.where(friend_id: @user['id'] , user_id: params[:user_id])
+    if @friend_exist != []
+      @group_member_exist = GroupMember.where(user_id: @user['id'], group_id:params[:group_id])
+      if @group_member_exist == []
+          @group_member = GroupMember.new(user_id: @user['id'] ,group_id:params[:group_id])
+          if @group_member.save
+            render json: @user, status: :created, location: @group_member
+          else
+            render json: @group_member.errors, status: :unprocessable_entity
+          end
+      else
+        render json: {Error: "Friend is already exist in this group"}
+       end
     else
-      render json: @group_member.errors, status: :unprocessable_entity
+      render json: {Error: "This name is not exist in your friends"}
     end
   end
 
