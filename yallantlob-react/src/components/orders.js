@@ -150,13 +150,13 @@ newOrderLink = "/createOrder"
             this.state.orders.map((order) => (
               <Table.Row key={order.id} textAlign='center'>
                 <Table.Cell>{order.order_type}</Table.Cell>
-                <Table.Cell>order.restaurant</Table.Cell>
+                <Table.Cell>{order.restaurant}</Table.Cell>
 
                 <Invites oId={order.id}/>
                 <Joines oId={order.id}/>
 
-                <Table.Cell> <Icon name={order.status=="waiting"?'hourglass half':'check'} 
-                color={order.status=="waiting"?'yellow':'green'}/> {order.status}</Table.Cell>
+                <Table.Cell> <Icon name={order.status=="Waiting"?'hourglass half':'check'} 
+                color={order.status=="Waiting"?'yellow':'green'}/> {order.status}</Table.Cell>
                 <Table.Cell>
 
 
@@ -164,7 +164,7 @@ newOrderLink = "/createOrder"
                   <Button icon='eye' size='tiny'/>
                   </Link>
 
-                {order.status=="waiting"?<span>
+                {order.status=="Waiting"?<span>
                   <Modal size={'mini'} trigger={<Button  color='blue'size='tiny'>Finish</Button>} closeIcon className="cancel">
                     <Header icon='attention' content='Finish the order' />
                     <Modal.Content>

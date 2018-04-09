@@ -1,6 +1,21 @@
 class FriendsController < ApplicationController
   before_action :set_friend, only: [:show]
 
+
+
+  # GET /friends/search
+  def getFriendByEmail
+    @user = User.find_by(name:request.headers["friendName"])
+    @friend = Friend.where("user_id = ? AND friend_id = ?", request.headers["userId"], @user['id'])
+    # render json: @user
+    if @friend == []
+      render json: {Error:"this user isn't a friend"}
+    else
+      render json: @friend[0]
+    end  
+  end
+    
+
   # GET /friends
   def index
     @friends = Friend.where(user_id: request.headers["user-id"])

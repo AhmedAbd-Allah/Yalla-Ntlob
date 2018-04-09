@@ -17,6 +17,7 @@ default: &default
   password: 1111
   socket: /var/lib/mysql/mysql.sock
 
+
 development:
   <<: *default
   database: yallanotlob

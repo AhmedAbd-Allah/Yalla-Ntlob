@@ -58,7 +58,7 @@ class OrderDetails extends Component {
           <Table color='blue'>
             <Table.Header>
               <Table.Row textAlign='center'>
-                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell>Friend Name</Table.HeaderCell>
                 <Table.HeaderCell>Item</Table.HeaderCell>
                 <Table.HeaderCell>Amount</Table.HeaderCell>
                 <Table.HeaderCell>Price</Table.HeaderCell>
@@ -71,7 +71,7 @@ class OrderDetails extends Component {
             {
             this.state.items.map((item) => (
               <Table.Row key={item.id} textAlign='center'>
-                <Table.Cell>userid:{item.user_id}</Table.Cell>
+                <Table.Cell>{item.name}</Table.Cell>
                 <Table.Cell>{item.item}</Table.Cell>
                 <Table.Cell>{item.count}</Table.Cell>
                 <Table.Cell>{item.price}</Table.Cell>

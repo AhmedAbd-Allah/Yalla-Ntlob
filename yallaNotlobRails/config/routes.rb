@@ -8,11 +8,11 @@ Rails.application.routes.draw do
   resources :orders
   resources :groups
   resources :group_members
-  resources :friends
-  resources :users do
+  resources :friends do
     collection do
-      get '/search' => 'users#getUserByEmail'
+      get '/search' => 'friends#getFriendByEmail'
     end
   end
+  resources :users 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
