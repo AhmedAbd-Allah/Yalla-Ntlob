@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180408073654) do
+ActiveRecord::Schema.define(version: 20180408165422) do
 
   create_table "friends", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20180408073654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "owner_id"
+    t.string "restaurant"
     t.index ["owner_id"], name: "fk_rails_e8a9a5a8cf"
   end
 

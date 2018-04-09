@@ -4,7 +4,6 @@ import ReactUploadFile from 'react-upload-file';
 import { Icon, Input, Header, Image, Form, Label, Button, Grid, Segment, Message } from 'semantic-ui-react';
 import axios from 'axios';
 import FileBase64 from 'react-file-base64';
-// import base64Img from 'base64-img';
 
 class Register extends Component {
 
@@ -42,7 +41,7 @@ class Register extends Component {
 
         setImage(myimage)
         {
-                this.setState({ image: myimage })
+                this.setState({ image: myimage.base64 })
         }       
 
         Submit(e)
@@ -68,18 +67,25 @@ class Register extends Component {
                         this.setState({ email: this.state.email.trim()});
                         this.setState({ password: this.state.password.trim()});
                         this.setState({ confpassword: this.state.confpassword.trim()});
-                        // this.setState({ redirect: true});
 
                         console.log(this.state);
                         
                         const data = {"user":this.state};
-                                axios.post('http://localhost:3000/users', 
-                        data).then(function (response) {
-                        console.log(response);
-                      })
-                      .catch(function (error) {
-                        console.log(error);
-                      });
+                        axios.post('http://localhost:3000/users', 
+                                data).then(response => {
+                                        console.log(response);
+                                        if(response.data.Error)
+                                        {
+                                                this.setState({ errors: 'This Email is Already Registered'});
+                                        }
+                                        else
+                                        {
+                                                this.setState({ redirect: true});   
+                                        }
+                                }).catch(function (error) 
+                                {
+                                        console.log(error);
+                                });
                 }
                
         }
@@ -89,7 +95,7 @@ class Register extends Component {
                 const { redirect } = this.state;
                 if (redirect) 
                 {
-                        return <Redirect to='/login'/>;
+                        return <Redirect to='/'/>;
                 }
                 return (
                         <div>
@@ -105,11 +111,11 @@ class Register extends Component {
                                                         { this.state.errors !=''?
                                                         <Message
                                                         error
-                                                        header=''
+                                                        header='Please follow the instructions to register'
                                                         content={this.state.errors}
                                                         />
                                                         :''}
-                                                        </label>
+                                                </label>
                                                 <Form size='large' onSubmit={this.Submit}>
                                                         <Segment stacked>
                                                         
@@ -170,10 +176,12 @@ class Register extends Component {
                                                                         // onChange={this.setImage}
                                                                            
                                                                 > */}
+                                                              
                                                                 <FileBase64
-       multiple={ false }
-       onDone={ this.setImage.bind(this) } />
-       {/* </Form.Input> */}
+                                                                        multiple={ false }
+                                                                        onDone={ this.setImage.bind(this) } 
+                                                                />
+                                                                {/* </Form.Input> */}
                                                                 <br />
                                                                 <Button type='submit' secondary size='large' id ="submitButton">Register</Button>
                                                         </Segment> 

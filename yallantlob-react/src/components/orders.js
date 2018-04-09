@@ -4,13 +4,100 @@ import 'semantic-ui-css/semantic.min.css';
 import { Icon, Button, Image, Grid, Modal, Header, Table } from 'semantic-ui-react'
 import Headr from './header'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-class Orders extends Component {
+class Joines extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+    joinNo:0
+      
+    }
+  }
 
+   componentWillMount() {
+    axios({ method: 'GET',
+            url: 'http://localhost:3000/order_invitations', 
+            headers: {'order-id': this.props.oId}
+          })
+      .then(res => {
+        const joinNo = (res.data.filter(function(inv){
+          return inv.status == "accepted";
+        })).length
+
+        this.setState({joinNo: joinNo });
+      })
+    }
 
   render() {
-    return (
+      return ( 
 
+        <Table.Cell>{this.state.joinNo}</Table.Cell>
+      )
+  }
+
+} 
+
+
+// -----------------------------------------------------------------
+class Invites extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+    invitNo:0,    
+    }
+  }
+
+  componentWillMount() {
+    axios({ method: 'GET',
+            url: 'http://localhost:3000/order_invitations', 
+            headers: {'order-id': this.props.oId}
+          })
+      .then(res => {
+        const invitNo = res.data.length;
+
+        this.setState({ invitNo: invitNo});
+      })
+
+  }
+
+  render() { 
+      return ( 
+        <Table.Cell>{this.state.invitNo}</Table.Cell>
+      )
+  }
+
+} 
+
+
+// -----------------------------------------------------------------
+class Orders extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      orders:[ {id: 0, order_type: "", status: ""} ]
+    }
+  }
+  
+
+  componentWillMount() {
+    axios({ method: 'GET',
+            url: 'http://localhost:3000/orders', 
+            headers: {'owner-id': 1}
+          })
+      .then(res => {
+        const orders = res.data;
+        this.setState({ orders: orders });
+      })
+  }
+
+
+newOrderLink = "/createOrder"
+
+
+  render() { 
+   
+    return ( 
       <div>
       <Headr />
       <Grid columns='equal'>
@@ -28,7 +115,7 @@ class Orders extends Component {
           </Grid.Column>
 
           <Grid.Column width={3}>
-          <Link to="/createOrder">  <Button animated='fade' className="startBtn">
+          <Link to={this.newOrderLink}>  <Button animated='fade' className="startBtn">
               <Button.Content visible>
                 <Icon name='add' />New Order
               </Button.Content>
@@ -50,7 +137,7 @@ class Orders extends Component {
             <Table.Header>
               <Table.Row textAlign='center'>
                 <Table.HeaderCell>Order</Table.HeaderCell>
-                <Table.HeaderCell>Restaurants</Table.HeaderCell>
+                <Table.HeaderCell>Restaurant</Table.HeaderCell>
                 <Table.HeaderCell>Invited</Table.HeaderCell>
                 <Table.HeaderCell>Joined</Table.HeaderCell>
                 <Table.HeaderCell>Status</Table.HeaderCell>
@@ -59,19 +146,26 @@ class Orders extends Component {
             </Table.Header>
 {/****************************************************************************************/}
             <Table.Body>
-              <Table.Row textAlign='center'>
-                <Table.Cell>Breakfast</Table.Cell>
-                <Table.Cell>Eltab3i</Table.Cell>
-                <Table.Cell>10</Table.Cell>
-                <Table.Cell>5</Table.Cell>
-                <Table.Cell> <Icon name='hourglass half' color='yellow'/> Waiting</Table.Cell>
+            {
+            this.state.orders.map((order) => (
+              <Table.Row key={order.id} textAlign='center'>
+                <Table.Cell>{order.order_type}</Table.Cell>
+                <Table.Cell>{order.restaurant}</Table.Cell>
+
+                <Invites oId={order.id}/>
+                <Joines oId={order.id}/>
+
+                <Table.Cell> <Icon name={order.status=="Waiting"?'hourglass half':'check'} 
+                color={order.status=="Waiting"?'yellow':'green'}/> {order.status}</Table.Cell>
                 <Table.Cell>
+
 
                   <Link to="/OrderDetails">
                   <Button icon='eye' size='tiny'/>
                   </Link>
 
-                  <Modal size={'mini'} trigger={<Button color='blue'size='tiny'>Finish</Button>} closeIcon className="cancel">
+                {order.status=="Waiting"?<span>
+                  <Modal size={'mini'} trigger={<Button  color='blue'size='tiny'>Finish</Button>} closeIcon className="cancel">
                     <Header icon='attention' content='Finish the order' />
                     <Modal.Content>
                       <p>Are you sure you want to close this Order?</p>
@@ -87,7 +181,7 @@ class Orders extends Component {
                   </Modal>
 
 
-                  <Modal size={'mini'} trigger={<Button color='red'size='tiny'>Cancel</Button>} closeIcon className="cancel">
+                  <Modal size={'mini'} trigger={<Button  color='red'size='tiny'>Cancel</Button>} closeIcon className="cancel">
                     <Header icon='attention' content='Cancel Order' />
                     <Modal.Content>
                       <p>Are you sure you want to cancel this Order?</p>
@@ -101,24 +195,14 @@ class Orders extends Component {
                       </Button>
                     </Modal.Actions>
                   </Modal>
+                  </span>
+                  :""}
 
                 </Table.Cell>
               </Table.Row>
-
-              <Table.Row textAlign='center'>
-                <Table.Cell>Lunch</Table.Cell>
-                <Table.Cell>Mac</Table.Cell>
-                <Table.Cell>5</Table.Cell>
-                <Table.Cell>5</Table.Cell>
-                <Table.Cell><Icon name='check' color='green'/>Finished</Table.Cell>
-                <Table.Cell>
-
-                  <Link to="/OrderDetails">
-                  <Button icon='eye' size='tiny'/>
-                  </Link>
-
-                </Table.Cell>
-              </Table.Row>
+              ))
+              
+            }
 
             </Table.Body>
 {/****************************************************************************************/}
