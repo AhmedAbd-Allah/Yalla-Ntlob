@@ -144,13 +144,30 @@ render(){
 
        <div className="sixteen wide tablet  sixteen computer column">
         <Divider horizontal>write friend or group name</Divider>
+
+        <div className="sixteen wide tablet  sixteen computer column">
+
+            <div className="ui left action input">
+                <button className="ui teal labeled icon button">
+                <i className="user icon"></i>
+                friend Email
+                </button>
+                <input type="text" className="form-control" placeholder="friend name" name="resturant" />
+                <button className="ui teal button">
+                 ADD
+                </button>
+            </div>
+        </div>
+            <Divider horizontal></Divider>
+
+
        <div className="ui left action input">
            <button className="ui teal labeled icon button">
            <i className="group icon"></i>
-           Friends
+           Groups
            </button>
 
-            <Dropdown  placeholder='friends and groups'   value="" selection options={this.matchedval} ref='friends'
+            <Dropdown  placeholder='friends and groups' value="" selection options={this.matchedval} ref='friends'
              onChange= {this.handleSelectedFriend} />
        </div>
 

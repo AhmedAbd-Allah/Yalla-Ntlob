@@ -6,7 +6,7 @@ import axios from 'axios'
 
 
 const deleteGroup=(Gid,handleFun)=>{
-  console.log("sssssssssssss",Gid) //********** it with user id
+
   axios.delete(`http://localhost:3000/groups/${Gid}`)
   .then(response => {
     console.log("DeletGroup",response)
@@ -99,8 +99,6 @@ class Search extends Component{//= (props) => {
     const friendEmail=this.refs['friendEmail'].value;
     const Gid=this.props.groupId
     const body={"name":friendEmail,"group_id": Gid}
-    console.log("btngroupaddfriend handle han",friendEmail)
-    console.log("add friend to group",friendEmail,Gid)
 
     axios.post('http://localhost:3000/group_members',body)
     .then(response => {
@@ -117,7 +115,7 @@ class Search extends Component{//= (props) => {
           <div className="four wide column"><h3 className="ui small segment  "> {this.props.lable}</h3></div>
           <div className="six wide column">
                <div className="ui small icon input">
-                 <input placeholder={this.props.searchPlaceHolder} type="text" ref={"friendEmail"} /><i className="at icon"></i>
+                 <input placeholder={this.props.searchPlaceHolder} type="text" ref={"friendEmail"} />
                 </div>
           </div>
          <div className="four wide column">
@@ -133,7 +131,18 @@ class Search extends Component{//= (props) => {
 
 }
 const Card = (props) => {
-  console.log("ssscard",props.friendsList)
+
+
+   const removeFriendfromGroup=(Gid,Fid,handleFun)=>{
+       console.log("remove friend from group",Fid,Gid)
+
+       axios.delete(`http://localhost:3000/group_members/${Fid}`,{ headers: { "group-id":Gid } })
+       .then(response => {
+         console.log("Delete friend from group reponse",response)
+         handleFun(Gid,"");
+       })
+       .catch(error => console.log(error))
+   }
    if (!props.friendsList||props.friendsList.length===0) {
            return <p> No friends yet !!</p>;
         }
@@ -150,7 +159,7 @@ const Card = (props) => {
                    <div className="ui two column grid">
                         <div className="column"><h4 className="header"> {friend.name}</h4>  </div>
                         <div className="column">
-                           <button className="ui mini inverted red button">remove</button>
+                           <button className="ui mini inverted red button" onClick={()=>removeFriendfromGroup(props.groupId,friend.id,props.handleDeleteUser)}>remove</button>
                         </div>
                  </div>
                </div>
@@ -170,14 +179,14 @@ return (
           <div className="fifteen wide column">
             <div className="ui raised  segment">
                 <h2 className="ui teal big ribbon label" >{props.groupName}</h2>
-                <Search lable={"You Friend Email"} handleaddFrienfun={props.handleaddFrienfun} buttonName={"Add Friend"} searchPlaceHolder={"User Email"} groupId={props.groupId}/>
+                <Search lable={"Friend Email"} handleaddFrienfun={props.handleaddFrienfun} buttonName={"Add Friend"} searchPlaceHolder={"User Email"} groupId={props.groupId}/>
                 <h4 style={{color:'red'}}>{props.AddfrirndResultError}</h4>
                 <div className="four column row" style={{height:40}}>
                 <div className="left floated column"></div>
                 <div className="right floated column"></div>
               </div>
 
-              <Card friendsList={props.GfriendsList} />
+              <Card friendsList={props.GfriendsList}  groupId={props.groupId} handleDeleteUser={props.handleDeleteUser} />
 
                   </div>
               </div>
@@ -191,14 +200,20 @@ class GroupBody extends Component{
   state=[]
 
   getgroupsFriend=(Gid,response)=>{
-  console.log("ffffffffff",Gid)
-  const Gfriend=[1,2,3]
-  this.setState({'GfriendsList':Gfriend})
-  console.log(response)
-  if(response)
-     this.setState({'AddfrirndResultError':response.data.Error})
-  else
-    this.setState({'AddfrirndResultError':''})
+    console.log("hereeeeeeeeeeee")
+
+    axios.get(`http://localhost:3000/group_members/${Gid}`)
+    .then(response => {
+      console.log("group friend",response)
+        this.setState({'GfriendsList':response.data})
+      this.setState({friendsList: response.data ,addrespRes:this.state.addrespRes})
+    })
+    .catch(error => console.log(error))
+
+    if(response)
+       this.setState({'AddfrirndResultError':response.data.Error})
+    else
+      this.setState({'AddfrirndResultError':''})
   }
 
   handleSelectedGroup = (groupName,Gid) => {
@@ -217,7 +232,7 @@ class GroupBody extends Component{
                <Mygroupslist groupslist={this.props.groupsList} onSelectGroup={this.handleSelectedGroup} handleGroupDel={this.props.handleGroupDel}/>
               </div>
              <div className="eight wide column">
-                <Mygroupdetail  AddfrirndResultError={this.state.AddfrirndResultError}  handleaddFrienfun={this.getgroupsFriend} groupId={this.state.groupId} groupName={this.state.groupName} GfriendsList={this.state.GfriendsList}/>
+                <Mygroupdetail  handleDeleteUser={this.getgroupsFriend} AddfrirndResultError={this.state.AddfrirndResultError}  handleaddFrienfun={this.getgroupsFriend} groupId={this.state.groupId} groupName={this.state.groupName} GfriendsList={this.state.GfriendsList}/>
              </div>
        </div>
 
