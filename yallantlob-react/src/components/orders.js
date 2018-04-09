@@ -15,8 +15,8 @@ class Joines extends Component{
     }
   }
 
-  render() {
-      axios({ method: 'GET',
+   componentWillMount() {
+    axios({ method: 'GET',
             url: 'http://localhost:3000/order_invitations', 
             headers: {'order-id': this.props.oId}
           })
@@ -27,8 +27,11 @@ class Joines extends Component{
 
         this.setState({joinNo: joinNo });
       })
+    }
 
+  render() {
       return ( 
+
         <Table.Cell>{this.state.joinNo}</Table.Cell>
       )
   }
@@ -45,8 +48,8 @@ class Invites extends Component{
     }
   }
 
-  render() {
-      axios({ method: 'GET',
+  componentWillMount() {
+    axios({ method: 'GET',
             url: 'http://localhost:3000/order_invitations', 
             headers: {'order-id': this.props.oId}
           })
@@ -56,6 +59,9 @@ class Invites extends Component{
         this.setState({ invitNo: invitNo});
       })
 
+  }
+
+  render() { 
       return ( 
         <Table.Cell>{this.state.invitNo}</Table.Cell>
       )
@@ -89,7 +95,7 @@ class Orders extends Component {
 newOrderLink = "/createOrder"
 
 
-  render() {
+  render() { 
    
     return ( 
       <div>
