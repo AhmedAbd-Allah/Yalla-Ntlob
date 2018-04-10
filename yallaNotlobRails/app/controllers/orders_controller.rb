@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
         @order_invitation = OrderInvitation.new(user_id:i,order_id:@order['id'],status:0)
         @order_invitation.save
         p "ffffffffffffffff"
-        ActionCable.server.broadcast "notifications_#{i}",{msg: "#{@user[:name]} invited you to join his #{@order[:order_type]} order"}#ApplicationController.list_notifications(user)
+        ActionCable.server.broadcast "notifications_#{i}",{order_id:@order[:id] ,msg: "#{@user[:name]} invited you to join his #{@order[:order_type]} order"}#ApplicationController.list_notifications(user)
       end
       render json: @order, status: :created, location: @order
     else
