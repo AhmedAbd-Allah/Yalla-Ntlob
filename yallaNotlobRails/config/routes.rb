@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   end
 end
   resources :order_items
-  resources :orders
+  resources :orders do
+    collection do
+      get '/LatestOrders' => 'orders#getLatestOrders'
+    end
+  end
   resources :groups
   resources :group_members
   resources :friends do

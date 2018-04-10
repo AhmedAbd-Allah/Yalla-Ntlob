@@ -29,6 +29,18 @@ class OrdersController < ApplicationController
     end
   end
 
+  # GET /LatestOrders
+  def getLatestOrders
+    @user_orders = Order.where(owner_id:request.headers["ownerID"],status:1) 
+    @latest_orders = @user_orders.order(created_at: :desc).limit(5)
+    if @latest_orders != []
+      render json:@latest_orders
+    else
+      render json:@latest_orders.errors
+    end  
+
+  end  
+
   # PATCH/PUT /orders/1
   def update
     if @order.update(status:1)
