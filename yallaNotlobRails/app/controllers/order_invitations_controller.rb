@@ -40,6 +40,16 @@ class OrderInvitationsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /order_invitations/update
+  def updateStatus
+    @updated_order_invitation = OrderInvitation.where(order_id:request.headers["orderID"],user_id:request.headers["userID"])
+    if @updated_order_invitation[0].update(status:1)
+      render json: @updated_order_invitation[0]
+    else
+      render json: @updated_order_invitation[0].errors, status: :unprocessable_entity
+    end
+  end
+
   # DELETE /order_invitations/1
   def destroy
     @order_invitation.destroy

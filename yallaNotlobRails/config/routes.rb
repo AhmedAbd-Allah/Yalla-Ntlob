@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   post 'user_token' => 'user_token#create'
   
 
-  resources :order_invitations
+  resources :order_invitations do
+  collection do
+    put '/update' => 'order_invitations#updateStatus'
+  end
+end
   resources :order_items
   resources :orders
   resources :groups
