@@ -33,7 +33,7 @@ class OrderInvitationsController < ApplicationController
 
   # PATCH/PUT /order_invitations/1
   def update
-    if @order_invitation.update(order_invitation_params)
+    if @order_invitation.update(status:1)
       render json: @order_invitation
     else
       render json: @order_invitation.errors, status: :unprocessable_entity

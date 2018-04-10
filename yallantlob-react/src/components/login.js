@@ -12,7 +12,7 @@ class Login extends Component {
     constructor(props) 
         {
                 super(props);
-                this.state = {"email":'', "password":''};
+                this.state = {"email":'', "password":'',errors:'',redirect: false};
                 this.setEmail = this.setEmail.bind(this);
                 this.setPassword = this.setPassword.bind(this);
                 this.loginFunction = this.loginFunction.bind(this);   
@@ -26,19 +26,23 @@ class Login extends Component {
     {
             this.setState({"password": e.target.value});
     }
+
     loginFunction(e)
     {
         e.preventDefault();
-            const data = {"auth":this.state}
-            console.log( data)
-    axios.post('http://localhost:3000/user_token', data
-              ).then(function (response) {
+        this.setState({ email: this.state.email.trim()});
+        this.setState({ password: this.state.password.trim()});
+        const data = {"auth":this.state}
+        console.log( data)
+        axios.post('http://localhost:3000/user_token', data
+              ).then(response => {
             console.log(response);
             console.log(response.data.jwt);
             console.log(response.status)
             if (response.status == 201)
             {
                 localStorage.setItem('token',response.data.jwt)
+                this.setState({ redirect: true}); 
                 axios.get('http://localhost:3000/auth', 
                 {headers:{
                             'Content-Type': 'application/json',
@@ -49,11 +53,10 @@ class Login extends Component {
                             console.log(response.data.msg);
                             console.log(localStorage.getItem('token'));
                             localStorage.setItem('user',JSON.stringify(response.data.msg))
-                            var u=localStorage.getItem('user')
-                            console.log('User from local storage',JSON.parse(u));
-                            // return <Redirect to={'/HomePage'}/>
-                        //   return  < Redirect to={{ pathname: "/HomePage"}} />
-                          <Link to="/HomePage">Protected Page</Link>
+                            const user=localStorage.getItem('user')
+                            console.log('User from local storage',JSON.parse(user));
+                           
+                          
                          })
                         .catch(function (error) {
                             console.log(error);
@@ -61,20 +64,21 @@ class Login extends Component {
                         });
 
             }
-            // return <Redirect to="/HomePage"/>
           })
           .catch(function (error) {
-            // console.log(Request.status);
+            console.log(error);
             
           });
     }
 
 
 
-
-
-
     render(){
+        const { redirect } = this.state;
+                if (redirect) 
+                {
+                        return <Redirect to='/HomePage'/>;
+                }
         return (
             <div>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
