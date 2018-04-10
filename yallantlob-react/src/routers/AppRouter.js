@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route,Redirect } from 'react-router-dom'
 import HomePage from '../components/HomePage'
 import Friends from '../components/Friends'
 import Groups from '../components/Groups'
@@ -21,21 +21,95 @@ import createOrder from '../components/createOrder'
 const Router = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Login}/>
-      <Route exact path='/HomePage' component={HomePage}/>
 
-        <Route exact path='/Friends' component={Friends}/>
-          <Route exact path='/Groups' component={Groups}/>
+
+      <Route exact path="/" render={() => (
+        localStorage.getItem('user') ? (
+          <Redirect to="/HomePage"/>
+        ) : (
+            <Redirect to="/login"/>
+        )
+      )}/>
+
+
+
+      <Route exact path="/HomePage" render={() => (
+        localStorage.getItem('user') ? (
+          <Route exact path='/HomePage' component={HomePage}/>
+        ) : (
+            <Redirect to="/login"/>
+        )
+      )}/>
+
+      <Route exact path="/Friends" render={() => (
+        localStorage.getItem('user') ? (
+            <Route exact path='/Friends' component={Friends}/>
+        ) : (
+            <Redirect to="/login"/>
+        )
+      )}/>
+
+
+      <Route exact path="/Groups" render={() => (
+        localStorage.getItem('user') ? (
+            <Route exact path='/Groups' component={Groups}/>
+        ) : (
+            <Redirect to="/login"/>
+        )
+      )}/>
+
+      <Route exact path="/login" render={() => (
+        localStorage.getItem('user') ? (
+              <Redirect to="/HomePage"/>
+        ) : (
           <Route exact path='/login' component={Login}/>
-          <Route exact path='/register' component={Register}/>
+        )
+      )}/>
 
-      <Route exact path='/login' component={Login}/>
-      <Route exact path='/Friends' component={Friends}/>
-  	  <Route exact path='/Groups' component={Groups}/>
-  	  <Route exact path='/MyOrder' component={MyOrder}/>
-  	  <Route exact path='/Orders' component={Orders}/>
-      <Route exact path='/OrderDetails/:id' component={OrderDetails}/>
-      <Route exact path='/createOrder' component={createOrder}/>
+      <Route exact path="/register" render={() => (
+        localStorage.getItem('user') ? (
+              <Redirect to="/HomePage"/>
+        ) : (
+        <Route exact path='/register' component={Register}/>
+        )
+      )}/>
+
+
+      <Route exact path="/MyOrder" render={() => (
+        localStorage.getItem('user') ? (
+          <Route exact path='/MyOrder' component={MyOrder}/>
+        ) : (
+          <Redirect to="/login"/>
+        )
+      )}/>
+
+
+
+      <Route exact path="/Orders" render={() => (
+        localStorage.getItem('user') ? (
+         <Route exact path='/Orders' component={Orders}/>
+        ) : (
+          <Redirect to="/login"/>
+        )
+      )}/>
+
+
+          <Route exact path="/OrderDetails/:id" render={() => (
+            localStorage.getItem('user') ? (
+             <Route exact path='/Orders' component={Orders}/>
+            ) : (
+              <Redirect to="/login"/>
+            )
+          )}/>
+
+          <Route exact path="/createOrder" render={() => (
+            localStorage.getItem('user') ? (
+              <Route exact path='/createOrder' component={createOrder}/>
+            ) : (
+              <Redirect to="/login"/>
+            )
+          )}/>
+
       <Route exact path='/*' component={Error}/>
 
 

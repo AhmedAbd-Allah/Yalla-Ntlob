@@ -53,12 +53,12 @@ class Register extends Component {
                 
                 else if( this.state.password.trim()=='')
                 {
-                        this.setState({errors:'Password can not be only spaces'});
+                        this.setState({errors:'Password can not contain spaces only'});
                 }
                 
                 else if(this.state.password != this.state.confpassword )
                 {
-                        this.setState({errors:'Name is Required'});
+                        this.setState({errors:'Password Confirmation does not match'});
                 }
 
                 else
