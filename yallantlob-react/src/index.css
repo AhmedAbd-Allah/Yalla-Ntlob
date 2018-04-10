@@ -9,7 +9,11 @@
     left: 22%;
 
 }
-
+.modleStyle{
+  left:30%;
+  top:30%;
+  position: relative;
+}
 .modal{
     height: 0%;
     position: relative;

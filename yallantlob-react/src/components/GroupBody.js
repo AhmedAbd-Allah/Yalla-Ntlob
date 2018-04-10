@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Icon, Button, Modal } from 'semantic-ui-react'
 import axios from 'axios'
+import '../index.css'
 
 
 
@@ -14,8 +15,11 @@ const deleteGroup=(Gid,handleFun)=>{
   })
   .catch(error => console.log(error))
 }
+
+
 const ConfirmMessage = (props) => (
     <Modal
+      className='modleStyle'
       style={{align: 'center'}}
       size={'mini'}
       trigger={props.element}
@@ -54,19 +58,14 @@ const Groups=(props)=>{
                     <div className="seven wide column">
                     <b> <h2> <a className="one column author">{handlename(group.name)}</a></h2></b>
                     </div>
-
                 <div className="four wide column">  <a><i className="one column user blue big plus icon"
                      style={{ cursor: 'pointer' }}
                     onClick={()=>handleGroupChange(group.name,group.id)}></i></a>
                 </div>
-
                 <div className="four wide column" style={{ cursor: 'pointer' }}>
                    <ConfirmMessage groupName={group.name} groupId={group.id} handleGroupDel={props.handleGroupDel} element={<i className="one column close red big  icon"></i>} content={`Are you sure you want to Delete ${group.name} group`} />
                 </div>
-
-              </div>
-
-             ))
+              </div>  ))
           }
         </div>
       );
@@ -80,7 +79,6 @@ const Mygroupslist = (props) => {
             <div className="nine wide column">
               <div className="ui raised  segment">
                   <h2 className="ui teal big ribbon label">My Groups</h2>
-
                   <div className="four column row" style={{height:40}}></div>
                 <Groups groupslist={props.groupslist} onSelectGroup={props.onSelectGroup} handleGroupDel={props.handleGroupDel}/>
 
@@ -130,6 +128,8 @@ class Search extends Component{//= (props) => {
   }
 
 }
+
+
 const Card = (props) => {
 
 
@@ -170,6 +170,7 @@ const Card = (props) => {
 
 
 }
+
 const Mygroupdetail=(props)=>{
 
 return (
@@ -185,12 +186,9 @@ return (
                 <div className="left floated column"></div>
                 <div className="right floated column"></div>
               </div>
-
               <Card friendsList={props.GfriendsList}  groupId={props.groupId} handleDeleteUser={props.handleDeleteUser} />
-
                   </div>
               </div>
-
         </div>
       </div>  );
 }
@@ -198,14 +196,11 @@ return (
 class GroupBody extends Component{
 
   state=[]
-
   getgroupsFriend=(Gid,response)=>{
-    console.log("hereeeeeeeeeeee")
-
     axios.get(`http://localhost:3000/group_members/${Gid}`)
     .then(response => {
       console.log("group friend",response)
-        this.setState({'GfriendsList':response.data})
+      this.setState({'GfriendsList':response.data})
       this.setState({friendsList: response.data ,addrespRes:this.state.addrespRes})
     })
     .catch(error => console.log(error))
@@ -234,9 +229,7 @@ class GroupBody extends Component{
              <div className="eight wide column">
                 <Mygroupdetail  handleDeleteUser={this.getgroupsFriend} AddfrirndResultError={this.state.AddfrirndResultError}  handleaddFrienfun={this.getgroupsFriend} groupId={this.state.groupId} groupName={this.state.groupName} GfriendsList={this.state.GfriendsList}/>
              </div>
-       </div>
-
-        );
+       </div> );
       }
 }
 export default GroupBody;
