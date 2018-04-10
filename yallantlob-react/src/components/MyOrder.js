@@ -17,8 +17,8 @@ class Invited extends Component{
 
   componentWillMount() {
     axios({ method: 'GET',
-            url: 'http://localhost:3000/order_invitations', 
-            headers: {'order-id': 7} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            url: 'http://localhost:3000/order_invitations',
+            headers: {'order-id': 15} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const inviteList = (res.data.filter(function(person){
@@ -43,11 +43,11 @@ class Invited extends Component{
           <Modal.Content scrolling>
 
             <Modal.Description>
-             
+
  {/***********************************************************/}
           <Item.Group>
                {
-                this.state.inviteList.map((person) => (  
+                this.state.inviteList.map((person) => (
                 <Item key={person.id}>
                   <Item.Image size='tiny' src={person.image} />
 
@@ -69,7 +69,7 @@ class Invited extends Component{
               }
                  </Item.Group>
 
-          
+
  {/***********************************************************/}
 
             </Modal.Description>
@@ -77,7 +77,7 @@ class Invited extends Component{
         </Modal>
 
         </Grid.Column>
-               
+
       )
     }
 
@@ -93,7 +93,7 @@ class MyOrder extends Component {
 
     }
   }
-  
+
   handleClose = () => this.setState({ modalOpen: false })
   handleOpen = (id) => {
     this.setState({ modalOpen: true, catched: id })
@@ -103,12 +103,12 @@ class MyOrder extends Component {
 
   componentWillMount() {
     axios({ method: 'GET',
-            url: 'http://localhost:3000/order_items', 
-            headers: {'order-id': 8} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            url: 'http://localhost:3000/order_items',
+            headers: {'order-id': 15} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const myItems = (res.data.filter(function(item){
-          return item.user_id == 7; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          return item.user_id == 10; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
         }))
         this.setState({ myItems: myItems });
 
@@ -125,9 +125,9 @@ class MyOrder extends Component {
     e.preventDefault();
 
     axios({ method: 'POST',
-            url: 'http://localhost:3000/order_items', 
-            data: { "order_id": 8, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
-                    "user_id": 7,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            url: 'http://localhost:3000/order_items',
+            data: { "order_id": 15, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+                    "user_id": 10,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
                     "item":document.getElementById("name").value,
                     "count": document.getElementById("amount").value,
                     "price": document.getElementById("price").value,
@@ -153,7 +153,7 @@ class MyOrder extends Component {
   deleteItem = () => {
     console.log(this.state.catched)
     axios ({  method: 'DELETE',
-              url:    `http://localhost:3000/order_items/${this.state.catched}` 
+              url:    `http://localhost:3000/order_items/${this.state.catched}`
           })
 
     .then(res => {
@@ -166,10 +166,10 @@ class MyOrder extends Component {
 
   join = () => {
     axios ({  method: 'PUT',
-              url:    'http://localhost:3000/order_invitations/update', 
+              url:    'http://localhost:3000/order_invitations/update',
               headers : {
-                          "orderID" : 8,
-                          "userID" : 7
+                          "orderID" : 15,
+                          "userID" : 10
                         }
           })
 
@@ -184,7 +184,7 @@ class MyOrder extends Component {
   render() {
     return (
 
-      <div> 
+      <div>
       <Headr />
       <Grid columns='equal'>
         <Grid.Row>
@@ -230,12 +230,12 @@ class MyOrder extends Component {
                 <Table.Cell>{item.comment}</Table.Cell>
                 <Table.Cell>
 
-                <Modal 
-                size={'tiny'} 
+                <Modal
+                size={'tiny'}
                 trigger={<Button onClick={this.handleOpen.bind(this, item.item_id)} icon='delete' size='tiny' />}
                 onClose={this.handleClose}
                 open={this.state.modalOpen}
-                closeIcon 
+                closeIcon
                 className="modal cancel">
 
                   <Header icon='attention' content='Cancel item' />
@@ -264,10 +264,10 @@ class MyOrder extends Component {
         </Grid.Column>
 
  {/***********************************************************/}
-       
+
               <Invited />
 
-          
+
  {/***********************************************************/}
 
        </Grid.Row>

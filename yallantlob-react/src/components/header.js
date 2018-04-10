@@ -8,8 +8,8 @@ import ActionCable from 'action-cable-react-jwt';
 
 class Headr extends Component {
   state = {
-      J : " joined your ",
-      I : " invited you to his ",
+      J : "",
+      // I : " invited you to his ",
       jwt : localStorage.getItem('token'),
       user : JSON.parse(localStorage.getItem('user'))
   };

@@ -43,7 +43,10 @@ class OrderInvitationsController < ApplicationController
   # PATCH/PUT /order_invitations/update
   def updateStatus
     @updated_order_invitation = OrderInvitation.where(order_id:request.headers["orderID"],user_id:request.headers["userID"])
+    @user = User.find(request.headers["userID"])
+    @order = Order.find(request.headers["orderID"])
     if @updated_order_invitation[0].update(status:1)
+      ActionCable.server.broadcast "notifications_#{@order[:owner_id]}",{msg: "#{@user[:name]} joined your #{@order[:order_type]} order"}#ApplicationController.list_notifications(user)
       render json: @updated_order_invitation[0]
     else
       render json: @updated_order_invitation[0].errors, status: :unprocessable_entity
