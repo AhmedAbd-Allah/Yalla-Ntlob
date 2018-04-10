@@ -1,13 +1,10 @@
 Rails.application.routes.draw do
   get    'auth'            => 'users#auth'
   post 'user_token' => 'user_token#create'
+  mount ActionCable.server => '/cable'
   
 
-  resources :order_invitations do
-  collection do
-    put '/update' => 'order_invitations#updateStatus'
-  end
-end
+  resources :order_invitations
   resources :order_items
   resources :orders
   resources :groups
@@ -17,6 +14,6 @@ end
       get '/search' => 'friends#getFriendByEmail'
     end
   end
-  resources :users 
+  resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

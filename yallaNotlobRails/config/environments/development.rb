@@ -36,7 +36,16 @@ Rails.application.configure do
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
-
+  config.action_cable.url = 'ws://localhost:3000/cable'
+   config.web_socket_server_url = 'ws://localhost:3000/cable'
+   config.action_cable.allowed_request_origins = [
+     # Local address of our RoR server
+     'http://localhost:3005',
+     # 'https://localhost:3001',
+     # # Local address we use for our React standalone client
+     # 'http://127.0.0.1:3001',
+     # 'https://127.0.0.1:3001',
+   ]
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
