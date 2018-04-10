@@ -16,30 +16,21 @@ class OrdersController < ApplicationController
   # POST /orders
   def create
     @order = Order.new(order_params)
+    @user = User.find(@order[:owner_id])
     @order.status = 0;
     if @order.save
       @user_ids = params[:ids]
       @user_ids.each do |i|
         @order_invitation = OrderInvitation.new(user_id:i,order_id:@order['id'],status:0)
         @order_invitation.save
+        p "ffffffffffffffff"
+        ActionCable.server.broadcast "notifications_#{i}",{order_id:@order[:id] ,msg: "#{@user[:name]} invited you to join his #{@order[:order_type]} order"}#ApplicationController.list_notifications(user)
       end
       render json: @order, status: :created, location: @order
     else
       render json: @order.errors, status: :unprocessable_entity
     end
   end
-
-  # GET /LatestOrders
-  def getLatestOrders
-    @user_orders = Order.where(owner_id:request.headers["ownerID"],status:1) 
-    @latest_orders = @user_orders.order(created_at: :desc).limit(5)
-    if @latest_orders != []
-      render json:@latest_orders
-    else
-      render json:@latest_orders.errors
-    end  
-
-  end  
 
   # PATCH/PUT /orders/1
   def update

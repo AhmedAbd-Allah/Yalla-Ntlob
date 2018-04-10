@@ -80,7 +80,10 @@ class Orders extends Component {
     this.state = {
       orders:[ {id: 0, order_type: "", status: ""} ],
        modalOpen: false,
-       catched:0
+       catched:0,
+       modalFOpen: false,
+       Fcatched:0
+
     }
   }
   
@@ -89,6 +92,13 @@ class Orders extends Component {
     this.setState({ modalOpen: true, catched: id })
     console.log(id)
   }
+
+  handleFClose = () => this.setState({ modalFOpen: false })
+  handleFOpen = (id) => {
+    this.setState({ modalFOpen: true, Fcatched: id })
+    console.log(id)
+  }
+
 
   componentWillMount() {
     axios({ method: 'GET',
@@ -103,6 +113,19 @@ class Orders extends Component {
 
 
 newOrderLink = "/createOrder"
+
+  finishItem = () => {
+    console.log(this.state.Fcatched)
+    axios ({  method: 'PUT',
+              url:    `http://localhost:3000/orders/${this.state.Fcatched}` 
+          })
+
+    .then(res => {
+      this.setState({ modalFOpen: false })
+      console.log("Finished")
+      this.componentWillMount();
+    })
+  }
 
 
   deleteOrder = () => {
@@ -188,16 +211,22 @@ newOrderLink = "/createOrder"
                   </Link>
 
                 {order.status=="Waiting"?<span>
-                  <Modal size={'mini'} trigger={<Button  color='blue'size='tiny'>Finish</Button>} closeIcon className="cancel">
+                  <Modal 
+                  size={'mini'} 
+                  trigger={<Button onClick={this.handleFOpen.bind(this, order.id)} color='blue'size='tiny'>Finish</Button>} 
+                  onClose={this.handleFClose}
+                  open={this.state.modalFOpen}
+                  closeIcon 
+                  className="cancel">
                     <Header icon='attention' content='Finish the order' />
                     <Modal.Content>
                       <p>Are you sure you want to close this Order?</p>
                     </Modal.Content>
                     <Modal.Actions>
-                      <Button color='red'>
+                      <Button color='green' onClick={this.handleFClose}>
                         <Icon name='remove' /> No
                       </Button>
-                      <Button color='green'>
+                      <Button color='red' onClick={this.finishItem.bind(this)}>
                         <Icon name='checkmark' /> Yes
                       </Button>
                     </Modal.Actions>
@@ -239,7 +268,7 @@ newOrderLink = "/createOrder"
         </Grid.Column>
        </Grid.Row>
 
-      <Grid.Row>
+      {/*<Grid.Row>
         <Grid.Column width={6}>
         </Grid.Column>
 
@@ -256,7 +285,7 @@ newOrderLink = "/createOrder"
 
         <Grid.Column width={6}>
         </Grid.Column>
-      </Grid.Row>
+      </Grid.Row>*/}
     </Grid>
 
 
