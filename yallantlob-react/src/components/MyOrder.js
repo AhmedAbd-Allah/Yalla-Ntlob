@@ -30,7 +30,22 @@ class Invited extends Component{
 
   render() {
     return (
-               <Item.Group>
+      <Grid.Column >
+        <h4><Label circular color={"blue"}>{this.state.inviteList.length}</Label> of your Friends were invited to this order</h4>
+
+
+
+        <Modal size={'mini'} dimmer={'blurring'} trigger={<Button color='grey'>Click to view</Button>} className="modal frnds" >
+          <Modal.Header className="modalHead">
+            <img src='images/friends.png' alt="" height="40" width="40"/>
+            Friends Invited
+            </Modal.Header>
+          <Modal.Content scrolling>
+
+            <Modal.Description>
+             
+ {/***********************************************************/}
+          <Item.Group>
                {
                 this.state.inviteList.map((person) => (  
                 <Item key={person.id}>
@@ -53,8 +68,18 @@ class Invited extends Component{
                 ))
               }
                  </Item.Group>
-                )
-              }
+
+          
+ {/***********************************************************/}
+
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
+
+        </Grid.Column>
+               
+      )
+    }
 
 }
 
@@ -79,14 +104,21 @@ class MyOrder extends Component {
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_items', 
-            headers: {'order-id': 7} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            headers: {'order-id': 8} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const myItems = (res.data.filter(function(item){
-          return item.user_id == 5; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          return item.user_id == 7; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
         }))
         this.setState({ myItems: myItems });
+
+
+        console.log(this.state.myItems.length)
+        if (this.state.myItems.length > 0){
+          this.join();
+        }
       })
+
   }
 
   addItem = e => {
@@ -94,8 +126,8 @@ class MyOrder extends Component {
 
     axios({ method: 'POST',
             url: 'http://localhost:3000/order_items', 
-            data: { "order_id": 7, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
-                    "user_id": 5,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            data: { "order_id": 8, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+                    "user_id": 7,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
                     "item":document.getElementById("name").value,
                     "count": document.getElementById("amount").value,
                     "price": document.getElementById("price").value,
@@ -113,6 +145,8 @@ class MyOrder extends Component {
         document.getElementById("comment").value = ""
       })
 
+
+
   }
 
 
@@ -126,6 +160,21 @@ class MyOrder extends Component {
       this.setState({ modalOpen: false })
       console.log("Deleted")
       this.componentWillMount();
+    })
+  }
+
+
+  join = () => {
+    axios ({  method: 'PUT',
+              url:    'http://localhost:3000/order_invitations/update', 
+              headers : {
+                          "orderID" : 8,
+                          "userID" : 7
+                        }
+          })
+
+    .then(res => {
+      console.log("Joined")
     })
   }
 
@@ -214,32 +263,13 @@ class MyOrder extends Component {
           </Table>
         </Grid.Column>
 
-
-       <Grid.Column >
-        <h4><Label circular color={"blue"}>3</Label> of your Friends were invited to this order</h4>
-
-
-
-        <Modal size={'mini'} dimmer={'blurring'} trigger={<Button color='grey'>Click to view</Button>} className="modal frnds" >
-          <Modal.Header className="modalHead">
-            <img src='images/friends.png' alt="" height="40" width="40"/>
-            Friends Invited
-            </Modal.Header>
-          <Modal.Content scrolling>
-
-            <Modal.Description>
-             
  {/***********************************************************/}
+       
               <Invited />
 
           
  {/***********************************************************/}
 
-            </Modal.Description>
-          </Modal.Content>
-        </Modal>
-
-        </Grid.Column>
        </Grid.Row>
 
 
@@ -266,8 +296,6 @@ class MyOrder extends Component {
 
 
       </div>
-
-
 
 
     );

@@ -10,7 +10,8 @@ class Invited extends Component{
   constructor(props){
     super(props)
     this.state = {
-      inviteList:[]
+      inviteList:[],
+      joinList:[]
 
     }
   }
@@ -22,15 +23,37 @@ class Invited extends Component{
           })
       .then(res => {
         const inviteList = (res.data.filter(function(person){
-          return person.id != 5; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          return person.id != 1; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
         }))
         this.setState({ inviteList: inviteList });
+
+        const joinList = (inviteList.filter(function(person){
+          return person.status == "Joined"; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+        }))
+        this.setState({ joinList: joinList });
+
+
+
       })
     }
 
   render() {
     return (
-               <Item.Group>
+           <Grid.Column >
+        <h3><Label circular color={"green"}>{this.state.joinList.length} of {this.state.inviteList.length}</Label> Friends joined your order</h3>
+
+
+
+        <Modal size={'mini'} dimmer={'blurring'} trigger={<Button color='green'>Check them out</Button>} className="modal frnds" >
+          <Modal.Header className="modalHead">
+            <img src='images/friends.png' alt="" height="40" width="40"/>
+            Friends Invited
+            </Modal.Header>
+          <Modal.Content scrolling>
+
+            <Modal.Description>
+{/*************************************************************/}
+              <Item.Group>
                {
                 this.state.inviteList.map((person) => (  
                 <Item key={person.id}>
@@ -53,8 +76,17 @@ class Invited extends Component{
                 ))
               }
                  </Item.Group>
-                )
-              }
+
+{/*************************************************************/}
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
+
+        </Grid.Column>
+
+               
+      )
+    }
 
 }
 
@@ -140,28 +172,13 @@ class OrderDetails extends Component {
         </Grid.Column>
 
 
-       <Grid.Column >
-        <h4><Label circular color={"green"}>3</Label> Friends joined your order</h4>
-
-
-
-        <Modal size={'mini'} dimmer={'blurring'} trigger={<Button color='green'>Check them out</Button>} className="modal frnds" >
-          <Modal.Header className="modalHead">
-            <img src='images/friends.png' alt="" height="40" width="40"/>
-            Friends Invited
-            </Modal.Header>
-          <Modal.Content scrolling>
-
-            <Modal.Description>
+       
 {/*************************************************************/}
               <Invited /> 
-             
-{/*************************************************************/}
-            </Modal.Description>
-          </Modal.Content>
-        </Modal>
 
-        </Grid.Column>
+{/*************************************************************/}
+
+
        </Grid.Row>
 
 
