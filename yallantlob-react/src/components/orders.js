@@ -15,7 +15,8 @@ class Joines extends Component{
     }
   }
 
-   componentWillMount() {
+
+  componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_invitations', 
             headers: {'order-id': this.props.oId}
@@ -28,6 +29,8 @@ class Joines extends Component{
         this.setState({joinNo: joinNo });
       })
     }
+
+
 
   render() {
       return ( 
@@ -75,10 +78,13 @@ class Orders extends Component {
   constructor(props){
     super(props)
     this.state = {
-      orders:[ {id: 0, order_type: "", status: ""} ]
+      orders:[ {id: 0, order_type: "", status: ""} ],
+       modalOpen: false
     }
   }
   
+  handleClose = () => this.setState({ modalOpen: false })
+  handleOpen = () => this.setState({ modalOpen: true })
 
   componentWillMount() {
     axios({ method: 'GET',
@@ -94,6 +100,19 @@ class Orders extends Component {
 
 newOrderLink = "/createOrder"
 
+
+  deleteOrder = (id) => {
+    console.log(id)
+    axios ({  method: 'DELETE',
+              url:    `http://localhost:3000/orders/${id}` 
+          })
+
+    .then(res => {
+      this.setState({ modalOpen: false })
+      console.log("Deleted")
+      this.componentWillMount();
+    })
+  }
 
   render() { 
    
@@ -160,7 +179,7 @@ newOrderLink = "/createOrder"
                 <Table.Cell>
 
 
-                  <Link to="/OrderDetails">
+                  <Link to={`/OrderDetails/${order.id}`}>
                   <Button icon='eye' size='tiny'/>
                   </Link>
 
@@ -181,16 +200,22 @@ newOrderLink = "/createOrder"
                   </Modal>
 
 
-                  <Modal size={'mini'} trigger={<Button  color='red'size='tiny'>Cancel</Button>} closeIcon className="cancel">
+                  <Modal 
+                  size={'mini'} 
+                  trigger={<Button  onClick={this.handleOpen} color='red'size='tiny'>Cancel</Button>}
+                  onClose={this.handleClose}
+                  open={this.state.modalOpen} 
+                  closeIcon 
+                  className="cancel">
                     <Header icon='attention' content='Cancel Order' />
                     <Modal.Content>
                       <p>Are you sure you want to cancel this Order?</p>
                     </Modal.Content>
                     <Modal.Actions>
-                      <Button color='red'>
+                      <Button color='green' onClick={this.handleClose}>
                         <Icon name='remove' /> No
                       </Button>
-                      <Button color='green'>
+                      <Button color='red' id= {order.id} onClick={this.deleteOrder.bind(this, order.id)}>
                         <Icon name='checkmark' /> Yes
                       </Button>
                     </Modal.Actions>

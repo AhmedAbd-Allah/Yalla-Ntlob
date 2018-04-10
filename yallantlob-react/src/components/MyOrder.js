@@ -22,7 +22,7 @@ class MyOrder extends Component {
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_items', 
-            headers: {'order-id': 3} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            headers: {'order-id': 7} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const myItems = (res.data.filter(function(item){
@@ -37,7 +37,7 @@ class MyOrder extends Component {
 
     axios({ method: 'POST',
             url: 'http://localhost:3000/order_items', 
-            data: { "order_id": 3, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            data: { "order_id": 7, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
                     "user_id": 5,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
                     "item":document.getElementById("name").value,
                     "count": document.getElementById("amount").value,
@@ -125,7 +125,7 @@ class MyOrder extends Component {
 
                 <Modal 
                 size={'tiny'} 
-                trigger={<Button onClick={this.handleOpen} value={item.item_id} icon='delete' size='tiny'/>}
+                trigger={<Button onClick={this.handleOpen} icon='delete' size='tiny'/>}
                 onClose={this.handleClose}
                 open={this.state.modalOpen}
                 closeIcon 

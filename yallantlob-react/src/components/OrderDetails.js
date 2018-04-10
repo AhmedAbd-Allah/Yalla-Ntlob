@@ -3,7 +3,7 @@ import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Icon, Button, Grid, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
 import Headr from './header'
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -19,7 +19,7 @@ class OrderDetails extends Component {
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_items', 
-            headers: {'order-id': 3}
+            headers: {'order-id': this.props.match.params.id}
           })
       .then(res => {
         const items = res.data;

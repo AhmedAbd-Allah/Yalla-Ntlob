@@ -34,7 +34,7 @@ const Router = () => (
   	  <Route exact path='/Groups' component={Groups}/>
   	  <Route exact path='/MyOrder' component={MyOrder}/>
   	  <Route exact path='/Orders' component={Orders}/>
-      <Route exact path='/OrderDetails' component={OrderDetails}/>
+      <Route exact path='/OrderDetails/:id' component={OrderDetails}/>
       <Route exact path='/createOrder' component={createOrder}/>
       <Route exact path='/*' component={Error}/>
 
