@@ -5,6 +5,8 @@ import { Icon, Button, Grid, Modal, Header, Table, Item, Label} from 'semantic-u
 import Headr from './header'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ActionCable from 'action-cable-react-jwt';
+
 
 class Invited extends Component{
   constructor(props){
@@ -13,15 +15,19 @@ class Invited extends Component{
       inviteList:[],
       joinList:[],
 
+
       loggedID:JSON.parse(localStorage.getItem('user')).id
+
 
     }
   }
 
   componentWillMount() {
     axios({ method: 'GET',
+
             url: 'http://localhost:3000/order_invitations', 
             headers: {'order-id': this.props.passedId} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+
           })
       .then(res => {
         const inviteList = (res.data.filter(function(person){
@@ -33,10 +39,9 @@ class Invited extends Component{
           return person.status == "Joined"; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
         }))
         this.setState({ joinList: joinList });
-
-
-
       })
+
+
     }
 
   render() {
@@ -57,7 +62,7 @@ class Invited extends Component{
 {/*************************************************************/}
               <Item.Group>
                {
-                this.state.inviteList.map((person) => (  
+                this.state.inviteList.map((person) => (
                 <Item key={person.id}>
                   <Item.Image size='tiny' src={person.image} />
 
@@ -86,7 +91,7 @@ class Invited extends Component{
 
         </Grid.Column>
 
-               
+
       )
     }
 
@@ -100,20 +105,42 @@ class OrderDetails extends Component {
     this.state = {
       items:[],
 
-      loggedID:JSON.parse(localStorage.getItem('user')).id
+
+      loggedID:JSON.parse(localStorage.getItem('user')).id,
+
+      x:0,
+      jwt : localStorage.getItem('token'),
+      user : JSON.parse(localStorage.getItem('user'))
+
     }
   }
-  
+
 
   componentWillMount() {
     axios({ method: 'GET',
-            url: 'http://localhost:3000/order_items', 
+            url: 'http://localhost:3000/order_items',
             headers: {'order-id': this.props.match.params.id}
           })
       .then(res => {
         const items = res.data;
         this.setState({ items: items });
       })
+      let app = {};
+      // console.log(JSON.parse(this.state.user));
+        app.cable = ActionCable.createConsumer(`ws://localhost:3000/cable?id=${this.state.user.id}`)
+
+        this.subscription = app.cable.subscriptions.create({channel: "OrderItemsChannel"}, {
+          connected: function() { console.log("cable: connected") },             // onConnect
+          disconnected: function() { console.log("cable: disconnected") },       // onDisconnect
+          received: (data) => {
+            console.log("cable received: ", data);
+            // this.setState({ x: this.state.x+1 });
+            // console.log(this.state);
+            // let newNotifications = this.state.notifications;
+            // newNotifications.push(data);
+            // this.setState({ count : this.state.count + 1, notifications : newNotifications })
+          }
+        })
   }
 
 
@@ -168,7 +195,7 @@ class OrderDetails extends Component {
 
               </Table.Row>
               ))
-              
+
             }
 {/*****************************************************************************/}
             </Table.Body>
@@ -177,9 +204,11 @@ class OrderDetails extends Component {
         </Grid.Column>
 
 
-       
+
 {/*************************************************************/}
+
               <Invited  passedId = {this.props.match.params.id}/> 
+
 
 {/*************************************************************/}
 

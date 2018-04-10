@@ -181,8 +181,8 @@ class Headr extends Component {
 
 {/**************************** Profiel ********************************************/}
           <Menu.Item name='profile'>
-            <Image circular src={this.profilePic} size='mini' />
-            <span><h4>Ahmed</h4></span>
+            <Image circular src={JSON.parse(localStorage.getItem('user')).image} size="mini" />
+            <span><h4>{JSON.parse(localStorage.getItem('user')).name}</h4></span>
           </Menu.Item>
 
 
