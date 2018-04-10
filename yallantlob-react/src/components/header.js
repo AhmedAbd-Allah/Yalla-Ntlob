@@ -4,6 +4,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { Icon, Menu, Button, Image, Label, Grid, Popup, List, Modal, Item } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import ActionCable from 'action-cable-react-jwt';
 
 class Headr extends Component {
 
@@ -13,10 +14,29 @@ class Headr extends Component {
 
   }
   state = {
-      J : " joined your ",
-      I : " invited you to his ",
+      J : "",
+      // I : " invited you to his ",
+      jwt : localStorage.getItem('token'),
+      user : JSON.parse(localStorage.getItem('user'))
   };
+  componentWillMount()
+  {
+    let app = {};
+    // console.log(JSON.parse(this.state.user));
+      app.cable = ActionCable.createConsumer(`ws://localhost:3000/cable?id=${this.state.user.id}`)
 
+      this.subscription = app.cable.subscriptions.create({channel: "NotificationsChannel"}, {
+        connected: function() { console.log("cable: connected") },             // onConnect
+        disconnected: function() { console.log("cable: disconnected") },       // onDisconnect
+        received: (data) => {
+          console.log("cable received: ", data);
+          // let newNotifications = this.state.notifications;
+          // newNotifications.push(data);
+          // this.setState({ count : this.state.count + 1, notifications : newNotifications })
+        }
+      })
+
+  }
 //***************************** Variables ***********************************************
   NotifArray  = [
         {id:1, frndName:"Ahmed", imgSrc:"/images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
@@ -168,7 +188,7 @@ class Headr extends Component {
 
 {/**************************** Logout ********************************************/}
           <Menu.Item>
-    <Link to="/login">  
+    <Link to="/login">
           <Button primary animated size="big" onClick={()=>{this.logout()}}>
             <Button.Content visible><h4>Logout</h4></Button.Content>
               <Button.Content hidden onclick={()=>this.logout()}>
