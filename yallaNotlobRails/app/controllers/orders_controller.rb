@@ -12,6 +12,18 @@ class OrdersController < ApplicationController
   def show
     render json: @order
   end
+  
+ # GET /LatestOrders
+  def getLatestOrders
+    @user_orders = Order.where(owner_id:request.headers["ownerID"],status:1) 
+    @latest_orders = @user_orders.order(created_at: :desc).limit(5)
+    if @latest_orders != []
+      render json:@latest_orders
+    else
+      render json:@latest_orders.errors
+    end  
+
+  end  
 
   # POST /orders
   def create
