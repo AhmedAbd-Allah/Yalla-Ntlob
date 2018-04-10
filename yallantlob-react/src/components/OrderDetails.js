@@ -6,6 +6,58 @@ import Headr from './header'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+class Invited extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      inviteList:[]
+
+    }
+  }
+
+  componentWillMount() {
+    axios({ method: 'GET',
+            url: 'http://localhost:3000/order_invitations', 
+            headers: {'order-id': 7} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          })
+      .then(res => {
+        const inviteList = (res.data.filter(function(person){
+          return person.id != 5; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+        }))
+        this.setState({ inviteList: inviteList });
+      })
+    }
+
+  render() {
+    return (
+               <Item.Group>
+               {
+                this.state.inviteList.map((person) => (  
+                <Item key={person.id}>
+                  <Item.Image size='tiny' src={person.image} />
+
+                  <Item.Content verticalAlign='middle'>
+                    <Item.Header>
+                      {person.name}
+                      <h4>
+                      {person.status=="Joined"?
+                          <Icon name='check square' color='green'/>
+                      :
+                          <Icon name='exclamation circle' color='grey'/>
+                      }
+
+                      {person.status}</h4>
+                    </Item.Header>
+                  </Item.Content>
+                </Item>
+                ))
+              }
+                 </Item.Group>
+                )
+              }
+
+}
+
 
 class OrderDetails extends Component {
   constructor(props){
@@ -101,41 +153,10 @@ class OrderDetails extends Component {
           <Modal.Content scrolling>
 
             <Modal.Description>
-              <Item.Group>
-                <Item>
-                  <Item.Image size='tiny' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      Veronika Ossi
-                      <h4><Icon name='check square' color='green'/>Joined</h4>
-                    </Item.Header>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='tiny' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      Justen Kitsune
-                      <h4><Icon name='exclamation circle' color='grey'/>Didn't Join</h4>
-                    </Item.Header>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='tiny' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      Salem ELmasry
-                      <h4><Icon name='check square' color='green'/>Joined</h4>
-                    </Item.Header>
-                  </Item.Content>
-                </Item>
-              </Item.Group>
-
+{/*************************************************************/}
+              <Invited /> 
+             
+{/*************************************************************/}
             </Modal.Description>
           </Modal.Content>
         </Modal>

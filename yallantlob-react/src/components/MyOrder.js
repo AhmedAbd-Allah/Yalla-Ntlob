@@ -6,18 +6,75 @@ import Headr from './header'
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+class Invited extends Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      inviteList:[]
+
+    }
+  }
+
+  componentWillMount() {
+    axios({ method: 'GET',
+            url: 'http://localhost:3000/order_invitations', 
+            headers: {'order-id': 7} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          })
+      .then(res => {
+        const inviteList = (res.data.filter(function(person){
+          return person.id != 7; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Logged in user<<<<to merge
+        }))
+        this.setState({ inviteList: inviteList });
+      })
+    }
+
+  render() {
+    return (
+               <Item.Group>
+               {
+                this.state.inviteList.map((person) => (  
+                <Item key={person.id}>
+                  <Item.Image size='tiny' src={person.image} />
+
+                  <Item.Content verticalAlign='middle'>
+                    <Item.Header>
+                      {person.name}
+                      <h4>
+                      {person.status=="Joined"?
+                          <Icon name='check square' color='green'/>
+                      :
+                          <Icon name='exclamation circle' color='grey'/>
+                      }
+
+                      {person.status}</h4>
+                    </Item.Header>
+                  </Item.Content>
+                </Item>
+                ))
+              }
+                 </Item.Group>
+                )
+              }
+
+}
+
 class MyOrder extends Component {
   constructor(props){
     super(props)
     this.state = {
       myItems:[],
-      modalOpen: false 
+      modalOpen: false,
+      catched:0
 
     }
   }
   
   handleClose = () => this.setState({ modalOpen: false })
-  handleOpen = () => this.setState({ modalOpen: true })
+  handleOpen = (id) => {
+    this.setState({ modalOpen: true, catched: id })
+    console.log(id)
+  }
+
 
   componentWillMount() {
     axios({ method: 'GET',
@@ -58,10 +115,11 @@ class MyOrder extends Component {
 
   }
 
-  deleteItem = (id) => {
-    console.log(id)
+
+  deleteItem = () => {
+    console.log(this.state.catched)
     axios ({  method: 'DELETE',
-              url:    `http://localhost:3000/order_items/${id}` 
+              url:    `http://localhost:3000/order_items/${this.state.catched}` 
           })
 
     .then(res => {
@@ -125,7 +183,7 @@ class MyOrder extends Component {
 
                 <Modal 
                 size={'tiny'} 
-                trigger={<Button onClick={this.handleOpen} icon='delete' size='tiny'/>}
+                trigger={<Button onClick={this.handleOpen.bind(this, item.item_id)} icon='delete' size='tiny' />}
                 onClose={this.handleClose}
                 open={this.state.modalOpen}
                 closeIcon 
@@ -139,7 +197,7 @@ class MyOrder extends Component {
                     <Button color='green' onClick={this.handleClose}>
                       <Icon name='remove' /> No
                     </Button>
-                    <Button color='red'  id= {item.item_id} onClick={this.deleteItem.bind(this, item.item_id)}>
+                    <Button color='red' onClick={this.deleteItem.bind(this)}>
                       <Icon name='checkmark' /> Yes
                     </Button>
                   </Modal.Actions>
@@ -170,40 +228,12 @@ class MyOrder extends Component {
           <Modal.Content scrolling>
 
             <Modal.Description>
-              <Item.Group>
-                <Item>
-                  <Item.Image size='tiny' src="images/person.png" />
+             
+ {/***********************************************************/}
+              <Invited />
 
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      Veronika Ossi
-                      <h4><Icon name='check square' color='green'/>Joined</h4>
-                    </Item.Header>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='tiny' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      Justen Kitsune
-                      <h4><Icon name='exclamation circle' color='grey'/>"Didn't Join"</h4>
-                    </Item.Header>
-                  </Item.Content>
-                </Item>
-
-                <Item>
-                  <Item.Image size='tiny' src="images/person.png" />
-
-                  <Item.Content verticalAlign='middle'>
-                    <Item.Header>
-                      Salem ELmasry
-                      <h4><Icon name='check square' color='green'/>Joined</h4>
-                    </Item.Header>
-                  </Item.Content>
-                </Item>
-              </Item.Group>
+          
+ {/***********************************************************/}
 
             </Modal.Description>
           </Modal.Content>

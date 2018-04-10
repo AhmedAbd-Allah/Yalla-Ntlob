@@ -23,7 +23,7 @@ class Joines extends Component{
           })
       .then(res => {
         const joinNo = (res.data.filter(function(inv){
-          return inv.status == "accepted";
+          return inv.status == "Joined";
         })).length
 
         this.setState({joinNo: joinNo });
@@ -79,12 +79,16 @@ class Orders extends Component {
     super(props)
     this.state = {
       orders:[ {id: 0, order_type: "", status: ""} ],
-       modalOpen: false
+       modalOpen: false,
+       catched:0
     }
   }
   
   handleClose = () => this.setState({ modalOpen: false })
-  handleOpen = () => this.setState({ modalOpen: true })
+  handleOpen = (id) => {
+    this.setState({ modalOpen: true, catched: id })
+    console.log(id)
+  }
 
   componentWillMount() {
     axios({ method: 'GET',
@@ -101,10 +105,10 @@ class Orders extends Component {
 newOrderLink = "/createOrder"
 
 
-  deleteOrder = (id) => {
-    console.log(id)
+  deleteOrder = () => {
+    console.log(this.state.catched)
     axios ({  method: 'DELETE',
-              url:    `http://localhost:3000/orders/${id}` 
+              url:    `http://localhost:3000/orders/${this.state.catched}` 
           })
 
     .then(res => {
@@ -202,7 +206,7 @@ newOrderLink = "/createOrder"
 
                   <Modal 
                   size={'mini'} 
-                  trigger={<Button  onClick={this.handleOpen} color='red'size='tiny'>Cancel</Button>}
+                  trigger={<Button  onClick={this.handleOpen.bind(this, order.id)} color='red'size='tiny'>Cancel</Button>}
                   onClose={this.handleClose}
                   open={this.state.modalOpen} 
                   closeIcon 
@@ -215,7 +219,7 @@ newOrderLink = "/createOrder"
                       <Button color='green' onClick={this.handleClose}>
                         <Icon name='remove' /> No
                       </Button>
-                      <Button color='red' id= {order.id} onClick={this.deleteOrder.bind(this, order.id)}>
+                      <Button color='red' onClick={this.deleteOrder.bind(this)}>
                         <Icon name='checkmark' /> Yes
                       </Button>
                     </Modal.Actions>
