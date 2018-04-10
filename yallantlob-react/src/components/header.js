@@ -7,6 +7,12 @@ import axios from 'axios';
 import ActionCable from 'action-cable-react-jwt';
 
 class Headr extends Component {
+
+  logout=()=>{
+    localStorage.clear();
+    console.log("logour=t")
+
+  }
   state = {
       J : "",
       // I : " invited you to his ",
@@ -182,14 +188,14 @@ class Headr extends Component {
 
 {/**************************** Logout ********************************************/}
           <Menu.Item>
-          <Link to="/login">
-          <Button primary animated size="big">
+    <Link to="/login">
+          <Button primary animated size="big" onClick={()=>{this.logout()}}>
             <Button.Content visible><h4>Logout</h4></Button.Content>
-              <Button.Content hidden>
+              <Button.Content hidden onclick={()=>this.logout()}>
              <Icon name='log out' size='large'/>
            </Button.Content>
           </Button>
-          </Link>
+        </Link>
           </Menu.Item>
 
 

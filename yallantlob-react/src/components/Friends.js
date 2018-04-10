@@ -6,16 +6,21 @@ import Body   from './Body'
 import Headr from './header'
 import axios from 'axios'
 
+
+
+
 class Friends extends Component {
   constructor(props){
     super(props);
     this.state={
+    user:JSON.parse(localStorage.getItem('user')).id,
     friendsList:[],
     addrespRes:""
      }
   }
 componentDidMount() {
-  axios.get('http://localhost:3000/friends',{ headers: { "user-id":"1" } })
+  console.log("ccccccccccccc0",this.state.user)
+  axios.get('http://localhost:3000/friends',{ headers: { "user-id":this.state.user} })
   .then(response => {
     console.log("Friendspage before mount",response)
     this.setState({friendsList: response.data ,addrespRes:this.state.addrespRes})
