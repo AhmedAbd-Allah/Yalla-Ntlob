@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MySQL. Versions 5.1.10 and up are supported.
 #
 # Install the MySQL driver
@@ -55,3 +56,5 @@ production:
   database: yallaNotlobRails_production
   username: yallaNotlobRails
   password: <%= ENV['YALLANOTLOBRAILS_DATABASE_PASSWORD'] %>
+=======
+>>>>>>> 2b005a43f1801928947b2db6eea56a566eaaaa9d
