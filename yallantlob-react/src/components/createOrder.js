@@ -3,12 +3,12 @@ import 'semantic-ui-css/semantic.min.css';
 import PageName from './PageName'
 import Headr from './header'
 import { Dropdown ,Divider,Button,Icon,Label} from 'semantic-ui-react'
+import axios from 'axios'
 
 
 
 class Card extends Component {
  handleRemove=(index)=>{
-   console.log(index,"sddddddddddd",this.props)
     this.props.onRemoveFriend(index);
  }
 
@@ -24,7 +24,7 @@ render(){
               <div className="content">
                 <div className="right floated meta"><button className="ui mini inverted red button"
                     onClick={()=>this.handleRemove(index)}>remove</button></div>
-                <img className="ui avatar image" src={friend.image} alt="imageload"/> <b>{friend.name}</b>
+                <img className="ui avatar image" src={friend.image} alt="image"/> <b>{friend.name}</b>
               </div>
             </div>
 
@@ -56,54 +56,101 @@ const InvitedFriendslist = (props) => {
 
 class Order extends Component{
 
+
   constructor(props){
 
-    super(props)
-    this.state={}
-    this.foodOptions=[
-      {text: 'Dinner',  value: 'Dinner'},
-        {text: 'Breakfast',  value: 'Breakfast'},
-          {text: 'launch',  value: 'launch'} ]
+      super(props)
+      this.state={Groups:[]}
+      this.foodOptions=[{text: 'Dinner',  value: 'Dinner'},
+      {text: 'Breakfast',  value: 'Breakfast'},  {text: 'launch',  value: 'launch'} ]
+}
 
-    this.matchedval=
 
-    [
-      { id:0},
-       {id:1 ,text:'ahmed',value:'10', type:'friend',image:'images/person.png' },
-        {id:2,text:'ahmedgroup',value:'20', type:'group',image:'images/friends.png'}
-    ]
+  getArrFordropDown(data){
+    const GroupArray=[]
+     for (let i=0;i<data.length;i++){
+         GroupArray.push({text:data[i].name,value:data[i].id})
+     }
+     return GroupArray;
+  }
+  componentDidMount(){
+    axios.get('http://localhost:3000/groups',{ headers: { "user-id":"1" } })
+    .then(response => {
+      const GroupArray=this.getArrFordropDown(response.data);
+     this.setState({Groups:GroupArray})
 
+    })
+    .catch(error => console.log(error))
   }
 
+addFriendTolist=(handleAddfriendFun)=>{
+
+  const friend={name:this.refs['friendEmail'].value}
+  axios.get(`http://localhost:3000/friends/search`,{ headers: { "friendName":friend.name,"userId":"1" } })
+  .then(response => {
+      console.log("returned invited friend",response.data)
+      handleAddfriendFun(response.data)
+  })
+  .catch(error => console.log(error))
+}
 
 handleSelectedFriend=()=>{
 
-    const matchedval_index=this.refs['friends'].state.selectedIndex;
-    console.log(matchedval_index,this.matchedval[matchedval_index])
-    console.log("ssssssssssssss"+this.refs['friends'].state.selectedIndex)
+    const Groups_index=this.refs['friends'].state.selectedIndex;
+    const groupID=this.state.Groups[Groups_index].value;
 
-    this.props.onSelectfriends([this.matchedval[matchedval_index]])
-      //  this.matchedval=this.matchedval.splice(matchedval_index,1)
+    axios.get(`http://localhost:3000/group_members/${groupID}`)
+    .then(response => {
+      console.log("group friend",response.data)
+      this.props.onSelectfriends(response.data)
+    })
+    .catch(error => console.log(error))
 }
 
 _handleImageChange(e) {
     e.preventDefault();
-
     let reader = new FileReader();
     let file = e.target.files[0];
-
-
     reader.onloadend = () => {
       this.setState({
         file: file,
         imagePreviewUrl: reader.result
       });
-        console.log(reader.result)//base64
     }
-
       reader.readAsDataURL(file)
+}
 
-    }
+publichOrder=()=>{
+  // console.log("publish order function",this.state)
+  const resturant=this.refs['resturant'].value;
+  const Meal=this.refs['Meal'].state.selectedIndex;
+  const MenueImage=this.state.imagePreviewUrl;
+  const InvitedList=this.props.invitedList;
+  const ids=[]
+ for( let i=0;i<InvitedList.length;i++){
+   console.log(InvitedList[i],InvitedList[i].id)
+   ids.push(InvitedList[i].id)
+ }
+ console.log("ids.....",ids)
+
+  const body={
+	"order":{
+		"order_type":Meal,
+		"meal_image":MenueImage,
+		"owner_id": "1" ,
+                "restaurant":resturant
+	},
+       "ids":ids
+}
+
+ //request
+     axios.post('http://localhost:3000/orders',body)
+     .then(response => {
+       console.log("Create order response",response)
+     })
+     .catch(error => console.log(error))
+
+}
 render(){
   return (
         <div className="row">
@@ -126,9 +173,8 @@ render(){
                  <i className="utensils icon"></i>
                  Order For
                  </button>
-                 <Dropdown placeholder='Select meal' fluid selection options={this.foodOptions} />
+                 <Dropdown id="meal" placeholder='Select meal' fluid selection options={this.foodOptions} ref={"Meal"}/>
              </div>
-
        </div>
        <div className="sixteen wide tablet  sixteen computer column">
            <Divider horizontal>write resturant name</Divider>
@@ -137,23 +183,34 @@ render(){
                <i className="utensils icon"></i>
                From
                </button>
-               <input type="text" className="form-control" placeholder="resturant name" name="resturant" />
+               <input type="text" className="form-control" placeholder="resturant name" name="resturant"   ref={"resturant"}/>
            </div>
        </div>
-
-
        <div className="sixteen wide tablet  sixteen computer column">
         <Divider horizontal>write friend or group name</Divider>
+
+        <div className="sixteen wide tablet  sixteen computer column">
+
+            <div className="ui left action input">
+                <button className="ui teal labeled icon button">
+                <i className="user icon"></i>
+                friend Email
+                </button>
+                <input type="text" className="form-control" placeholder="friend name" name="resturant" ref={'friendEmail'}/>
+                <button className="ui small teal button" onClick={()=>{this.addFriendTolist(this.props.inviteFriend)}}>Invite</button>
+
+            </div>
+        </div>
+       <Divider horizontal></Divider>
        <div className="ui left action input">
            <button className="ui teal labeled icon button">
            <i className="group icon"></i>
-           Friends
+           Groups
            </button>
 
-            <Dropdown  placeholder='friends and groups'   value="" selection options={this.matchedval} ref='friends'
-             onChange= {this.handleSelectedFriend} />
+            <Dropdown  placeholder='friends and groups' selection options={this.state.Groups} ref='friends'/>
+            <button className="ui small teal button"  onClick= {this.handleSelectedFriend}>Invite</button>
        </div>
-
        </div>
        <div className="sixteen wide tablet sixteen computer column">
                <div className="field">
@@ -172,24 +229,22 @@ render(){
                  </div>
              </div>
                  <img style={{width:100,height:100}} src={this.state.imagePreviewUrl}alt="imageload" />
-
-
        </div>
        <div className="six wide tablet eight wide computer column">
        <Button as='div' labelPosition='right'>
-           <Button color='teal'>
+           <Button color='teal' onClick={()=>this.publichOrder()}>
              <Icon name='bullhorn' />
              Publish
            </Button>
            <Label as='a' basic color='teal' pointing='left'>Order Now</Label>
          </Button>
-
        </div>
-     </div>
+
+      </div>
+    </div>
         </div>
-                </div>
-              </div>
-            </div>
+      </div>
+    </div>
       );
  }
 }
@@ -197,49 +252,55 @@ class createOrder extends Component {
 
   constructor(props){
     super(props);
-    this.state={
-    invitedlist:[
-     {name: "John", id: 120, date: 2012, friendsNum: 10,
-     image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJvwWWjLxIoXHQPTP_J0UmnJZQICqDeAb_5WztSnJpZfVTOwnz'}
-   ]}
-   console.log(this.state.invitedlist[0])
+    this.state={invitedlist:[]}
   }
 
-  handleSelectedfriends = (friendsList) => {
+ handleInviteFriend=(friend)=>{
+    if(!friend.Error){
+      let Exist=false
+      for (let j=0;j<this.state.invitedlist.length;j++){
+          if(friend.id==this.state.invitedlist[j].id){
+             Exist=true;
+            break;
+        }
+    }
+      if(Exist==false)
+         this.setState({invitedlist: this.state.invitedlist.concat([friend])})
+   }
+ }
 
-      this.setState({invitedlist: this.state.invitedlist.concat(friendsList)});
+  handleSelectedfriends = (friendsList) => {
+      for(let i=0;i<friendsList.length;i++)
+          this.handleInviteFriend(friendsList[i]);
  }
 
  handleremovedfriend = (friendindex) => {
-
-     console.log("back to handle",friendindex,"kkkkkkkkkkkkkkkkkkk",this.state.invitedlist)
-    const newinv=this.state.invitedlist.splice(0,1)
-    console.log("dddddddddd",newinv)
-     this.setState({invitedlist: newinv});
+    const newinv=this.state.invitedlist.splice(friendindex,1)
+    this.setState({invitedlist: this.state.invitedlist});
 }
-  render() {
+
+render() {
     return (
- <div className=" ni centered">
-     <Headr />
-     <div className="ui grid">
-       <div className="four column row"></div>
-       <PageName pageName={"Add order"} />
-        <div className="four column row" style={{height:40}}></div>
+     <div className=" ni centered">
+         <Headr />
+         <div className="ui grid">
+           <div className="four column row"></div>
+           <PageName pageName={"Add order"} />
+            <div className="four column row" style={{height:40}}></div>
 
-        <div className="ui two column row ">
-        <div className="three wide column"> </div>
-             <div className="seven wide column">
-                <Order onSelectfriends={this.handleSelectedfriends} />
-              </div>
-             <div className="six wide column" >
-            <InvitedFriendslist  onRemoveFriend={this.handleremovedfriend} invitedlist={this.state.invitedlist} />
-             </div>
-       </div>
+            <div className="ui two column row ">
+            <div className="three wide column"> </div>
+                 <div className="seven wide column">
+                    <Order invitedList={this.state.invitedlist} inviteFriend={this.handleInviteFriend} onSelectfriends={this.handleSelectedfriends} />
+                  </div>
+                 <div className="six wide column" >
+                <InvitedFriendslist  onRemoveFriend={this.handleremovedfriend} invitedlist={this.state.invitedlist} />
+                 </div>
+           </div>
+          </div>
+          </div>
 
-      </div>
-      </div>
-
-    );
+        );
   }
 }
 

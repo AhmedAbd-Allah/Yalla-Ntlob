@@ -23,7 +23,7 @@ class Joines extends Component{
           })
       .then(res => {
         const joinNo = (res.data.filter(function(inv){
-          return inv.status == "accepted";
+          return inv.status == "Joined";
         })).length
 
         this.setState({joinNo: joinNo });
@@ -79,12 +79,26 @@ class Orders extends Component {
     super(props)
     this.state = {
       orders:[ {id: 0, order_type: "", status: ""} ],
-       modalOpen: false
+       modalOpen: false,
+       catched:0,
+       modalFOpen: false,
+       Fcatched:0
+
     }
   }
   
   handleClose = () => this.setState({ modalOpen: false })
-  handleOpen = () => this.setState({ modalOpen: true })
+  handleOpen = (id) => {
+    this.setState({ modalOpen: true, catched: id })
+    console.log(id)
+  }
+
+  handleFClose = () => this.setState({ modalFOpen: false })
+  handleFOpen = (id) => {
+    this.setState({ modalFOpen: true, Fcatched: id })
+    console.log(id)
+  }
+
 
   componentWillMount() {
     axios({ method: 'GET',
@@ -100,11 +114,24 @@ class Orders extends Component {
 
 newOrderLink = "/createOrder"
 
+  finishItem = () => {
+    console.log(this.state.Fcatched)
+    axios ({  method: 'PUT',
+              url:    `http://localhost:3000/orders/${this.state.Fcatched}` 
+          })
 
-  deleteOrder = (id) => {
-    console.log(id)
+    .then(res => {
+      this.setState({ modalFOpen: false })
+      console.log("Finished")
+      this.componentWillMount();
+    })
+  }
+
+
+  deleteOrder = () => {
+    console.log(this.state.catched)
     axios ({  method: 'DELETE',
-              url:    `http://localhost:3000/orders/${id}` 
+              url:    `http://localhost:3000/orders/${this.state.catched}` 
           })
 
     .then(res => {
@@ -184,16 +211,22 @@ newOrderLink = "/createOrder"
                   </Link>
 
                 {order.status=="Waiting"?<span>
-                  <Modal size={'mini'} trigger={<Button  color='blue'size='tiny'>Finish</Button>} closeIcon className="cancel">
+                  <Modal 
+                  size={'mini'} 
+                  trigger={<Button onClick={this.handleFOpen.bind(this, order.id)} color='blue'size='tiny'>Finish</Button>} 
+                  onClose={this.handleFClose}
+                  open={this.state.modalFOpen}
+                  closeIcon 
+                  className="cancel">
                     <Header icon='attention' content='Finish the order' />
                     <Modal.Content>
                       <p>Are you sure you want to close this Order?</p>
                     </Modal.Content>
                     <Modal.Actions>
-                      <Button color='red'>
+                      <Button color='green' onClick={this.handleFClose}>
                         <Icon name='remove' /> No
                       </Button>
-                      <Button color='green'>
+                      <Button color='red' onClick={this.finishItem.bind(this)}>
                         <Icon name='checkmark' /> Yes
                       </Button>
                     </Modal.Actions>
@@ -202,7 +235,7 @@ newOrderLink = "/createOrder"
 
                   <Modal 
                   size={'mini'} 
-                  trigger={<Button  onClick={this.handleOpen} color='red'size='tiny'>Cancel</Button>}
+                  trigger={<Button  onClick={this.handleOpen.bind(this, order.id)} color='red'size='tiny'>Cancel</Button>}
                   onClose={this.handleClose}
                   open={this.state.modalOpen} 
                   closeIcon 
@@ -215,7 +248,7 @@ newOrderLink = "/createOrder"
                       <Button color='green' onClick={this.handleClose}>
                         <Icon name='remove' /> No
                       </Button>
-                      <Button color='red' id= {order.id} onClick={this.deleteOrder.bind(this, order.id)}>
+                      <Button color='red' onClick={this.deleteOrder.bind(this)}>
                         <Icon name='checkmark' /> Yes
                       </Button>
                     </Modal.Actions>
@@ -235,7 +268,7 @@ newOrderLink = "/createOrder"
         </Grid.Column>
        </Grid.Row>
 
-      <Grid.Row>
+      {/*<Grid.Row>
         <Grid.Column width={6}>
         </Grid.Column>
 
@@ -252,7 +285,7 @@ newOrderLink = "/createOrder"
 
         <Grid.Column width={6}>
         </Grid.Column>
-      </Grid.Row>
+      </Grid.Row>*/}
     </Grid>
 
 

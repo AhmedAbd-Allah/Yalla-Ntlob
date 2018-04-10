@@ -20,7 +20,18 @@ module YallaNotlobRails
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
-    
+
+ # Rails 5
+ config.action_cable.url = 'http://localhost:3000/cable'
+ config.web_socket_server_url = 'ws://localhost:3000/cable'
+ config.action_cable.allowed_request_origins = [
+   # Local address of our RoR server
+  'http://localhost:3005',
+  # 'https://localhost:3001',
+  # # Local address we use for our React standalone client
+  # 'http://127.0.0.1:3005',
+  # 'https://127.0.0.1:3001',
+ ]
 	config.middleware.insert_before 0, Rack::Cors do
 	  allow do
 	    origins 'http://localhost:3005'
@@ -38,5 +49,3 @@ module YallaNotlobRails
     config.api_only = true
   end
 end
-
-

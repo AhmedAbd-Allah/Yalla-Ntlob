@@ -28,10 +28,9 @@ class Groups extends Component {
 
   handleAddgroup = (response) => {
      if(response.data.Error)
-     this.state.addrespRes=response.data.Error
+       this.setState({addrespRes:response.data.Error})
      else
-       this.state.addrespRes=""
-     this.componentDidMount();
+      this.setState({taddrespRes:""})
  }
 
  handleGroupDel=(response)=>{

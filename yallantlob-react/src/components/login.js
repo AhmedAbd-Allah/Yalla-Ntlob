@@ -9,16 +9,17 @@ import SocialButton from './SocialButton';
 var randomString = require('random-string')
 
 
-class Login extends Component 
-{
-    constructor(props) 
-    {
-        super(props);
-        this.state = {"email":'', "password":'',errors:'',redirect: false};
-        this.setEmail = this.setEmail.bind(this);
-        this.setPassword = this.setPassword.bind(this);
-        this.loginFunction = this.loginFunction.bind(this);   
-    }
+
+
+class Login extends Component {
+    constructor(props)
+        {
+                super(props);
+                this.state = {"email":'', "password":'',errors:'',redirect: false};
+                this.setEmail = this.setEmail.bind(this);
+                this.setPassword = this.setPassword.bind(this);
+                this.loginFunction = this.loginFunction.bind(this);
+        }
 
     setEmail(e)
     {
@@ -37,6 +38,7 @@ class Login extends Component
         this.setState({ password: this.state.password.trim()});
         const data = {"auth":this.state}
         console.log( data)
+
         axios.post('http://localhost:3000/user_token', 
                     data).then(response => {
                                                 console.log(response);
@@ -45,7 +47,7 @@ class Login extends Component
                                                 if (response.status == 201)
                                                 {
                                                     localStorage.setItem('token',response.data.jwt)
-                                                    this.setState({ redirect: true}); 
+                                                     
                                                     axios.get('http://localhost:3000/auth', 
                                                             {   headers:
                                                                 {
@@ -59,7 +61,8 @@ class Login extends Component
                                                                     console.log(localStorage.getItem('token'));
                                                                     localStorage.setItem('user',JSON.stringify(response.data.msg))
                                                                     const user=localStorage.getItem('user')
-                                                                    console.log('User from local storage',JSON.parse(user));              
+                                                                    console.log('User from local storage',JSON.parse(user));
+                                                                    // this.setState({ redirect: true});              
                                                             }).catch(function (error) 
                                                                     {
                                                                         console.log(error);   
@@ -113,7 +116,7 @@ class Login extends Component
                                                                                                                         localStorage.setItem('user',JSON.stringify(response.data.msg))
                                                                                                                         const user=localStorage.getItem('user')
                                                                                                                         console.log('User from local storage',JSON.parse(user));                                                                                                
-                                                                                                                        this.setState({ redirect: true});
+                                                                                                                        // this.setState({ redirect: true});
                                                                                                                     })
                                                                                                   .catch(function (error) 
                                                                                                     {
@@ -134,24 +137,26 @@ class Login extends Component
     handleSocialLoginFailure(error)
     {
         console.log(error)
+
     }
 
 
 
     render(){
         const { redirect } = this.state;
-                if (redirect) 
+                if (redirect)
                 {
                         return <Redirect to='/HomePage'/>;
                 }
         return (
             <div>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
-                    <Grid.Column style={{ maxWidth: 450 }}> 
-                            <Image src='./images/logo.png' className="loginImg"/>                          
+                    <Grid.Column style={{ maxWidth: 450 }}>
+                            <Image src='./images/logo.png' className="loginImg"/>
                         <Header as='h2' color='teal' textAlign='center'>
-                            
+
                                 Yalla Notlob
+
                         </Header>           
                         <label>
                             { this.state.errors !=''?
@@ -162,8 +167,9 @@ class Login extends Component
                             />
                             :''}
                         </label>
+
                         <Form size='large'>
-                            <Segment stacked>  
+                            <Segment stacked>
                                     <Form.Input
                                         action={{ color: 'teal', labelPosition: 'left', icon: 'at', content: 'Email' }}
                                         actionPosition='left'
@@ -174,7 +180,7 @@ class Login extends Component
                                         onChange={this.setEmail}
                                     />
                                     <br />
-                                    
+
                                     <Form.Input
                                         action={{ color: 'teal', labelPosition: 'left', icon: 'lock', content: 'Password' }}
                                         actionPosition='left'
@@ -182,41 +188,40 @@ class Login extends Component
                                         type="password"
                                         required
                                         value={this.state.password}
-                                        onChange={this.setPassword}    
+                                        onChange={this.setPassword}
                                     />
                                     <br />
-                                    
+
                                     <Button secondary size='large' onClick={this.loginFunction}>Login</Button>
-                                    
-                              
+
+
                             </Segment>
                         </Form>
-                    
+
                     <br />
-                    <a href="./register">New User? Register Here</a> 
+                    <a href="./register">New User? Register Here</a>
                     <br />
                     <br />
                     <a href="./forgetpassword">Forgot Password?</a>
                     <br />
-                    
+
                     </Grid.Column>
                 </Grid>
-                    <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
-                    <Grid.Column style={{ maxWidth: 300 }}> 
+                <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
+                <Grid.Column style={{ maxWidth: 300 }}> 
 
-                    <div>
-                        <SocialButton
-                            provider='google'
-                            appId='753789024014-5sk71rbmsl74c084v0rvhk7vlo43eolb.apps.googleusercontent.com'
-                            onLoginSuccess={this.handleSocialLogin}
-                            onLoginFailure={this.handleSocialLoginFailure}
-                        >
-                        <GoogleLoginButton />
-                        </SocialButton>
-                    </div>
+                <div>
+                    <SocialButton
+                        provider='google'
+                        appId='753789024014-5sk71rbmsl74c084v0rvhk7vlo43eolb.apps.googleusercontent.com'
+                        onLoginSuccess={this.handleSocialLogin}
+                        onLoginFailure={this.handleSocialLoginFailure}
+                    >
+                    <GoogleLoginButton />
+                    </SocialButton>
+                </div>
 
-
-
+                   
 
                     <FacebookLoginButton onClick={() => alert('Hello')} />
                     {/* <GoogleLoginButton onClick={() => alert('Hello')} /> */}
