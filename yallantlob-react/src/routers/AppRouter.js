@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route,Redirect } from 'react-router-dom'
 import HomePage from '../components/HomePage'
 import Friends from '../components/Friends'
 import Groups from '../components/Groups'
@@ -21,7 +21,17 @@ import createOrder from '../components/createOrder'
 const Router = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Login}/>
+
+
+      <Route exact path="/" render={() => (
+        localStorage.getItem('user') ? (
+          <Redirect to="/HomePage"/>
+        ) : (
+            <Redirect to="/login"/>
+        )
+      )}/>
+
+
       <Route exact path='/HomePage' component={HomePage}/>
 
         <Route exact path='/Friends' component={Friends}/>
