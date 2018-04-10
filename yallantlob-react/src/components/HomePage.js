@@ -1,13 +1,58 @@
 import React, { Component } from 'react';
 import Headr from './header'
 import { Label, Grid, Segment, Card, Feed } from 'semantic-ui-react';
-
+import axios from 'axios';
 
 
 
 
 class HomePage extends Component
 {
+
+    constructor(props)
+      {
+          super(props)
+          this.state = {latestOrders: [], friendsActivities: []}
+          console.log(JSON.parse(localStorage.getItem('user')).id)
+
+      }
+
+    componentDidMount() 
+    {
+	  	console.log("component load", localStorage.getItem('token'))
+      axios.get('http://localhost:3000/orders/LatestOrders', 
+                                  {   headers:{
+                                                'Content-Type': 'application/json',
+                                                'ownerID':JSON.parse(localStorage.getItem('user')).id 
+                                              }
+          }).then(response => {
+                                        console.log(response);
+                                        console.log(JSON.parse(localStorage.getItem('user')).id)
+                                        if(response.data.Error)
+                                        {
+                                                // this.setState({ errors: 'This Email is Already Registered'});
+                                        }
+                                        else
+                                        {
+                                                // this.setState({ redirect: true});   
+                                        }
+                                }).catch(function (error) 
+                                {
+                                        console.log(error);
+                                });
+		
+	  }
+
+
+
+
+
+
+
+
+
+
+
       render(){
             return (
 	            <div>
