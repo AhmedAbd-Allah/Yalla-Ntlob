@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post 'user_token' => 'user_token#create'
   
 
-  resources :order_invitations do
+  resources :order_invitations ,except: [:update] do 
   collection do
     put '/update' => 'order_invitations#updateStatus'
   end
