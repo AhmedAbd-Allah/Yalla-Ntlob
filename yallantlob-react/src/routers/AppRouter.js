@@ -96,7 +96,7 @@ const Router = () => (
 
           <Route exact path="/OrderDetails/:id" render={() => (
             localStorage.getItem('user') ? (
-             <Route exact path='/Orders' component={Orders}/>
+               <Route exact path='/OrderDetails/:id' component={OrderDetails}/>
             ) : (
               <Redirect to="/login"/>
             )
