@@ -1,13 +1,84 @@
 import '../index.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
 import { Icon, Input, Header, Image, Form, Label, Button, Grid, Segment } from 'semantic-ui-react';
 import FacebookLoginButton from 'react-social-login-buttons/lib/buttons/FacebookLoginButton';
 import GoogleLoginButton from 'react-social-login-buttons/lib/buttons/GoogleLoginButton';
+import axios from 'axios';
+
 
 
 class Login extends Component {
+    constructor(props) 
+        {
+                super(props);
+                this.state = {"email":'', "password":'',errors:'',redirect: false};
+                this.setEmail = this.setEmail.bind(this);
+                this.setPassword = this.setPassword.bind(this);
+                this.loginFunction = this.loginFunction.bind(this);   
+        }
+    setEmail(e)
+    {
+            this.setState({"email": e.target.value});
+    }
+
+    setPassword(e)
+    {
+            this.setState({"password": e.target.value});
+    }
+
+    loginFunction(e)
+    {
+        e.preventDefault();
+        this.setState({ email: this.state.email.trim()});
+        this.setState({ password: this.state.password.trim()});
+        const data = {"auth":this.state}
+        console.log( data)
+        axios.post('http://localhost:3000/user_token', data
+              ).then(response => {
+            console.log(response);
+            console.log(response.data.jwt);
+            console.log(response.status)
+            if (response.status == 201)
+            {
+                localStorage.setItem('token',response.data.jwt)
+                this.setState({ redirect: true}); 
+                axios.get('http://localhost:3000/auth', 
+                {headers:{
+                            'Content-Type': 'application/json',
+                            'Authorization':"Bearer "+localStorage.getItem('token')
+                         }
+                        }).then(function (response) {
+                            console.log(response);
+                            console.log(response.data.msg);
+                            console.log(localStorage.getItem('token'));
+                            localStorage.setItem('user',JSON.stringify(response.data.msg))
+                            const user=localStorage.getItem('user')
+                            console.log('User from local storage',JSON.parse(user));
+                           
+                          
+                         })
+                        .catch(function (error) {
+                            console.log(error);
+                            
+                        });
+
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+            
+          });
+    }
+
+
+
     render(){
+        const { redirect } = this.state;
+                if (redirect) 
+                {
+                        return <Redirect to='/HomePage'/>;
+                }
         return (
             <div>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
@@ -24,18 +95,26 @@ class Login extends Component {
                                         action={{ color: 'teal', labelPosition: 'left', icon: 'at', content: 'Email' }}
                                         actionPosition='left'
                                         placeholder='Email'
+                                        required
+                                        type="email"
+                                        value={this.state.email}
+                                        onChange={this.setEmail}
                                     />
                                     <br />
                                     
                                     <Form.Input
                                         action={{ color: 'teal', labelPosition: 'left', icon: 'lock', content: 'Password' }}
                                         actionPosition='left'
-                                        placeholder='Password'   
+                                        placeholder='Password'
+                                        type="password"
+                                        required
+                                        value={this.state.password}
+                                        onChange={this.setPassword}    
                                     />
                                     <br />
-                                    <Link to="/HomePage">
-                                    <Button secondary size='large'>Login</Button>
-                                    </Link>
+                                    
+                                    <Button secondary size='large' onClick={this.loginFunction}>Login</Button>
+                                    
                               
                             </Segment>
                         </Form>

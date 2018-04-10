@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1
   def update
-    if @order.update(order_params)
+    if @order.update(status:1)
       render json: @order
     else
       render json: @order.errors, status: :unprocessable_entity

@@ -13,18 +13,18 @@ class Headr extends Component {
 
 //***************************** Variables ***********************************************
   NotifArray  = [
-        {id:1, frndName:"Ahmed", imgSrc:"images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
-        {id:2, frndName:"Islam", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
-        {id:3, frndName:"Tarek", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" }
+        {id:1, frndName:"Ahmed", imgSrc:"/images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
+        {id:2, frndName:"Islam", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:3, frndName:"Tarek", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" }
   ] 
 
   AllNotifArray  = this.NotifArray.concat ([
-        {id:4, frndName:"Ahmed", imgSrc:"images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
-        {id:5, frndName:"Islam", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
-        {id:6, frndName:"Tarek", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
-        {id:7, frndName:"Ahmed", imgSrc:"images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
-        {id:8, frndName:"Islam", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
-        {id:9, frndName:"Tarek", imgSrc:"images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" }
+        {id:4, frndName:"Ahmed", imgSrc:"/images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
+        {id:5, frndName:"Islam", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:6, frndName:"Tarek", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:7, frndName:"Ahmed", imgSrc:"/images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
+        {id:8, frndName:"Islam", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
+        {id:9, frndName:"Tarek", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" }
   ] )
 
 
@@ -33,7 +33,7 @@ class Headr extends Component {
   groupsLink = "/Groups"
   ordersLink = "/Orders"
   notifNo = 3
-  profilePic = "images/person.png"
+  profilePic = "/images/person.png"
 
 
 //*********************************************************************************************
@@ -45,14 +45,14 @@ class Headr extends Component {
 //*************************** Left Part ******************************************* 
       <Menu stackable size='small' className="main">
         <Menu.Item  className= "menuItem" >
-          <img className="logo" src='images/logo.png' alt="" />
+          <img className="logo" src='/images/logo.png' alt="" />
           <span><h2>Yalla Order</h2></span>
         </Menu.Item>
 
         <Link to = {this.homeLink}>
             <Popup trigger={
               <Menu.Item  name='Home'>
-              <Image src='images/home.png' alt="" size='mini' />
+              <Image src='/images/home.png' alt="" size='mini' />
               </Menu.Item>
             } content='Home' basic/>
         </Link>
@@ -61,7 +61,7 @@ class Headr extends Component {
         <Link to={this.friendsLink}>  
             <Popup trigger={
               <Menu.Item name='Friends' >
-              <Image src='images/friends.png' alt="" height="40" width="50" />
+              <Image src='/images/friends.png' alt="" height="40" width="50" />
               </Menu.Item>
             } content='Friends' basic/>
         </Link>
@@ -76,7 +76,7 @@ class Headr extends Component {
       
         <Link to={this.ordersLink}>
         <Menu.Item name='Orders'>
-            <h4><Image src='images/order.png' alt="" size='mini' inline/> Orders </h4>
+            <h4><Image src='/images/order.png' alt="" size='mini' inline/> Orders </h4>
         </Menu.Item>
         </Link>
 

@@ -26,7 +26,7 @@ class UsersController < ApplicationController
         render json: @user.errors, status: :unprocessable_entity
       end
     else
-      render json: {Error: "Email is alredy exist"}
+      render json: {Error: "Email  already exists"}
     end
   end
 
