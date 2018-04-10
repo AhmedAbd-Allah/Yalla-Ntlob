@@ -19,7 +19,6 @@ class Friends extends Component {
      }
   }
 componentDidMount() {
-  console.log("ccccccccccccc0",this.state.user)
   axios.get('http://localhost:3000/friends',{ headers: { "user-id":this.state.user} })
   .then(response => {
     console.log("Friendspage before mount",response)
