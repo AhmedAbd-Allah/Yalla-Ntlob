@@ -13,9 +13,9 @@ class FriendsController < ApplicationController
     else
       @friend_data = User.find(@user['id'])
       render json: @friend_data
-    end  
+    end
   end
-    
+
 
   # GET /friends
   def index
@@ -37,7 +37,7 @@ class FriendsController < ApplicationController
   def create
      @userFriend = User.find_by_email(params[:friend][:email])
      if @userFriend!=nil
-       @friend_email = Friend.where(friend_id: @userFriend[:id])
+       @friend_email = Friend.where(user_id: params[:friend][:user_id], friend_id: @userFriend[:id])
        if @friend_email==[]
          @body = {user_id:friend_params[:user_id], friend_id:@userFriend[:id]}
          @friend = Friend.new(@body)

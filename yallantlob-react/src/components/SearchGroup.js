@@ -20,7 +20,7 @@ class SearchGroup extends Component{
    if(SearchValue==='')
      this.props.onAddGroup({'data':{"Error":"Enetr name for group "}});
     else{
-       const body={ "group":{"user_id":"1","name":SearchValue}}
+       const body={ "group":{"user_id":JSON.parse(localStorage.getItem('user')).id,"name":SearchValue}}
        axios.post('http://localhost:3000/groups',body)
        .then(response => {
          console.log("add Group reponse",response)
