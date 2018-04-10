@@ -18,11 +18,11 @@ class Invited extends Component{
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_invitations',
-            headers: {'order-id': 15} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            headers: {'order-id': this.props.passedId} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const inviteList = (res.data.filter(function(person){
-          return person.id != 7; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Logged in user<<<<to merge
+          return person.id != JSON.parse(localStorage.getItem('user')).id; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Logged in user<<<<to merge
         }))
         this.setState({ inviteList: inviteList });
       })
@@ -89,7 +89,9 @@ class MyOrder extends Component {
     this.state = {
       myItems:[],
       modalOpen: false,
-      catched:0
+      catched:0,
+
+      loggedID: JSON.parse(localStorage.getItem('user')).id
 
     }
   }
@@ -104,11 +106,11 @@ class MyOrder extends Component {
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_items',
-            headers: {'order-id': 15} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            headers: {'order-id': this.props.match.params.id} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const myItems = (res.data.filter(function(item){
-          return item.user_id == 10; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          return item.user_id == JSON.parse(localStorage.getItem('user')).id; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
         }))
         this.setState({ myItems: myItems });
 
@@ -126,8 +128,8 @@ class MyOrder extends Component {
 
     axios({ method: 'POST',
             url: 'http://localhost:3000/order_items',
-            data: { "order_id": 15, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
-                    "user_id": 10,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            data: { "order_id": this.props.match.params.id, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+                    "user_id": JSON.parse(localStorage.getItem('user')).id,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
                     "item":document.getElementById("name").value,
                     "count": document.getElementById("amount").value,
                     "price": document.getElementById("price").value,
@@ -168,8 +170,8 @@ class MyOrder extends Component {
     axios ({  method: 'PUT',
               url:    'http://localhost:3000/order_invitations/update',
               headers : {
-                          "orderID" : 15,
-                          "userID" : 10
+                          "orderID" : this.props.match.params.id,
+                          "userID" : JSON.parse(localStorage.getItem('user')).id
                         }
           })
 
@@ -265,7 +267,7 @@ class MyOrder extends Component {
 
  {/***********************************************************/}
 
-              <Invited />
+              <Invited passedId = {this.props.match.params.id}/>
 
 
  {/***********************************************************/}

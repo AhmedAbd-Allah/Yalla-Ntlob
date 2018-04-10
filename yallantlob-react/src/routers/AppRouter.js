@@ -24,15 +24,15 @@ const Router = () => (
       <Route exact path='/' component={Login}/>
       <Route exact path='/HomePage' component={HomePage}/>
 
-        <Route exact path='/Friends' component={Friends}/>
-          <Route exact path='/Groups' component={Groups}/>
-          <Route exact path='/login' component={Login}/>
-          <Route exact path='/register' component={Register}/>
+      <Route exact path='/Friends' component={Friends}/>
+      <Route exact path='/Groups' component={Groups}/>
+      <Route exact path='/login' component={Login}/>
+      <Route exact path='/register' component={Register}/>
 
       <Route exact path='/login' component={Login}/>
       <Route exact path='/Friends' component={Friends}/>
   	  <Route exact path='/Groups' component={Groups}/>
-  	  <Route exact path='/MyOrder' component={MyOrder}/>
+  	  <Route exact path='/MyOrder/:id' component={MyOrder}/>
   	  <Route exact path='/Orders' component={Orders}/>
       <Route exact path='/OrderDetails/:id' component={OrderDetails}/>
       <Route exact path='/createOrder' component={createOrder}/>

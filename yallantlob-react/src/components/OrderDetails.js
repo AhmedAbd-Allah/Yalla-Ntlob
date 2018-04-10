@@ -11,7 +11,9 @@ class Invited extends Component{
     super(props)
     this.state = {
       inviteList:[],
-      joinList:[]
+      joinList:[],
+
+      loggedID:JSON.parse(localStorage.getItem('user')).id
 
     }
   }
@@ -19,11 +21,11 @@ class Invited extends Component{
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_invitations', 
-            headers: {'order-id': 7} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            headers: {'order-id': this.props.passedId} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const inviteList = (res.data.filter(function(person){
-          return person.id != 1; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          return person.id != JSON.parse(localStorage.getItem('user')).id; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
         }))
         this.setState({ inviteList: inviteList });
 
@@ -94,8 +96,11 @@ class Invited extends Component{
 class OrderDetails extends Component {
   constructor(props){
     super(props)
+
     this.state = {
-      items:[]
+      items:[],
+
+      loggedID:JSON.parse(localStorage.getItem('user')).id
     }
   }
   
@@ -174,7 +179,7 @@ class OrderDetails extends Component {
 
        
 {/*************************************************************/}
-              <Invited /> 
+              <Invited  passedId = {this.props.match.params.id}/> 
 
 {/*************************************************************/}
 
