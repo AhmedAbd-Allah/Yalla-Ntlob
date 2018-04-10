@@ -147,6 +147,7 @@ publichOrder=()=>{
      axios.post('http://localhost:3000/orders',body)
      .then(response => {
        console.log("Create order response",response)
+       //redirect to myOrders Page
      })
      .catch(error => console.log(error))
 
