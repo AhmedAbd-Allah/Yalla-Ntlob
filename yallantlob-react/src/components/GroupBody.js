@@ -96,8 +96,7 @@ class Search extends Component{//= (props) => {
 
     const friendEmail=this.refs['friendEmail'].value;
     const Gid=this.props.groupId
-    const body={"name":friendEmail,"group_id": Gid}
-
+    const body={"name":friendEmail,"group_id": Gid, "user_id":JSON.parse(localStorage.getItem('user')).id}
     axios.post('http://localhost:3000/group_members',body)
     .then(response => {
       console.log("add friend to group reponse",response)

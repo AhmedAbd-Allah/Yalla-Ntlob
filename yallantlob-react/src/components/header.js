@@ -6,9 +6,15 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class Headr extends Component {
+
+  logout=()=>{
+    localStorage.clear();
+    console.log("logour=t")
+
+  }
   state = {
       J : " joined your ",
-      I : " invited you to his ", 
+      I : " invited you to his ",
   };
 
 //***************************** Variables ***********************************************
@@ -16,7 +22,7 @@ class Headr extends Component {
         {id:1, frndName:"Ahmed", imgSrc:"/images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
         {id:2, frndName:"Islam", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" },
         {id:3, frndName:"Tarek", imgSrc:"/images/person.png", msg:this.state.I, ordName:"breakfast", btn:"Join" }
-  ] 
+  ]
 
   AllNotifArray  = this.NotifArray.concat ([
         {id:4, frndName:"Ahmed", imgSrc:"/images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
@@ -37,12 +43,12 @@ class Headr extends Component {
 
 
 //*********************************************************************************************
-  
 
 
-  render() { 
+
+  render() {
     return (
-//*************************** Left Part ******************************************* 
+//*************************** Left Part *******************************************
       <Menu stackable size='small' className="main">
         <Menu.Item  className= "menuItem" >
           <img className="logo" src='/images/logo.png' alt="" />
@@ -57,15 +63,15 @@ class Headr extends Component {
             } content='Home' basic/>
         </Link>
 
-         
-        <Link to={this.friendsLink}>  
+
+        <Link to={this.friendsLink}>
             <Popup trigger={
               <Menu.Item name='Friends' >
               <Image src='/images/friends.png' alt="" height="40" width="50" />
               </Menu.Item>
             } content='Friends' basic/>
         </Link>
-      
+
         <Link to={this.groupsLink}>
             <Popup trigger={
               <Menu.Item name='Groups' >
@@ -73,7 +79,7 @@ class Headr extends Component {
               </Menu.Item>
             } content='Groups' basic/>
           </Link>
-      
+
         <Link to={this.ordersLink}>
         <Menu.Item name='Orders'>
             <h4><Image src='/images/order.png' alt="" size='mini' inline/> Orders </h4>
@@ -109,7 +115,7 @@ class Headr extends Component {
                           <Button compact width={10}>{i.btn}</Button>
                         </Item.Content>
 
-                      </Item>    
+                      </Item>
                     ))
                  }
 
@@ -135,10 +141,10 @@ class Headr extends Component {
                           <Button compact width={10}>{i.btn}</Button>
                         </Item.Content>
 
-                      </Item>    
+                      </Item>
                     ))
                   }
-                  
+
                 </Item.Group>
 
 
@@ -162,14 +168,14 @@ class Headr extends Component {
 
 {/**************************** Logout ********************************************/}
           <Menu.Item>
-          <Link to="/login">
-          <Button primary animated size="big">
+    <Link to="/login">  
+          <Button primary animated size="big" onClick={()=>{this.logout()}}>
             <Button.Content visible><h4>Logout</h4></Button.Content>
-              <Button.Content hidden>
+              <Button.Content hidden onclick={()=>this.logout()}>
              <Icon name='log out' size='large'/>
            </Button.Content>
           </Button>
-          </Link>
+        </Link>
           </Menu.Item>
 
 
@@ -183,4 +189,3 @@ class Headr extends Component {
 }
 
 export default Headr;
-

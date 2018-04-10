@@ -74,7 +74,7 @@ class Order extends Component{
      return GroupArray;
   }
   componentDidMount(){
-    axios.get('http://localhost:3000/groups',{ headers: { "user-id":"1" } })
+    axios.get('http://localhost:3000/groups',{ headers: { "user-id":JSON.parse(localStorage.getItem('user')).id } })
     .then(response => {
       const GroupArray=this.getArrFordropDown(response.data);
      this.setState({Groups:GroupArray})
@@ -86,7 +86,7 @@ class Order extends Component{
 addFriendTolist=(handleAddfriendFun)=>{
 
   const friend={name:this.refs['friendEmail'].value}
-  axios.get(`http://localhost:3000/friends/search`,{ headers: { "friendName":friend.name,"userId":"1" } })
+  axios.get(`http://localhost:3000/friends/search`,{ headers: { "friendName":friend.name,"user-id":JSON.parse(localStorage.getItem('user')).id} })
   .then(response => {
       console.log("returned invited friend",response.data)
       handleAddfriendFun(response.data)
@@ -153,6 +153,7 @@ publichOrder=()=>{
 }
 render(){
   return (
+    <form>
         <div className="row">
           <div className="ui column grid">
                 <div className="fifteen wide column">
@@ -245,6 +246,8 @@ render(){
         </div>
       </div>
     </div>
+
+      </form>
       );
  }
 }

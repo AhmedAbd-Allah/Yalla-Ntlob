@@ -17,7 +17,7 @@ class Groups extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/groups',{ headers: { "user-id":"1" } })
+    axios.get('http://localhost:3000/groups',{ headers: { "user-id":JSON.parse(localStorage.getItem('user')).id } })
     .then(response => {
       console.log("get groupslist of user before mount",response)
       this.setState({groupsList: response.data ,addrespRes:this.state.addrespRes})
@@ -31,6 +31,7 @@ class Groups extends Component {
        this.setState({addrespRes:response.data.Error})
      else
       this.setState({taddrespRes:""})
+    this.componentDidMount();
  }
 
  handleGroupDel=(response)=>{
@@ -40,7 +41,7 @@ class Groups extends Component {
 
   render() {
     return (
- <div className=" ni centered">
+   <div className=" ni centered">
      <Headr />
      <div className="ui grid">
        <div className="four column row"></div>

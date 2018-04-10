@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 const handleunfriendClick=(friend,unFriend)=>{
-   axios.delete(`http://localhost:3000/friends/${friend.id}`,{ headers: { "user-id":"1" } })
+   axios.delete(`http://localhost:3000/friends/${friend.id}`,{ headers: { "user-id":JSON.parse(localStorage.getItem('user')).id} })
    .then(response => {
      console.log("Delete friend reponse",response)
      unFriend();

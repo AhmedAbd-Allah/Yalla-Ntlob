@@ -16,7 +16,7 @@ class Search extends Component{
  handleBtnClick=()=>{
    console.log("btn han",this.refs['SearchVal'].value)
    const SearchValue=this.refs['SearchVal'].value;
-   const body={ "friend":{"user_id":"1","email":SearchValue}}
+   const body={ "friend":{"user_id":JSON.parse(localStorage.getItem('user')).id,"email":SearchValue}}
    axios.post('http://localhost:3000/friends',body)
    .then(response => {
      console.log("add friend reponse",response)
