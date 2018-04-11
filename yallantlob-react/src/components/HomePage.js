@@ -37,12 +37,12 @@ class HomePage extends Component
                                         console.log(error);
                                 });
 
-		
+
 	  }
 
 
 
-	  
+
 
       render(){
             return (
@@ -63,9 +63,9 @@ class HomePage extends Component
                                                     <div>
                                                         {
                                                           this.state.latestOrders.map((order) => (
-                                                            
+
                                                           <Feed.Event>
-                                                             
+
                                                             <TimeAgo date={order.created_at} />
                                                               <Feed.Content>
                                                                 <Feed.Summary>

@@ -130,13 +130,25 @@ class OrderDetails extends Component {
           disconnected: function() { console.log("cable: disconnected") },       // onDisconnect
           received: (data) => {
             console.log("cable received: ", data);
-            // this.setState({ x: this.state.x+1 });
-            console.log("dataaaaaaa", data);
-            console.log("befor" , this.state.items);
             let newItems = this.state.items;
-            newItems.push(data);
-            this.setState({items : newItems })
-            console.log("after" ,this.state.items);
+            if(data.status=="add")
+            {
+              newItems.push(data);
+              this.setState({items : newItems })
+              console.log("afteradd" ,this.state.items);
+            }
+            else if (data.status=="delete") {
+              for (var i = 0; i < newItems.length; i++) {
+                if(newItems[i].item_id == data.item_id){
+                  console.log("inside if else");
+                  newItems.splice(i, 1);
+                  break;
+                }
+              }
+              // newItems.push(data);
+              this.setState({items : newItems })
+              console.log("afterdelete" ,this.state.items);
+            }
           }
         })
   }
