@@ -104,7 +104,7 @@ class Invited extends Component{
       >
         <Modal.Content clasName="Menu">
           <h2>Arabiata Menu</h2>
-          <Image src='/images/ara.jpg' centered/>
+          <Image src={this.state.order.meal_image} centered/>
         </Modal.Content>
         
       </Modal>
