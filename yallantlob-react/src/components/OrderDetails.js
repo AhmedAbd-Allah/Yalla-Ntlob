@@ -25,7 +25,7 @@ class Invited extends Component{
   componentWillMount() {
     axios({ method: 'GET',
 
-            url: 'http://localhost:3000/order_invitations', 
+            url: 'http://localhost:3000/order_invitations',
             headers: {'order-id': this.props.passedId} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
 
           })
@@ -104,11 +104,7 @@ class OrderDetails extends Component {
 
     this.state = {
       items:[],
-
-
       loggedID:JSON.parse(localStorage.getItem('user')).id,
-
-      x:0,
       jwt : localStorage.getItem('token'),
       user : JSON.parse(localStorage.getItem('user'))
 
@@ -135,10 +131,12 @@ class OrderDetails extends Component {
           received: (data) => {
             console.log("cable received: ", data);
             // this.setState({ x: this.state.x+1 });
-            // console.log(this.state);
-            // let newNotifications = this.state.notifications;
-            // newNotifications.push(data);
-            // this.setState({ count : this.state.count + 1, notifications : newNotifications })
+            console.log("dataaaaaaa", data);
+            console.log("befor" , this.state.items);
+            let newItems = this.state.items;
+            newItems.push(data);
+            this.setState({items : newItems })
+            console.log("after" ,this.state.items);
           }
         })
   }
@@ -207,7 +205,7 @@ class OrderDetails extends Component {
 
 {/*************************************************************/}
 
-              <Invited  passedId = {this.props.match.params.id}/> 
+              <Invited  passedId = {this.props.match.params.id}/>
 
 
 {/*************************************************************/}

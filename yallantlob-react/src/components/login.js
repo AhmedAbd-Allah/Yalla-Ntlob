@@ -41,34 +41,33 @@ class Login extends Component {
 
         axios.post('http://localhost:3000/user_token',
                     data).then(response => {
-                                                console.log(response);
-                                                console.log(response.data.jwt);
-                                                console.log(response.status)
-                                                if (response.status == 201)
-                                                {
-                                                    localStorage.setItem('token',response.data.jwt)
+                          console.log(response);
+                          console.log(response.data.jwt);
+                          console.log(response.status)
+                          if (response.status == 201)
+                          {
+                            localStorage.setItem('token',response.data.jwt)
 
-                                                    axios.get('http://localhost:3000/auth',
-                                                            {   headers:
-                                                                {
-                                                                    'Content-Type': 'application/json',
-                                                                    'Authorization':"Bearer "+localStorage.getItem('token')
-                                                                }
-                                                            }).then(function (response)
-                                                                {
-                                                                    console.log(response);
-                                                                    console.log(response.data.msg);
-                                                                    console.log(localStorage.getItem('token'));
-                                                                    localStorage.setItem('user',JSON.stringify(response.data.msg))
-                                                                    const user=localStorage.getItem('user')
-                                                                    console.log('User from local storage',JSON.parse(user));
-                                                                    // this.setState({ redirect: true});
-                                                            }).catch(function (error)
-                                                                    {
-                                                                        console.log(error);
-                                                                    });
-                                                }
-                                            })
+                             const redirect_to_home=()=>{this.setState({ redirect: true})}
+
+
+                              axios.get('http://localhost:3000/auth',
+                                      {   headers:
+                                          {
+                                              'Content-Type': 'application/json',
+                                              'Authorization':"Bearer "+localStorage.getItem('token')
+                                          }
+                                      }).then(function (response)
+                                          {
+                                              localStorage.setItem('user',JSON.stringify(response.data.msg))
+                                              const user=localStorage.getItem('user')
+                                              redirect_to_home();
+                                      }).catch(function (error)
+                                              {
+                                                  console.log(error);
+                                              });
+                          }
+                      })
                         .catch(error =>
                             {
                                 console.log(error);
