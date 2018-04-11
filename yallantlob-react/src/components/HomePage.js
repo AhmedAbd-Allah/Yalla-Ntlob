@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Headr from './header'
 import { Label, Grid, Segment, Card, Feed } from 'semantic-ui-react';
 import axios from 'axios';
-
+import TimeAgo from 'react-timeago';
 
 
 
@@ -26,16 +26,9 @@ class HomePage extends Component
                                                 'ownerID':JSON.parse(localStorage.getItem('user')).id 
                                               }
           }).then(response => {
-                                        console.log(response);
-                                        console.log(JSON.parse(localStorage.getItem('user')).id)
-                                        if(response.data.Error)
-                                        {
-                                                // this.setState({ errors: 'This Email is Already Registered'});
-                                        }
-                                        else
-                                        {
-                                                // this.setState({ redirect: true});   
-                                        }
+                                console.log(response);
+                                console.log(JSON.parse(localStorage.getItem('user')).id)
+                                this.setState({latestOrders: response})
                                 }).catch(function (error) 
                                 {
                                         console.log(error);
@@ -68,20 +61,28 @@ class HomePage extends Component
                                           <Card>
     <Card.Content>
       <Feed>
-        <Feed.Event>
-          <Feed.Label image='/assets/images/avatar/small/jenny.jpg' />
-          <Feed.Content>
-            <Feed.Date content='1 day ago' />
-            <Feed.Summary>
-                  <a>Aliaa Sayed </a> has Created  <a>an order</a> from <a>Mac</a>.
-            </Feed.Summary>
-          </Feed.Content>
-        </Feed.Event>
-
+      <div>
+        {
+          this.state.latestOrders.map((order) => (
+            <Feed.Event>
+            <TimeAgo date={order.created_at} />
+            <Feed.Content>
+              <Feed.Date content='1 day ago' />
+              <Feed.Summary>
+                    <a>{order.order_type}</a> on  <a>{order.created_at}</a>
+              </Feed.Summary>
+            </Feed.Content>
+          </Feed.Event>
+          ))
+        }
+        
+</div>
         <Feed.Event>
           <Feed.Label image='/assets/images/avatar/small/molly.png' />
           <Feed.Content>
-            <Feed.Date content='3 days ago' />
+            <Feed.Date>
+            <TimeAgo date="Aug 29, 2014" />
+            </Feed.Date>
             <Feed.Summary>
             <a>Sara Hesham </a> has Created  <a>an order</a> from <a>Papa Johns</a>.
             </Feed.Summary>

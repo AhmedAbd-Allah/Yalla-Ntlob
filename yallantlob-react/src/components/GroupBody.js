@@ -133,11 +133,8 @@ const Card = (props) => {
 
 
    const removeFriendfromGroup=(Gid,Fid,handleFun)=>{
-       console.log("remove friend from group",Fid,Gid)
-
        axios.delete(`http://localhost:3000/group_members/${Fid}`,{ headers: { "group-id":Gid } })
        .then(response => {
-         console.log("Delete friend from group reponse",response)
          handleFun(Gid,"");
        })
        .catch(error => console.log(error))

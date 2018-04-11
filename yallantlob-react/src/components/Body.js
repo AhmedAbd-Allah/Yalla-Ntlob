@@ -25,7 +25,7 @@ const Card = (props) => {
               <img className="ui meduim image" style={{width: 'auto' ,height:'150px'}} src={friend.image} alt={"logo"}/>
                       <div className="content">
                          <div className="ui two column grid">
-                              <div className="column"><h2 className="header"> {friend.name}</h2>  </div>
+                              <div className="column"><h3 className="header"> {friend.name}</h3>  </div>
                               <div className="column">
                                  <button className="ui mini inverted red button"  onClick={()=>handleunfriendClick(friend,props.onUnFriend)}>UnFriend</button>
                               </div>

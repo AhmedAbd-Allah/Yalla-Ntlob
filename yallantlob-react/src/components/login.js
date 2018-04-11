@@ -39,7 +39,7 @@ class Login extends Component {
         const data = {"auth":this.state}
         console.log( data)
 
-        axios.post('http://localhost:3000/user_token', 
+        axios.post('http://localhost:3000/user_token',
                     data).then(response => {
                                                 console.log(response);
                                                 console.log(response.data.jwt);
@@ -47,14 +47,14 @@ class Login extends Component {
                                                 if (response.status == 201)
                                                 {
                                                     localStorage.setItem('token',response.data.jwt)
-                                                     
-                                                    axios.get('http://localhost:3000/auth', 
+
+                                                    axios.get('http://localhost:3000/auth',
                                                             {   headers:
                                                                 {
                                                                     'Content-Type': 'application/json',
                                                                     'Authorization':"Bearer "+localStorage.getItem('token')
                                                                 }
-                                                            }).then(function (response) 
+                                                            }).then(function (response)
                                                                 {
                                                                     console.log(response);
                                                                     console.log(response.data.msg);
@@ -62,14 +62,14 @@ class Login extends Component {
                                                                     localStorage.setItem('user',JSON.stringify(response.data.msg))
                                                                     const user=localStorage.getItem('user')
                                                                     console.log('User from local storage',JSON.parse(user));
-                                                                    // this.setState({ redirect: true});              
-                                                            }).catch(function (error) 
+                                                                    // this.setState({ redirect: true});
+                                                            }).catch(function (error)
                                                                     {
-                                                                        console.log(error);   
+                                                                        console.log(error);
                                                                     });
                                                 }
                                             })
-                        .catch(error => 
+                        .catch(error =>
                             {
                                 console.log(error);
                                 this.setState({ errors: "Incorrect Email or Password"});
@@ -87,7 +87,7 @@ class Login extends Component {
                                                             image:user.profile.profilePicURL
                                                         }
                                                 };
-                                    axios.post('http://localhost:3000/users', 
+                                    axios.post('http://localhost:3000/users',
                                             body).then(response => {
                                                         let body = { "auth":{
                                                                                 // name:user.profile.name,
@@ -95,7 +95,7 @@ class Login extends Component {
                                                                                 password: '1234',
                                                                             }
                                                                    }
-                                                        axios.post('http://localhost:3000/user_token', 
+                                                        axios.post('http://localhost:3000/user_token',
                                                             body).then(response => {
                                                                                         console.log(response);
                                                                                         console.log(response.data.jwt);
@@ -103,8 +103,8 @@ class Login extends Component {
                                                                                         if (response.status == 201)
                                                                                         {
                                                                                             localStorage.setItem('token',response.data.jwt)
-                                                                                            // this.setState({ redirect: true}); 
-                                                                                            axios.get('http://localhost:3000/auth', 
+                                                                                            // this.setState({ redirect: true});
+                                                                                            axios.get('http://localhost:3000/auth',
                                                                                                 {   headers:{
                                                                                                                 'Content-Type': 'application/json',
                                                                                                                 'Authorization':"Bearer "+localStorage.getItem('token')
@@ -115,20 +115,20 @@ class Login extends Component {
                                                                                                                         console.log(localStorage.getItem('token'));
                                                                                                                         localStorage.setItem('user',JSON.stringify(response.data.msg))
                                                                                                                         const user=localStorage.getItem('user')
-                                                                                                                        console.log('User from local storage',JSON.parse(user));                                                                                                
+                                                                                                                        console.log('User from local storage',JSON.parse(user));
                                                                                                                         // this.setState({ redirect: true});
                                                                                                                     })
-                                                                                                  .catch(function (error) 
+                                                                                                  .catch(function (error)
                                                                                                     {
                                                                                                         console.log(error);
-                                                                                                    }); 
+                                                                                                    });
                                                                                         }
                                                                                     })
-                                                                .catch(function (error) 
+                                                                .catch(function (error)
                                                                     {
-                                                                        console.log(error);  
-                                                                    });   
-                                                }).catch(function (error) 
+                                                                        console.log(error);
+                                                                    });
+                                                }).catch(function (error)
                                                     {
                                                         console.log(error);
                                                     });
@@ -157,7 +157,7 @@ class Login extends Component {
 
                                 Yalla Notlob
 
-                        </Header>           
+                        </Header>
                         <label>
                             { this.state.errors !=''?
                             <Message
@@ -208,7 +208,7 @@ class Login extends Component {
                     </Grid.Column>
                 </Grid>
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle' >
-                <Grid.Column style={{ maxWidth: 300 }}> 
+                <Grid.Column style={{ maxWidth: 300 }}>
 
                 <div>
                     <SocialButton
@@ -221,7 +221,7 @@ class Login extends Component {
                     </SocialButton>
                 </div>
 
-                   
+
 
                     <FacebookLoginButton onClick={() => alert('Hello')} />
                     {/* <GoogleLoginButton onClick={() => alert('Hello')} /> */}

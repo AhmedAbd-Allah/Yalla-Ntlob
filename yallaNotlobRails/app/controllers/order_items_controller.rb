@@ -22,11 +22,12 @@ class OrderItemsController < ApplicationController
     render json: @order_item
   end
 
-  # POST /order_items
+  # POST /order_item
   def create
     @order_item = OrderItem.new(order_item_params)
-
+    @order = Order.find(@order_item[:order_id])
     if @order_item.save
+      ActionCable.server.broadcast "orderitems_#{@order[:owner_id]}",{msg: "#{@order_item[:item]}"}#ApplicationController.list_notifications(user)
       render json: @order_item, status: :created, location: @order_item
     else
       render json: @order_item.errors, status: :unprocessable_entity
