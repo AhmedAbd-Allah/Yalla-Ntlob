@@ -28,7 +28,8 @@ class HomePage extends Component
           }).then(response => {
                                 console.log(response);
                                 console.log(JSON.parse(localStorage.getItem('user')).id)
-                                this.setState({latestOrders: response})
+                                this.setState({latestOrders: response.data})
+                                console.log(this.state.latestOrders)
                                 }).catch(function (error) 
                                 {
                                         console.log(error);
@@ -61,7 +62,7 @@ class HomePage extends Component
                                           <Card>
     <Card.Content>
       <Feed>
-      <div>
+      {/* <div>
         {
           this.state.latestOrders.map((order) => (
             <Feed.Event>
@@ -76,7 +77,7 @@ class HomePage extends Component
           ))
         }
         
-</div>
+</div> */}
         <Feed.Event>
           <Feed.Label image='/assets/images/avatar/small/molly.png' />
           <Feed.Content>
