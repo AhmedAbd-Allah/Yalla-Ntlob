@@ -140,7 +140,7 @@ publichOrder=()=>{
 	"order":{
 		"order_type":Meal,
 		"meal_image":MenueImage,
-		"owner_id": "1" ,
+		"owner_id": JSON.parse(localStorage.getItem('user')).id ,
                 "restaurant":resturant
 	},
        "ids":ids
@@ -236,7 +236,7 @@ render(){
        </div>
        <div className="six wide tablet eight wide computer column">
 
-        <Link to="/Orders">
+
         <Button as='div' labelPosition='right'>
            <Button color='teal' onClick={()=>this.publichOrder()}>
              <Icon name='bullhorn' />
@@ -244,7 +244,7 @@ render(){
            </Button>
            <Label as='a' basic color='teal' pointing='left'>Order Now</Label>
          </Button>
-        </Link>
+
        </div>
 
       </div>
