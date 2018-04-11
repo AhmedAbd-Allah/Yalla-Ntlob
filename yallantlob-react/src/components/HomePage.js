@@ -29,20 +29,17 @@ class HomePage extends Component
           }).then(response => {
                                 console.log(response);
                                 console.log(JSON.parse(localStorage.getItem('user')).id)
+
                                 this.setState({latestOrders: response.data})
                                 // this.setState({orderDate: response.data})
-                                console.log(this.state.latestOrders)
+                                console.log("zzzzzzzzzzzz",this.state.latestOrders)
                                 }).catch(function (error)
                                 {
                                         console.log(error);
                                 });
 
-		
+
 	  }
-
-
-
-	  
 
       render(){
             return (
@@ -60,12 +57,15 @@ class HomePage extends Component
 
                                               <Card.Content>
                                                 <Feed>
-                                                    <div>
+
+                                                  {!this.state.latestOrders.error ?
+                                                    <div >
                                                         {
+
                                                           this.state.latestOrders.map((order) => (
-                                                            
+
                                                           <Feed.Event>
-                                                             
+
                                                             <TimeAgo date={order.created_at} />
                                                               <Feed.Content>
                                                                 <Feed.Summary>
@@ -81,6 +81,8 @@ class HomePage extends Component
                                                           ))
                                                         }
                                                     </div>
+                                                  :<div size="big"><p>make your first Order</p></div>}
+
                                                 </Feed>
                                               </Card.Content>
                                           </Card>
