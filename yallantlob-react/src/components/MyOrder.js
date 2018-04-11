@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
-import { Icon, Button, Grid, Form, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
+import { Icon, Button, Grid, Form, Modal, Header, Table, Item, Label, Image} from 'semantic-ui-react'
 import Headr from './header'
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -76,6 +76,32 @@ class Invited extends Component{
           </Modal.Content>
         </Modal>
 
+        <div className="restLogo">
+        <Icon name='food' color='orange' size='huge' />
+        <span><h3>Arabiata</h3></span>
+        </div>
+
+        
+        <Modal 
+        trigger={<Button color= "teal" className = "menuBtn" onClick={this.handleOpen}>
+        <h3>Show Menu</h3>
+        <Image src='/images/ara.jpg' avatar />
+        </Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+        basic
+        size='small'
+      >
+        <Modal.Content clasName="Menu">
+          <h2>Arabiata Menu</h2>
+          <Image src='/images/ara.jpg' centered/>
+        </Modal.Content>
+        
+      </Modal>
+        
+
+
+
         </Grid.Column>
 
       )
@@ -117,6 +143,10 @@ class MyOrder extends Component {
       })
 
   }
+
+  // getOrderInfo(){
+
+  // }
 
   addItem = e => {
     e.preventDefault();

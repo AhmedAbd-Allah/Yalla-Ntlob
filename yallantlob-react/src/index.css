@@ -113,3 +113,20 @@ table{
     left: 42%;
     top: 62%;
 }
+
+.restLogo{
+    position: relative;
+    top: 60pt;
+    right: 80pt;
+    text-align: center;
+    margin-bottom: 0pt;
+    padding-bottom: 0pt;
+}
+
+.menuBtn{
+    position: relative;
+    left: 17%;
+    top: 110pt;
+    text-align: left;
+}
+
