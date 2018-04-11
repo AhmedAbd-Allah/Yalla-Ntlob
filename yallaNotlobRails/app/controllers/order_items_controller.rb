@@ -23,11 +23,38 @@ class OrderItemsController < ApplicationController
   end
 
   # POST /order_item
+
+
+# comment
+# :
+# "gvhbjn"
+# count
+# :
+# 56
+# item
+# :
+# "tyg"
+# item_id
+# :
+# 26
+# name
+# :
+# "aliaa"
+# price
+# :
+# 76
+# user_id
+# :
+# 10
   def create
     @order_item = OrderItem.new(order_item_params)
     @order = Order.find(@order_item[:order_id])
+    @user = User.find(@order_item[:user_id])
     if @order_item.save
-      ActionCable.server.broadcast "orderitems_#{@order[:owner_id]}",{msg: "#{@order_item[:item]}"}#ApplicationController.list_notifications(user)
+      ActionCable.server.broadcast "orderitems_#{@order[:owner_id]}",{item_id: "#{@order_item[:id]}" ,
+      item: "#{@order_item[:item]}" , count: "#{@order_item[:count]}" ,
+      price: "#{@order_item[:price]}" , comment: "#{@order_item[:comment]}",
+      user_id: "#{@order_item[:user_id]}", name: "#{@user[:name]}"}
       render json: @order_item, status: :created, location: @order_item
     else
       render json: @order_item.errors, status: :unprocessable_entity
