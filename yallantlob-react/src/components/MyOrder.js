@@ -109,16 +109,11 @@ class MyOrder extends Component {
             headers: {'order-id': this.props.match.params.id} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
-        const myItems = (res.data.filter(function(item){
-          return item.user_id == JSON.parse(localStorage.getItem('user')).id; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
-        }))
-        this.setState({ myItems: myItems });
+          const myItems = (res.data.filter(function(item){
+            return item.user_id == JSON.parse(localStorage.getItem('user')).id; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          }))
+          this.setState({ myItems: myItems });
 
-
-        console.log(this.state.myItems.length)
-        if (this.state.myItems.length > 0){
-          this.join();
-        }
       })
 
   }
@@ -145,6 +140,12 @@ class MyOrder extends Component {
         document.getElementById("amount").value = ""
         document.getElementById("price").value = ""
         document.getElementById("comment").value = ""
+
+
+        console.log(this.state.myItems.length)
+          if (this.state.myItems.length == 0){
+            this.join();
+          }
       })
 
 
