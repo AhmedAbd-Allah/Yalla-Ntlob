@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import PageName from './PageName'
 import Headr from './header'
+import { Link } from 'react-router-dom';
 import { Dropdown ,Divider,Button,Icon,Label} from 'semantic-ui-react'
 import axios from 'axios'
+import { Route,Redirect } from 'react-router-dom'
+import Orders from './orders'
 
 
 
@@ -147,7 +150,7 @@ publichOrder=()=>{
      axios.post('http://localhost:3000/orders',body)
      .then(response => {
        console.log("Create order response",response)
-       //redirect to myOrders Page
+
      })
      .catch(error => console.log(error))
 
@@ -232,13 +235,16 @@ render(){
                  <img style={{width:100,height:100}} src={this.state.imagePreviewUrl}alt="imageload" />
        </div>
        <div className="six wide tablet eight wide computer column">
-       <Button as='div' labelPosition='right'>
+
+        <Link to="/Orders">
+        <Button as='div' labelPosition='right'>
            <Button color='teal' onClick={()=>this.publichOrder()}>
              <Icon name='bullhorn' />
              Publish
            </Button>
            <Label as='a' basic color='teal' pointing='left'>Order Now</Label>
          </Button>
+        </Link>
        </div>
 
       </div>

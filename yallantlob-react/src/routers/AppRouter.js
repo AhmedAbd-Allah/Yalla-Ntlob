@@ -13,10 +13,6 @@ import OrderDetails from '../components/OrderDetails'
 import Error from '../components/Error404'
 import createOrder from '../components/createOrder'
 
-
-
-
-
 // when the pathname is exactly the string "/"
 const Router = () => (
   <main>
