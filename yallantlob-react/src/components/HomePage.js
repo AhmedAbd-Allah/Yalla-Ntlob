@@ -37,16 +37,6 @@ class HomePage extends Component
 
 	  }
 
-
-
-
-
-
-
-
-
-
-
       render(){
             return (
 	            <div>
@@ -76,7 +66,11 @@ class HomePage extends Component
           </Feed.Event>
           ))
         }
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> 987f1c87894ca3aee4352e08ecea8180ce68c3f0
 </div> */}
         <Feed.Event>
           <Feed.Label image='/assets/images/avatar/small/molly.png' />
