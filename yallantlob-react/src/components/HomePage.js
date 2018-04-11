@@ -18,13 +18,13 @@ class HomePage extends Component
 
       }
 
-    componentDidMount() 
+    componentDidMount()
     {
 	  	console.log("component load", localStorage.getItem('token'))
-      axios.get('http://localhost:3000/orders/LatestOrders', 
+      axios.get('http://localhost:3000/orders/LatestOrders',
                                   {   headers:{
                                                 'Content-Type': 'application/json',
-                                                'ownerID':JSON.parse(localStorage.getItem('user')).id 
+                                                'ownerID':JSON.parse(localStorage.getItem('user')).id
                                               }
           }).then(response => {
                                 console.log(response);
@@ -32,13 +32,17 @@ class HomePage extends Component
                                 this.setState({latestOrders: response.data})
                                 // this.setState({orderDate: response.data})
                                 console.log(this.state.latestOrders)
-                                }).catch(function (error) 
+                                }).catch(function (error)
                                 {
                                         console.log(error);
                                 });
+
 		
 	  }
 
+
+
+	  
 
       render(){
             return (
@@ -53,6 +57,7 @@ class HomePage extends Component
                                                 <h1> Latest Orders </h1>
                                           </Label>
                                           <Card>
+
                                               <Card.Content>
                                                 <Feed>
                                                     <div>
