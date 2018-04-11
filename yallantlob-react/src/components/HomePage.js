@@ -17,23 +17,24 @@ class HomePage extends Component
 
       }
 
-    componentDidMount() 
+    componentDidMount()
     {
 	  	console.log("component load", localStorage.getItem('token'))
-      axios.get('http://localhost:3000/orders/LatestOrders', 
+      axios.get('http://localhost:3000/orders/LatestOrders',
                                   {   headers:{
                                                 'Content-Type': 'application/json',
-                                                'ownerID':JSON.parse(localStorage.getItem('user')).id 
+                                                'ownerID':JSON.parse(localStorage.getItem('user')).id
                                               }
           }).then(response => {
                                 console.log(response);
                                 console.log(JSON.parse(localStorage.getItem('user')).id)
-                                this.setState({latestOrders: response})
-                                }).catch(function (error) 
+                                this.setState({latestOrders: response.data})
+                                console.log(this.state.latestOrders)
+                                }).catch(function (error)
                                 {
                                         console.log(error);
                                 });
-		
+
 	  }
 
 
@@ -61,7 +62,7 @@ class HomePage extends Component
                                           <Card>
     <Card.Content>
       <Feed>
-      <div>
+      {/* <div>
         {
           this.state.latestOrders.map((order) => (
             <Feed.Event>
@@ -75,8 +76,8 @@ class HomePage extends Component
           </Feed.Event>
           ))
         }
-        
-</div>
+
+</div> */}
         <Feed.Event>
           <Feed.Label image='/assets/images/avatar/small/molly.png' />
           <Feed.Content>
