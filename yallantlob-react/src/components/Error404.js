@@ -14,7 +14,7 @@ class Error extends Component {
           <h1 className="errMsg">Sorry, the page you are looking for could not be found!</h1>
 
 
-      	<img src='images/err.gif' alt="" className="errImg"/>
+      	<img src='/images/err.gif' alt="" className="errImg"/>
 
       	<Link to="/HomePage">
       	<Button primary className="errBtn" size='big'>Return to Home page</Button>

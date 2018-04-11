@@ -10,7 +10,7 @@ class Joines extends Component{
   constructor(props){
     super(props)
     this.state = {
-    joinNo:0
+    joinNo:0,
       
     }
   }
@@ -28,7 +28,7 @@ class Joines extends Component{
 
         this.setState({joinNo: joinNo });
       })
-    }
+  }
 
 
 
@@ -78,11 +78,13 @@ class Orders extends Component {
   constructor(props){
     super(props)
     this.state = {
-      orders:[ {id: 0, order_type: "", status: ""} ],
-       modalOpen: false,
-       catched:0,
-       modalFOpen: false,
-       Fcatched:0
+        orders:[ {id: 0, order_type: "", status: ""} ],
+        modalOpen: false,
+        catched:0,
+        modalFOpen: false,
+        Fcatched:0,
+
+        loggedID:JSON.parse(localStorage.getItem('user')).id
 
     }
   }
@@ -103,7 +105,7 @@ class Orders extends Component {
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/orders', 
-            headers: {'owner-id': 1}
+            headers: {'owner-id': JSON.parse(localStorage.getItem('user')).id}
           })
       .then(res => {
         const orders = res.data;

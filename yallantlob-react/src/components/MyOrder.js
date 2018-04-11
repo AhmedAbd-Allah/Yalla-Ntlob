@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
-import { Icon, Button, Grid, Form, Modal, Header, Table, Item, Label} from 'semantic-ui-react'
+import { Icon, Button, Grid, Form, Modal, Header, Table, Item, Label, Image} from 'semantic-ui-react'
 import Headr from './header'
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -18,11 +18,11 @@ class Invited extends Component{
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_invitations',
-            headers: {'order-id': 15} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            headers: {'order-id': this.props.passedId} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
         const inviteList = (res.data.filter(function(person){
-          return person.id != 7; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Logged in user<<<<to merge
+          return person.id != JSON.parse(localStorage.getItem('user')).id; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Logged in user<<<<to merge
         }))
         this.setState({ inviteList: inviteList });
       })
@@ -76,6 +76,32 @@ class Invited extends Component{
           </Modal.Content>
         </Modal>
 
+        <div className="restLogo">
+        <Icon name='food' color='orange' size='huge' />
+        <span><h3>Arabiata</h3></span>
+        </div>
+
+        
+        <Modal 
+        trigger={<Button color= "teal" className = "menuBtn" onClick={this.handleOpen}>
+        <h3>Show Menu</h3>
+        <Image src='/images/ara.jpg' avatar />
+        </Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+        basic
+        size='small'
+      >
+        <Modal.Content clasName="Menu">
+          <h2>Arabiata Menu</h2>
+          <Image src='/images/ara.jpg' centered/>
+        </Modal.Content>
+        
+      </Modal>
+        
+
+
+
         </Grid.Column>
 
       )
@@ -89,7 +115,9 @@ class MyOrder extends Component {
     this.state = {
       myItems:[],
       modalOpen: false,
-      catched:0
+      catched:0,
+
+      loggedID: JSON.parse(localStorage.getItem('user')).id
 
     }
   }
@@ -104,30 +132,29 @@ class MyOrder extends Component {
   componentWillMount() {
     axios({ method: 'GET',
             url: 'http://localhost:3000/order_items',
-            headers: {'order-id': 15} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            headers: {'order-id': this.props.match.params.id} //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
           })
       .then(res => {
-        const myItems = (res.data.filter(function(item){
-          return item.user_id == 10; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
-        }))
-        this.setState({ myItems: myItems });
+          const myItems = (res.data.filter(function(item){
+            return item.user_id == JSON.parse(localStorage.getItem('user')).id; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+          }))
+          this.setState({ myItems: myItems });
 
-
-        console.log(this.state.myItems.length)
-        if (this.state.myItems.length > 0){
-          this.join();
-        }
       })
 
   }
+
+  // getOrderInfo(){
+
+  // }
 
   addItem = e => {
     e.preventDefault();
 
     axios({ method: 'POST',
             url: 'http://localhost:3000/order_items',
-            data: { "order_id": 15, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
-                    "user_id": 10,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+            data: { "order_id": this.props.match.params.id, //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
+                    "user_id": JSON.parse(localStorage.getItem('user')).id,  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<to merge
                     "item":document.getElementById("name").value,
                     "count": document.getElementById("amount").value,
                     "price": document.getElementById("price").value,
@@ -143,6 +170,12 @@ class MyOrder extends Component {
         document.getElementById("amount").value = ""
         document.getElementById("price").value = ""
         document.getElementById("comment").value = ""
+
+
+        console.log(this.state.myItems.length)
+          if (this.state.myItems.length == 0){
+            this.join();
+          }
       })
 
 
@@ -168,8 +201,8 @@ class MyOrder extends Component {
     axios ({  method: 'PUT',
               url:    'http://localhost:3000/order_invitations/update',
               headers : {
-                          "orderID" : 15,
-                          "userID" : 10
+                          "orderID" : this.props.match.params.id,
+                          "userID" : JSON.parse(localStorage.getItem('user')).id
                         }
           })
 
@@ -265,7 +298,7 @@ class MyOrder extends Component {
 
  {/***********************************************************/}
 
-              <Invited />
+              <Invited passedId = {this.props.match.params.id}/>
 
 
  {/***********************************************************/}
