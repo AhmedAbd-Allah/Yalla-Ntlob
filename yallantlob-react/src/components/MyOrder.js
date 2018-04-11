@@ -10,7 +10,8 @@ class Invited extends Component{
   constructor(props){
     super(props)
     this.state = {
-      inviteList:[]
+      inviteList:[],
+      order:{}
 
     }
   }
@@ -26,7 +27,16 @@ class Invited extends Component{
         }))
         this.setState({ inviteList: inviteList });
       })
-    }
+
+    axios({ method: 'GET',
+          url: `http://localhost:3000/orders/${this.props.passedId}`
+        })
+    .then(res => {
+      const order = res.data
+      this.setState({ order: order });
+    })
+
+}
 
   render() {
     return (
@@ -78,14 +88,14 @@ class Invited extends Component{
 
         <div className="restLogo">
         <Icon name='food' color='orange' size='huge' />
-        <span><h3>Arabiata</h3></span>
+        <span><h3>{this.state.order.restaurant}</h3></span>
         </div>
 
         
         <Modal 
         trigger={<Button color= "teal" className = "menuBtn" onClick={this.handleOpen}>
         <h3>Show Menu</h3>
-        <Image src='/images/ara.jpg' avatar />
+        <Image src={this.state.order.meal_image} avatar />
         </Button>}
         open={this.state.modalOpen}
         onClose={this.handleClose}
