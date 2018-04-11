@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import PageName from './PageName'
 import Headr from './header'
+import { Link } from 'react-router-dom';
 import { Dropdown ,Divider,Button,Icon,Label} from 'semantic-ui-react'
 import axios from 'axios'
+import { Route,Redirect } from 'react-router-dom'
+import Orders from './orders'
 
 
 
@@ -60,7 +63,7 @@ class Order extends Component{
   constructor(props){
 
       super(props)
-      this.state={Groups:[]}
+      this.state={Groups:[],redirect:false}
       this.foodOptions=[{text: 'Dinner',  value: 'Dinner'},
       {text: 'Breakfast',  value: 'Breakfast'},  {text: 'launch',  value: 'launch'} ]
 }
@@ -121,23 +124,21 @@ _handleImageChange(e) {
 }
 
 publichOrder=()=>{
-  // console.log("publish order function",this.state)
   const resturant=this.refs['resturant'].value;
   const Meal=this.refs['Meal'].state.selectedIndex;
   const MenueImage=this.state.imagePreviewUrl;
   const InvitedList=this.props.invitedList;
   const ids=[]
  for( let i=0;i<InvitedList.length;i++){
-   console.log(InvitedList[i],InvitedList[i].id)
+
    ids.push(InvitedList[i].id)
  }
- console.log("ids.....",ids)
 
   const body={
 	"order":{
 		"order_type":Meal,
 		"meal_image":MenueImage,
-		"owner_id": "1" ,
+		"owner_id": JSON.parse(localStorage.getItem('user')).id ,
                 "restaurant":resturant
 	},
        "ids":ids
@@ -146,12 +147,13 @@ publichOrder=()=>{
  //request
      axios.post('http://localhost:3000/orders',body)
      .then(response => {
-       console.log("Create order response",response)
-       //redirect to myOrders Page
+       this.setState={redirect:true}
+       this.state.redirect=true;
+        this.props.redirect();
      })
      .catch(error => console.log(error))
-
 }
+
 render(){
   return (
         <div className="row">
@@ -232,13 +234,16 @@ render(){
                  <img style={{width:100,height:100}} src={this.state.imagePreviewUrl}alt="imageload" />
        </div>
        <div className="six wide tablet eight wide computer column">
-       <Button as='div' labelPosition='right'>
+
+
+        <Button as='div' labelPosition='right'>
            <Button color='teal' onClick={()=>this.publichOrder()}>
              <Icon name='bullhorn' />
              Publish
            </Button>
            <Label as='a' basic color='teal' pointing='left'>Order Now</Label>
          </Button>
+
        </div>
 
       </div>
@@ -253,9 +258,10 @@ render(){
 }
 class createOrder extends Component {
 
+
   constructor(props){
     super(props);
-    this.state={invitedlist:[]}
+    this.state={invitedlist:[],redirect:false}
   }
 
  handleInviteFriend=(friend)=>{
@@ -281,8 +287,17 @@ class createOrder extends Component {
     const newinv=this.state.invitedlist.splice(friendindex,1)
     this.setState({invitedlist: this.state.invitedlist});
 }
+redirct=()=>{
+   this.setState({redirect: true})
+}
 
 render() {
+         console.log(";;;;;;;;;;")
+  if(this.state.redirect==true){
+       console.log(";;;;;;;;;;")
+       return <Redirect to='/Orders'/>;
+     }
+  else
     return (
      <div className=" ni centered">
          <Headr />
@@ -294,7 +309,7 @@ render() {
             <div className="ui two column row ">
             <div className="three wide column"> </div>
                  <div className="seven wide column">
-                    <Order invitedList={this.state.invitedlist} inviteFriend={this.handleInviteFriend} onSelectfriends={this.handleSelectedfriends} />
+                    <Order redirect={this.redirct}  invitedList={this.state.invitedlist} inviteFriend={this.handleInviteFriend} onSelectfriends={this.handleSelectedfriends} />
                   </div>
                  <div className="six wide column" >
                 <InvitedFriendslist  onRemoveFriend={this.handleremovedfriend} invitedlist={this.state.invitedlist} />

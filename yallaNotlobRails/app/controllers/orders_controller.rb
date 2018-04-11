@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
     if @latest_orders != []
       render json:@latest_orders
     else
-      render json:@latest_orders.errors
+      render json:{error:"ERROR"}
     end
 
   end
