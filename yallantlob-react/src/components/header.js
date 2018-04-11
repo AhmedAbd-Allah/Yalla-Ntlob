@@ -14,8 +14,8 @@ class Headr extends Component {
 
   }
   state = {
-      J : "",
-      // I : " invited you to his ",
+      J : " joined your ",
+      I : " invited you to his ",
       jwt : localStorage.getItem('token'),
       user : JSON.parse(localStorage.getItem('user'))
   };
