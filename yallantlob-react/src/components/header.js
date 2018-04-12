@@ -5,24 +5,34 @@ import { Icon, Menu, Button, Image, Label, Grid, Popup, List, Modal, Item } from
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ActionCable from 'action-cable-react-jwt';
+//*** initialize local storage values to avoid error at the first beggining login
+// if (localStorage.getItem('inviteNotif')=== null){
+  // console.log("sssssssssssssssssss55555")
+  // localStorage.setItem('inviteNotif', JSON.stringify([{order_id: 0, status: "", msg: ""}]))
+// }
+
+
+localStorage.setItem('popNo', JSON.stringify(0))
 
 class Headr extends Component {
-
   logout=()=>{
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('user');
     localStorage.clear();
     console.log("logour=t")
-
   }
   state = {
       J : " joined your ",
       I : " invited you to his ",
       jwt : localStorage.getItem('token'),
-      user : JSON.parse(localStorage.getItem('user'))
+      user : JSON.parse(localStorage.getItem('user')),
+
+      inviteNotif:JSON.parse(localStorage.getItem('inviteNotif')),
+      popNo:JSON.parse(localStorage.getItem('popNo')),
+      popNot:[]
   };
-  componentWillMount()
-  {
+  componentWillMount(){
     let app = {};
-    // console.log(JSON.parse(this.state.user));
       app.cable = ActionCable.createConsumer(`ws://localhost:3000/cable?id=${this.state.user.id}`)
 
       this.subscription = app.cable.subscriptions.create({channel: "NotificationsChannel"}, {
@@ -30,13 +40,29 @@ class Headr extends Component {
         disconnected: function() { console.log("cable: disconnected") },       // onDisconnect
         received: (data) => {
           console.log("cable received: ", data);
-          // let newNotifications = this.state.notifications;
-          // newNotifications.push(data);
-          // this.setState({ count : this.state.count + 1, notifications : newNotifications })
+          ///**** {order_id: 18, status: "invite", msg: "aliaa invited you to join his Breakfast order"}
+
+          let appendNotif = this.state.inviteNotif != null? this.state.inviteNotif : []
+          appendNotif.push(data)
+          this.setState({ 
+                          popNo : this.state.popNo + 1,
+                          inviteNotif :  appendNotif
+                        })
+
+          localStorage.setItem('popNo', JSON.stringify(this.state.popNo))
+          localStorage.setItem('inviteNotif', JSON.stringify(this.state.inviteNotif))
+          console.log(this.state.popNo)
+          console.log(this.state.inviteNotif)
         }
       })
 
   }
+
+  clearPop = ()=>{
+    localStorage.setItem('popNo', JSON.stringify(0))
+    this.setState({popNo: 0})
+  }
+
 //***************************** Variables ***********************************************
   NotifArray  = [
         {id:1, frndName:"Ahmed", imgSrc:"/images/person.png", msg:this.state.J, ordName:"breakfast", btn:"Order" },
@@ -54,13 +80,6 @@ class Headr extends Component {
   ] )
 
 
-  homeLink = "/HomePage"
-  friendsLink = "/Friends"
-  groupsLink = "/Groups"
-  ordersLink = "/Orders"
-  notifNo = 3
-  profilePic = "/images/person.png"
-
 
 //*********************************************************************************************
 
@@ -75,7 +94,7 @@ class Headr extends Component {
           <span><h2>Yalla Order</h2></span>
         </Menu.Item>
 
-        <Link to = {this.homeLink}>
+        <Link to = "/HomePage">
             <Popup trigger={
               <Menu.Item  name='Home'>
               <Image src='/images/home.png' alt="" size='mini' />
@@ -84,7 +103,7 @@ class Headr extends Component {
         </Link>
 
 
-        <Link to={this.friendsLink}>
+        <Link to="/Friends">
             <Popup trigger={
               <Menu.Item name='Friends' >
               <Image src='/images/friends.png' alt="" height="40" width="50" />
@@ -92,7 +111,7 @@ class Headr extends Component {
             } content='Friends' basic/>
         </Link>
 
-        <Link to={this.groupsLink}>
+        <Link to="/Groups">
             <Popup trigger={
               <Menu.Item name='Groups' >
               <Icon name='group' size='big'/>
@@ -100,7 +119,7 @@ class Headr extends Component {
             } content='Groups' basic/>
           </Link>
 
-        <Link to={this.ordersLink}>
+        <Link to="/Orders">
         <Menu.Item name='Orders'>
             <h4><Image src='/images/order.png' alt="" size='mini' inline/> Orders </h4>
         </Menu.Item>
@@ -112,8 +131,9 @@ class Headr extends Component {
 {/**************************** Notifications ********************************************/}
         <Popup
             trigger={
-              <Menu.Item name='notifications'>
-                <Icon name='bell'  size='big' color={'blue'} /><Label color='red' className="notifyLabel">{this.notifNo}</Label>
+              <Menu.Item name='notifications' onClick={this.clearPop.bind(this)}>
+                <Icon name='bell'  size='big' color={'blue'} />
+                {this.state.popNo > 0 ? <Label color='red' className="notifyLabel">{this.state.popNo}</Label> :""}
               </Menu.Item>}
             flowing
             on='click'
@@ -123,20 +143,31 @@ class Headr extends Component {
 
               <Item.Group>
                  {
-                    this.NotifArray.map((i) => (
-                      <Item key={i.id}>
+                    this.state.inviteNotif != null?
+                    this.state.inviteNotif.map((i) => (
+                      <Item key={i.order_id}>
 
                         <Item.Image size='mini' src={i.imgSrc} />
 
                         <Item.Content verticalAlign='middle'>
                           <Item.Header>
-                            <h3>{i.frndName} {i.msg} {i.ordName} order &nbsp;</h3>
+                            <h3>{i.msg}&nbsp;</h3>
                           </Item.Header>
-                          <Button compact width={10}>{i.btn}</Button>
+
+                          { i.status == "join"?
+                              <Link to={`/OrderDetails/${i.order_id}`}>
+                              <Button compact width={10}>Check</Button>
+                              </Link>
+                            :
+                              <Link to={`/myOrder/${i.order_id}`}>
+                              <Button compact width={10}>Join</Button>
+                              </Link>
+                          }
+
                         </Item.Content>
 
                       </Item>
-                    ))
+                    )) : "" 
                  }
 
               </Item.Group>
@@ -149,20 +180,31 @@ class Headr extends Component {
                <Modal.Content>
                 <Item.Group >
                   {
-                    this.AllNotifArray.map((i) => (
-                      <Item key={i.id}>
+                      this.state.inviteNotif != null?
+                      this.state.inviteNotif.map((i) => (
+                      <Item key={i.order_id}>
 
                         <Item.Image size='mini' src={i.imgSrc} />
 
                         <Item.Content verticalAlign='middle'>
                           <Item.Header>
-                            <h3>{i.frndName} {i.msg} {i.ordName} order &nbsp;</h3>
+                            <h3>{i.msg}&nbsp;</h3>
                           </Item.Header>
-                          <Button compact width={10}>{i.btn}</Button>
+
+                          { i.status == "join"?
+                              <Link to={`/OrderDetails/${i.order_id}`}>
+                              <Button compact width={10}>Check</Button>
+                              </Link>
+                             :
+                              <Link to={`/myOrder/${i.order_id}`}>
+                              <Button compact width={10}>Join</Button>
+                              </Link>
+                          }
+
                         </Item.Content>
 
                       </Item>
-                    ))
+                    )) : ""
                   }
 
                 </Item.Group>
