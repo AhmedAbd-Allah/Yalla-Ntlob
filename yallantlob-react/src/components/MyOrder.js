@@ -127,7 +127,11 @@ class MyOrder extends Component {
       modalOpen: false,
       catched:0,
 
-      loggedID: JSON.parse(localStorage.getItem('user')).id
+      loggedID: JSON.parse(localStorage.getItem('user')).id,
+
+      ordStat:"",
+
+      addError: 0
 
     }
   }
@@ -152,11 +156,18 @@ class MyOrder extends Component {
 
       })
 
+    axios({ method: 'GET',
+          url: `http://localhost:3000/orders/${this.props.match.params.id}`
+        })
+    .then(res => {
+      const stat= res.data.status
+      console.log(stat)
+      this.setState({ ordStat: stat });
+    })
+
   }
 
-  // getOrderInfo(){
-
-  // }
+  
 
   addItem = e => {
     e.preventDefault();
@@ -186,6 +197,9 @@ class MyOrder extends Component {
           if (this.state.myItems.length == 0){
             this.join();
           }
+      })
+      .catch(error => {
+          this.setState({addError: 1}) 
       })
 
 
@@ -327,9 +341,23 @@ class MyOrder extends Component {
           <Form.Field required label='Amount' placeholder='Amount' control='input' type='number' min={1} width = {9} id="amount"/>
           <Form.Field required label='Price' placeholder='Price' control='input' type='number' min={1} width = {9} id="price"/>
           <Form.Field label='Comments' placeholder='Comments' control='input' width = {16} id="comment"/>
-          <Form.Button type="submit" label= "&nbsp;" primary>Add</Form.Button>
+          {this.state.ordStat=="Finished"? 
+            <Form.Button disabled type="submit" label= "&nbsp;" primary >Add</Form.Button>
+          : <Form.Button type="submit" label= "&nbsp;" primary >Add</Form.Button>
+          }
+          
         </Form.Group>
       </Form>
+      {this.state.ordStat=="Finished"? 
+        <h2 className="err" >Sorry, this order has been ordered, you can't add more items</h2> 
+      : <h3></h3> 
+      }
+
+
+      {this.state.addError==1? 
+        <h2 className="err" >Sorry, but it seems that this order has been canceled</h2> 
+      : <h3></h3> 
+      }
 
       </Grid.Column>
 

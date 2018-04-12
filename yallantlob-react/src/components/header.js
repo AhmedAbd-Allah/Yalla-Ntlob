@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Icon, Menu, Button, Image, Label, Grid, Popup, List, Modal, Item } from 'semantic-ui-react'
-import { Link } from 'react-router-dom';
+import { Link, NavLink} from 'react-router-dom';
 import axios from 'axios';
 import ActionCable from 'action-cable-react-jwt';
 //*** initialize local storage values to avoid error at the first beggining login
@@ -155,7 +155,7 @@ class Headr extends Component {
                           </Item.Header>
 
                           { i.status == "join"?
-                              <Link to={`/OrderDetails/${i.order_id}`}>
+                              <Link  to={`/OrderDetails/${i.order_id}`}>
                               <Button compact width={10}>Check</Button>
                               </Link>
                             :

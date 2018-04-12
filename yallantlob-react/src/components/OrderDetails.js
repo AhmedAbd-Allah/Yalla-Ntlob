@@ -106,7 +106,9 @@ class OrderDetails extends Component {
       items:[],
       loggedID:JSON.parse(localStorage.getItem('user')).id,
       jwt : localStorage.getItem('token'),
-      user : JSON.parse(localStorage.getItem('user'))
+      user : JSON.parse(localStorage.getItem('user')),
+
+      // rid: this.props.match.params.id
 
     }
   }
@@ -121,6 +123,8 @@ class OrderDetails extends Component {
         const items = res.data;
         this.setState({ items: items });
       })
+
+
       let app = {};
       // console.log(JSON.parse(this.state.user));
         app.cable = ActionCable.createConsumer(`ws://localhost:3000/cable?id=${this.state.user.id}`)
@@ -151,6 +155,25 @@ class OrderDetails extends Component {
             }
           }
         })
+
+  }
+
+  reload(){
+    axios({ method: 'GET',
+            url: 'http://localhost:3000/order_items',
+            headers: {'order-id': this.props.match.params.id}
+          })
+      .then(res => {
+        const items = res.data;
+        this.setState({ items: items });
+      })
+  }
+
+  
+  componentWillReceiveProps(n){
+    console.log(n.match.params.id)
+      // this.setState({rid: n.match.params.id})
+      this.reload()
   }
 
 
